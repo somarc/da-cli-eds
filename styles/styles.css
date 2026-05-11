@@ -13,11 +13,14 @@
 :root {
   /* colors */
   --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
+  --light-color: #f1f5f9;
+  --dark-color: #334155;
+  --text-color: #0f172a;
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
+  --accent-color: #3b63fb;
+  --dark-background: #0f172a;
+  --border-color: #e2e8f0;
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
@@ -135,11 +138,28 @@ pre {
 }
 
 pre {
-  padding: 16px;
+  padding: 16px 20px;
   border-radius: 8px;
-  background-color: var(--light-color);
+  background-color: #1e293b;
+  color: #e2e8f0;
   overflow-x: auto;
   white-space: pre;
+}
+
+code {
+  background-color: #e8ecf5;
+  color: #1d3ecf;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
 }
 
 main > div {
@@ -322,4 +342,54 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+/* dark hero — first section on pages that open with highlight */
+main > .section.highlight:first-of-type {
+  background-color: var(--dark-background);
+  padding: 72px 0 64px;
+}
+
+main > .section.highlight:first-of-type h1 {
+  font-size: clamp(3.5rem, 9vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 0.4em;
+}
+
+main > .section.highlight:first-of-type p {
+  color: rgb(255 255 255 / 72%);
+  max-width: 640px;
+}
+
+main > .section.highlight:first-of-type strong a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: var(--body-font-size-s);
+  transition: background-color 0.15s;
+}
+
+main > .section.highlight:first-of-type strong a:hover {
+  background-color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+main > .section.highlight:first-of-type p:last-of-type a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 30%);
+  text-underline-offset: 3px;
+}
+
+main > .section.highlight:first-of-type p:last-of-type a:hover {
+  text-decoration-color: #fff;
 }

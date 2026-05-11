@@ -1,6 +1,7 @@
 .columns > div {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .columns img {
@@ -21,7 +22,7 @@
 
 @media (width >= 900px) {
   .columns > div {
-    align-items: center;
+    align-items: start;
     flex-direction: unset;
     gap: 24px;
   }
@@ -30,4 +31,39 @@
     flex: 1;
     order: unset;
   }
+}
+
+/* feature columns with headings like "01 · API" */
+.columns-3-cols > div > div,
+.columns-2-cols > div > div {
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+.columns-3-cols > div > div h3,
+.columns-2-cols > div > div h3 {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.columns-3-cols > div > div p,
+.columns-2-cols > div > div p {
+  font-size: var(--body-font-size-xs);
+  color: var(--dark-color);
+  margin: 4px 0 0;
+  line-height: 1.6;
+}
+
+.columns-3-cols > div > div p strong,
+.columns-2-cols > div > div p strong {
+  display: block;
+  color: var(--text-color);
+  font-size: var(--body-font-size-xs);
+  margin-bottom: 4px;
 }
