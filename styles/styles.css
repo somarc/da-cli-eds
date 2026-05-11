@@ -13,18 +13,27 @@
 :root {
   /* colors */
   --background-color: white;
-  --light-color: #f1f5f9;
-  --dark-color: #334155;
-  --text-color: #0f172a;
+  --light-color: #f2eedf;
+  --dark-color: #504945;
+  --text-color: #1d2021;
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
-  --accent-color: #3b63fb;
-  --dark-background: #0f172a;
-  --border-color: #e2e8f0;
+  --accent-color: #fabd2f;
+  --dark-background: #1d2021;
+  --border-color: #e0d8c0;
+
+  /* gruvbox command group palette */
+  --c-foundation: #fabd2f;
+  --c-data: #8ec07c;
+  --c-delivery: #83a598;
+  --c-management: #fe8019;
+  --c-quality: #b8bb26;
+  --c-orchestration: #fb4934;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: 'IBM Plex Sans', roboto, roboto-fallback, sans-serif;
+  --heading-font-family: 'IBM Plex Sans', roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --mono-font-family: 'IBM Plex Mono', 'SF Mono', consolas, monospace;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -134,21 +143,22 @@ blockquote {
 
 code,
 pre {
+  font-family: var(--mono-font-family);
   font-size: var(--body-font-size-s);
 }
 
 pre {
   padding: 16px 20px;
   border-radius: 8px;
-  background-color: #1e293b;
-  color: #e2e8f0;
+  background-color: #282828;
+  color: #ebdbb2;
   overflow-x: auto;
   white-space: pre;
 }
 
 code {
-  background-color: #e8ecf5;
-  color: #1d3ecf;
+  background-color: rgb(250 189 47 / 13%);
+  color: #b57614;
   padding: 0.1em 0.4em;
   border-radius: 4px;
   font-size: 0.875em;
@@ -351,11 +361,12 @@ main > .section.highlight:first-of-type {
 }
 
 main > .section.highlight:first-of-type h1 {
-  font-size: clamp(3.5rem, 9vw, 6rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: #fff;
+  font-family: var(--mono-font-family);
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--accent-color);
   margin-bottom: 0.4em;
 }
 

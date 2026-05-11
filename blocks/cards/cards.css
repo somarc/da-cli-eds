@@ -78,3 +78,11 @@
   color: var(--link-hover-color);
   text-decoration: none;
 }
+
+/* command group accent colors */
+.cards > ul > li.group-foundation { border-top-color: var(--c-foundation); }
+.cards > ul > li.group-data { border-top-color: var(--c-data); }
+.cards > ul > li.group-delivery { border-top-color: var(--c-delivery); }
+.cards > ul > li.group-management { border-top-color: var(--c-management); }
+.cards > ul > li.group-quality { border-top-color: var(--c-quality); }
+.cards > ul > li.group-orchestration { border-top-color: var(--c-orchestration); }
