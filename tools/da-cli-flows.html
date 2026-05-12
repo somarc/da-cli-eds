@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DA-CLI Workflow Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#e6edf3;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* ── site nav bar ── */
+#site-nav{
+  height:42px;min-height:42px;
+  background:#161b22;
+  border-bottom:1px solid #30363d;
+  display:flex;align-items:center;
+  padding:0 20px;
+  gap:0;
+  flex-shrink:0;
+  z-index:10;
+}
+#site-nav a{
+  font-size:12px;font-weight:500;
+  color:#8b949e;text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+  padding:4px 8px;border-radius:5px;
+  transition:color .15s,background .15s;
+}
+#site-nav a:hover{color:#c9d1d9;background:#21262d}
+#site-nav a svg{flex-shrink:0}
+#site-nav .sep{width:1px;height:16px;background:#30363d;margin:0 10px}
+#site-nav .page-title{font-size:13px;font-weight:600;color:#e6edf3}
+#site-nav .badge{
+  margin-left:auto;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;color:#484f58;
+}
+
+/* ── workspace (sidebar + main) ── */
+#workspace{flex:1;display:flex;overflow:hidden;min-height:0}
+
+/* ── sidebar ── */
+#sidebar{width:264px;min-width:264px;background:#161b22;border-right:1px solid #30363d;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar-hd{padding:14px 16px;border-bottom:1px solid #30363d}
+#sidebar-hd h2{font-size:13px;font-weight:700;color:#58a6ff;letter-spacing:.01em}
+#sidebar-hd p{font-size:11px;color:#8b949e;margin-top:3px}
+.grp{border-bottom:1px solid #21262d}
+.grp-hd{padding:7px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+.grp-hd:hover{background:#1c2128;color:#c9d1d9}
+.grp-arrow{transition:transform .15s}
+.grp.closed .grp-arrow{transform:rotate(-90deg)}
+.grp.closed .grp-body{display:none}
+.grp-body{padding:3px 0}
+.cmd{padding:5px 14px 5px 26px;font-size:12px;font-family:'IBM Plex Mono',monospace;cursor:pointer;color:#c9d1d9;border-left:3px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmd:hover{background:#1c2128;color:#fff}
+.cmd.on{background:#1c2840;color:#58a6ff;border-left-color:#58a6ff}
+
+/* ── main ── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#toolbar{padding:8px 16px;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;gap:16px;min-height:42px;flex-shrink:0}
+#active-label{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7ee787;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#active-label .dim{color:#8b949e}
+#legend{display:flex;gap:14px;font-size:11px;color:#8b949e;flex-shrink:0}
+.leg{display:flex;align-items:center;gap:5px}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* ── diagram ── */
+#diagram-wrap{flex:1;overflow:hidden;position:relative}
+svg#dg{display:block;width:100%;height:100%}
+
+.nd rect{rx:6;ry:6;transition:fill .2s,stroke .2s,stroke-width .15s}
+.nd text{pointer-events:none;transition:fill .2s}
+.nd .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600}
+.nd .sub{font-size:9.5px}
+
+.nd-core rect{fill:#13161e;stroke:#3b5bdb;stroke-width:1.5}
+.nd-core .lbl{fill:#748ffc}
+.nd-core .sub{fill:#4a5568}
+.nd-lib rect{fill:#13161e;stroke:#6e40c9;stroke-width:1}
+.nd-lib .lbl{fill:#a78bfa}
+.nd-lib .sub{fill:#4a5568}
+.nd-client rect{fill:#13161e;stroke:#0891b2;stroke-width:1.5}
+.nd-client .lbl{fill:#22d3ee}
+.nd-client .sub{fill:#4a5568}
+.nd-ext rect{fill:#0f1e17;stroke:#059669;stroke-width:1}
+.nd-ext .lbl{fill:#34d399}
+.nd-ext .sub{fill:#4a5568}
+.nd-file rect{fill:#1e1a0f;stroke:#b45309;stroke-width:1}
+.nd-file .lbl{fill:#fbbf24}
+.nd-file .sub{fill:#4a5568}
+
+.nd.hi rect{stroke-width:2.5;filter:drop-shadow(0 0 7px var(--glow))}
+.nd-core.hi rect{--glow:#748ffc;fill:#1a2050;stroke:#748ffc}
+.nd-core.hi .lbl{fill:#c7d2fe}
+.nd-lib.hi rect{--glow:#a78bfa;fill:#1e1535;stroke:#a78bfa}
+.nd-lib.hi .lbl{fill:#ddd6fe}
+.nd-client.hi rect{--glow:#22d3ee;fill:#0f2733;stroke:#22d3ee}
+.nd-client.hi .lbl{fill:#a5f3fc}
+.nd-ext.hi rect{--glow:#34d399;fill:#0e2820;stroke:#34d399}
+.nd-ext.hi .lbl{fill:#a7f3d0}
+.nd-file.hi rect{--glow:#fbbf24;fill:#2a1e00;stroke:#fbbf24}
+.nd-file.hi .lbl{fill:#fde68a}
+
+.nd.dim rect{opacity:.3}
+.nd.dim text{opacity:.25}
+
+.edge{fill:none;stroke:#21262d;stroke-width:1.5;transition:stroke .25s,stroke-width .25s,opacity .25s}
+.edge.hi{stroke-width:2.5}
+.edge.hi-core{stroke:#748ffc}
+.edge.hi-lib{stroke:#a78bfa}
+.edge.hi-client{stroke:#22d3ee}
+.edge.hi-ext{stroke:#34d399}
+.edge.hi-file{stroke:#fbbf24}
+.edge.dim{opacity:.15}
+.edgelbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:#484f58;pointer-events:none;transition:fill .25s,opacity .25s}
+.edgelbl.hi{fill:#94a3b8;opacity:1}
+.edgelbl.dim{opacity:.1}
+
+/* ── annotations ── */
+#ann{flex-shrink:0;height:168px;min-height:168px;background:#161b22;border-top:1px solid #30363d;overflow-y:auto;padding:10px 14px}
+#ann-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:8px;display:flex;justify-content:space-between}
+.step{display:flex;gap:9px;padding:5px 7px;border-radius:5px;cursor:pointer;transition:background .1s}
+.step:hover{background:#1c2128}
+.step.on{background:#1c2840}
+.step-n{min-width:20px;height:20px;border-radius:50%;background:#21262d;font-size:10px;font-weight:700;color:#8b949e;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .1s,color .1s}
+.step.on .step-n{background:#1f4e79;color:#58a6ff}
+.step-body{flex:1;min-width:0}
+.step-pkgs{font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#58a6ff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-txt{font-size:11.5px;color:#c9d1d9;line-height:1.45}
+#empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:#484f58}
+#empty .tip{font-size:11px}
+</style>
+</head>
+<body>
+
+<!-- site nav bar -->
+<nav id="site-nav">
+  <a href="/">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    DA CLI Docs
+  </a>
+  <div class="sep"></div>
+  <span class="page-title">Workflow Explorer</span>
+  <span class="badge">da-cli · interactive reference</span>
+</nav>
+
+<div id="workspace">
+
+<div id="sidebar">
+  <div id="sidebar-hd">
+    <h2>DA-CLI Commands</h2>
+    <p>Click a command to trace its flow</p>
+  </div>
+  <div id="cmd-tree"></div>
+</div>
+
+<div id="main">
+  <div id="toolbar">
+    <div id="active-label"><span class="dim">← select a command</span></div>
+    <div id="legend">
+      <div class="leg"><div class="leg-dot" style="background:#748ffc"></div>core</div>
+      <div class="leg"><div class="leg-dot" style="background:#a78bfa"></div>lib</div>
+      <div class="leg"><div class="leg-dot" style="background:#22d3ee"></div>client</div>
+      <div class="leg"><div class="leg-dot" style="background:#34d399"></div>external</div>
+      <div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>files</div>
+    </div>
+  </div>
+  <div id="diagram-wrap">
+    <svg id="dg" viewBox="0 0 860 510" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arr"      markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker>
+        <marker id="arr-core" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#748ffc"/></marker>
+        <marker id="arr-lib"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#a78bfa"/></marker>
+        <marker id="arr-client" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#22d3ee"/></marker>
+        <marker id="arr-ext"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#34d399"/></marker>
+        <marker id="arr-file" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#fbbf24"/></marker>
+      </defs>
+      <g id="edges-layer"></g>
+      <g id="nodes-layer"></g>
+    </svg>
+  </div>
+  <div id="ann">
+    <div id="empty">
+      <svg width="32" height="32" fill="none" stroke="#484f58" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <div class="tip">Select a command from the sidebar to see the execution flow</div>
+    </div>
+    <div id="steps" style="display:none"></div>
+  </div>
+</div>
+
+</div><!-- /workspace -->
+
+<script>
+const DATA = {
+
+  nodes: [
+    { id:"index",   x:300, y:14,  w:260, h:50, type:"core",   label:"src/index.js",     sub:"Program Setup · Global Flags · preAction hook" },
+    { id:"context", x:8,   y:110, w:130, h:46, type:"lib",    label:"context.js",       sub:"Global singleton" },
+    { id:"cfglib",  x:153, y:110, w:125, h:46, type:"lib",    label:"config.js",        sub:"Config resolver" },
+    { id:"authlib", x:293, y:110, w:110, h:46, type:"lib",    label:"auth.js",          sub:"Token manager" },
+    { id:"mut",     x:418, y:110, w:130, h:46, type:"lib",    label:"mutation.js",      sub:"Write guard" },
+    { id:"out",     x:563, y:110, w:110, h:46, type:"lib",    label:"output.js",        sub:"Formatter" },
+    { id:"paths",   x:688, y:110, w:110, h:46, type:"lib",    label:"paths.js",         sub:"Path resolver" },
+    { id:"client",  x:153, y:210, w:215, h:52, type:"client", label:"da-client.js",     sub:"HTTP Client — admin.da.live + admin.hlx.page" },
+    { id:"aengine", x:490, y:210, w:190, h:46, type:"lib",    label:"audit-engines.js", sub:"Headings · metadata · links · blocks" },
+    { id:"xda",     x:8,   y:330, w:185, h:46, type:"ext",    label:"admin.da.live",    sub:"DA Admin API" },
+    { id:"xhlx",    x:208, y:330, w:195, h:46, type:"ext",    label:"admin.hlx.page",   sub:"Helix Admin API" },
+    { id:"xauth",   x:490, y:330, w:175, h:46, type:"ext",    label:"da-auth-helper",   sub:"npx · Adobe IMS" },
+    { id:"ftok",    x:8,   y:434, w:220, h:46, type:"file",   label:"~/.aem/da-token.json", sub:"Token cache" },
+    { id:"fglob",   x:244, y:434, w:210, h:46, type:"file",   label:"~/.da/config.json",    sub:"Global config" },
+    { id:"fproj",   x:470, y:434, w:130, h:46, type:"file",   label:".da.json",             sub:"Project config" },
+  ],
+
+  edges: [
+    { id:"e-idx-ctx",   from:"index",  to:"context", label:"setGlobals(opts)",       color:"core" },
+    { id:"e-ctx-cfg",   from:"context",to:"cfglib",  label:"getGlobals() →flags",    color:"lib" },
+    { id:"e-cfg-fglob", from:"cfglib", to:"fglob",   label:"readJson()",             color:"file" },
+    { id:"e-cfg-fproj", from:"cfglib", to:"fproj",   label:"findProjectConfig()",    color:"file" },
+    { id:"e-ath-xauth", from:"authlib",to:"xauth",   label:"spawnSync npx",          color:"ext" },
+    { id:"e-ath-ftok",  from:"authlib",to:"ftok",    label:"read / write cache",     color:"file" },
+    { id:"e-mut-ctx",   from:"mut",    to:"context", label:"getGlobals().commit",    color:"lib" },
+    { id:"e-cli-cfg",   from:"client", to:"cfglib",  label:"resolveConfig()",        color:"lib" },
+    { id:"e-cli-ath",   from:"client", to:"authlib", label:"getToken()",             color:"lib" },
+    { id:"e-cli-xda",   from:"client", to:"xda",     label:"Bearer · UA header",     color:"ext" },
+    { id:"e-cli-xhlx",  from:"client", to:"xhlx",    label:"Bearer · UA header",     color:"ext" },
+    { id:"e-pth-cli",   from:"paths",  to:"client",  label:"DA list for glob paths", color:"client" },
+  ],
+
+  commands: [
+
+    { group:"auth", items:[
+      { id:"auth-login", label:"auth login",
+        syntax:"da auth login [--refresh]",
+        desc:"Obtain and cache a Bearer token via da-auth-helper",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"],
+            pkgs:"index → context",
+            txt:"preAction hook fires before any subcommand runs. Root flags (--org, --repo, --env, --commit, --dry-run) are pushed into the context singleton so every lib function can read them without walking the Commander parent chain." },
+          { nodes:["authlib","ftok"], edges:["e-ath-ftok"],
+            pkgs:"auth.js → ~/.aem/da-token.json",
+            txt:"getToken() reads ~/.aem/da-token.json and checks the JWT exp claim. If the cached token has >30 s remaining and --refresh was not passed, it is returned immediately — no network call needed." },
+          { nodes:["authlib","xauth","ftok"], edges:["e-ath-xauth","e-ath-ftok"],
+            pkgs:"auth.js → da-auth-helper → ~/.aem/da-token.json",
+            txt:"Cache miss or --refresh: spawnSync runs 'npx github:adobe-rnd/da-auth-helper token'. JWT returned on stdout, decoded for exp claim, written to ~/.aem/da-token.json via python3 (Node subshell inheritance silently drops env vars)." },
+        ]
+      },
+      { id:"auth-status", label:"auth status",
+        syntax:"da auth status",
+        desc:"Show token validity and time remaining",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"preAction hook populates the global singleton with any root-level flags." },
+          { nodes:["authlib","ftok"], edges:["e-ath-ftok"], pkgs:"auth.js → ~/.aem/da-token.json",
+            txt:"tokenStatus() reads the cache file, checks access_token presence, and computes remaining_ms = expires_at − Date.now(). Prints 'valid … ~N min remaining' or 'invalid: expired / no cached token' and exits 1 if invalid." },
+        ]
+      },
+      { id:"auth-token", label:"auth token",
+        syntax:"da auth token [--refresh]",
+        desc:"Print raw token to stdout for use in curl / env vars",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags set in singleton." },
+          { nodes:["authlib","ftok","xauth"], edges:["e-ath-ftok","e-ath-xauth"], pkgs:"auth.js → cache or da-auth-helper",
+            txt:"getToken() with optional --refresh. Returns raw JWT written to process.stdout (no trailing newline). Pipe to curl -H 'Authorization: Bearer $(da auth token)' or set TOKEN=$(da auth token)." },
+        ]
+      },
+    ]},
+
+    { group:"config", items:[
+      { id:"config-set", label:"config set",
+        syntax:"da config set <key> <value> [--global]",
+        desc:"Persist a config key to .da.json or ~/.da/config.json",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags applied to singleton." },
+          { nodes:["cfglib","fproj","fglob"], edges:["e-cfg-fproj","e-cfg-fglob"], pkgs:"config.js → .da.json or ~/.da/config.json",
+            txt:"setConfigValue() writes to the nearest .da.json (walking upward from cwd) or ~/.da/config.json when --global is passed. Merges with existing JSON rather than overwriting the whole file." },
+        ]
+      },
+      { id:"config-show", label:"config show",
+        syntax:"da config show",
+        desc:"Print resolved config with precedence sources",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags applied." },
+          { nodes:["cfglib","context","fglob","fproj"], edges:["e-ctx-cfg","e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js ← context + files",
+            txt:"resolveConfig() merges in precedence order: global config → project config → root CLI flags (from context singleton) → command-local overrides. Returns org, repo, env plus a sources map showing where each value came from." },
+        ]
+      },
+    ]},
+
+    { group:"content", items:[
+      { id:"content-list", label:"content list",
+        syntax:"da content list [path]",
+        desc:"List documents and folders at a DA path",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags into singleton." },
+          { nodes:["client","cfglib","authlib","context","fglob","fproj","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ctx-cfg","e-cfg-fglob","e-cfg-fproj","e-ath-ftok"], pkgs:"createClient() → config + auth",
+            txt:"createClient() resolves org/repo/env (precedence: override → flag → project .da.json → global config), calls getToken() to fetch or validate cached token. Returns a ready DaClient instance." },
+          { nodes:["client","xda","out"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live → output",
+            txt:"GET /list/{org}/{repo}/{path} with Authorization: Bearer and browser User-Agent (Cloudflare bot-block bypass). Response is a flat array of {name, ext?, lastModified}. output.js renders as table, JSON, or markdown per --format." },
+        ]
+      },
+      { id:"content-get", label:"content get",
+        syntax:"da content get <path> [-o file]",
+        desc:"Fetch a DA source document",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags stored." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Config + token resolved. DaClient constructed with {org, repo, env, branch, token}." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live",
+            txt:"GET /source/{org}/{repo}{path}. Response streamed to stdout or written to --output file. Raw HTML stored in DA as-is — not rendered by Helix until preview is triggered." },
+        ]
+      },
+      { id:"content-put", label:"content put",
+        syntax:"da content put <path> <file>  [--commit]",
+        desc:"Upload a document — dry-run by default",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit flag (if present) stored in context singleton. Without it the command exits after showing a diff." },
+          { nodes:["client","cfglib","authlib","ftok","fglob","fproj"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cfg-fglob","e-cfg-fproj"], pkgs:"createClient()", txt:"Config + auth resolved. If org or repo are unset, DaClient constructor throws — run 'da config set org <org>' first." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (GET existing)",
+            txt:"sourceGet() fetches the current document (404 → new file). simpleDiff(old, new) is printed to show what would change." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js → context",
+            txt:"guardWrite() reads getGlobals().commit. Without --commit: prints [dry-run] and exits. With --commit: returns {proceed: true}." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (POST source)",
+            txt:"sourcePut() posts as multipart FormData (Content-Type: text/html). Warns if document lacks a <main> wrapper — Helix only extracts <main> content." },
+        ]
+      },
+      { id:"content-versions", label:"content versions",
+        syntax:"da content versions <path>",
+        desc:"List version history for a document",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags stored." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Config and auth resolved." },
+          { nodes:["client","xda","out"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live → output",
+            txt:"GET /versionlist/{org}/{repo}{path}. Returns array of version snapshots with timestamp and contributing user emails. Printed as a numbered table." },
+        ]
+      },
+    ]},
+
+    { group:"preview", items:[
+      { id:"preview-page", label:"preview page",
+        syntax:"da preview page <path>",
+        desc:"Flush DA cache, then trigger Helix content pipeline",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["client","cfglib","authlib","ftok","fglob","fproj"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cfg-fglob","e-cfg-fproj"], pkgs:"createClient()", txt:"DaClient constructed." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (DA flush)",
+            txt:"POST /preview/{org}/{repo}{path} flushes the DA editor cache (best-effort). Failure here does not block the EDS pipeline. This is DA-internal only, not the same as an EDS preview URL." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (EDS preview)",
+            txt:"POST /preview/{org}/{repo}/{branch}/{path} on admin.hlx.page triggers the Helix content pipeline. Returns {preview:{url}} pointing to *.aem.page. This URL is what you open in a browser." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"Verification — .plain.html check",
+            txt:"verifyContentPipeline() fetches {branch}--{repo}--{org}.aem.page/{path}.plain.html. If the body is empty or '<div></div>', warns about missing AEM Sync app, missing fstab.yaml, or document lacking a <main> wrapper." },
+        ]
+      },
+      { id:"preview-pages", label:"preview pages",
+        syntax:"da preview pages <source>  [--concurrency N]",
+        desc:"Batch preview from file or path prefix",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["paths","client"], edges:["e-pth-cli"], pkgs:"paths.js → da-client (path resolution)",
+            txt:"resolvePaths(source): if source starts with '/' it's a DA path prefix — lists all documents recursively via client.list(). If it's a local file, reads paths line by line. Returns a flat string[]." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Single DaClient instance shared across all concurrent requests." },
+          { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (parallel)",
+            txt:"runConcurrent(tasks, concurrency) fans out up to N parallel POST /preview calls. Each result is {path, url, status}. All results printed after completion." },
+        ]
+      },
+    ]},
+
+    { group:"publish", items:[
+      { id:"publish-page", label:"publish page",
+        syntax:"da publish page <path>  --commit",
+        desc:"Promote a previewed page to live CDN (*.aem.live)",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit flag stored." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js → context",
+            txt:"guardWrite() checks commit flag immediately — publish exits dry-run before creating a client. Ensures no accidental publishes." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"DaClient with org/repo/branch." },
+          { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page → output",
+            txt:"POST /live/{org}/{repo}/{branch}/{path}. Promotes the current preview snapshot to *.aem.live CDN. Returns {live:{url}}. Run 'da preview page' first to ensure content is up to date." },
+        ]
+      },
+      { id:"publish-unpublish", label:"publish unpublish",
+        syntax:"da publish unpublish <path>  --commit",
+        desc:"Remove a page from live CDN",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js", txt:"guardWrite() gate." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page",
+            txt:"DELETE /live/{org}/{repo}/{branch}/{path}. Removes the page from CDN. DA source and preview version remain intact — only the live publication is removed." },
+        ]
+      },
+    ]},
+
+    { group:"deploy", items:[
+      { id:"deploy-page", label:"deploy page",
+        syntax:"da deploy page <path>  [--commit]",
+        desc:"Preview then publish in one command",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit controls publish gate." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Single DaClient for both preview and publish steps." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (flush)", txt:"DA cache flush (best-effort, non-fatal)." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (preview)", txt:"POST /preview — EDS content pipeline triggered. Preview URL logged." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js gate",
+            txt:"Without --commit: prints dry-run summary and exits. With --commit: continues to live." },
+          { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (live)",
+            txt:"POST /live — page promoted to *.aem.live. Live URL printed to stdout." },
+        ]
+      },
+    ]},
+
+    { group:"route", items:[
+      { id:"route-classify", label:"route classify",
+        syntax:"da route classify <path>",
+        desc:"Probe whether a route is DA-owned, code-owned, or hybrid",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"DaClient constructed." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (probe source)",
+            txt:"Probes GET /source/{org}/{repo}{path} — 200 means a DA document exists (contentbus). 404 means no DA source." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (probe preview)",
+            txt:"Probes preview status. If preview exists but no DA source = codebus. Both = hybrid. Neither = orphan. Exits with code 0/2/3/4/5 for shell scripting." },
+        ]
+      },
+    ]},
+
+    { group:"audit", items:[
+      { id:"audit-full", label:"audit full",
+        syntax:"da audit full <path>",
+        desc:"Run all content audits — headings, metadata, links, blocks",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["cfglib","context","fglob","fproj"], edges:["e-ctx-cfg","e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js → files",
+            txt:"resolveConfig() reads org/repo/branch. No DaClient needed — audit fetches from public *.aem.page URLs without auth." },
+          { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → admin.hlx.page (.plain.html)",
+            txt:"Fetches {branch}--{repo}--{org}.aem.page{path}.plain.html (content) and the page HEAD for metadata. Both use browser User-Agent to bypass Cloudflare." },
+          { nodes:["aengine","out"], edges:[], pkgs:"audit-engines.js → output",
+            txt:"auditHeadings() checks H1 + hierarchy skips. auditMetadata() validates title/description/og:image. auditLinks() flags broken URLs. auditBlocks() validates EDS block table structure. Findings: error / warning / info. Exits 1 if any errors." },
+        ]
+      },
+      { id:"audit-blocks", label:"audit blocks",
+        syntax:"da audit blocks <path>",
+        desc:"Validate block table structure from .plain.html",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js", txt:"Org/repo resolved for URL construction." },
+          { nodes:["xhlx"], edges:["e-cli-xhlx"], pkgs:"fetch .plain.html", txt:"Fetches public preview URL — no auth needed." },
+          { nodes:["aengine","out"], edges:[], pkgs:"audit-engines.js",
+            txt:"auditBlocks() scans all div.block elements. Checks: missing block variant, empty rows, malformed table structure. extractBlockNames() collects unique class names across pages for the 'audit contracts' subcommand." },
+        ]
+      },
+    ]},
+
+    { group:"migrate", items:[
+      { id:"migrate-import", label:"migrate import",
+        syntax:"da migrate import <url>  [--commit]",
+        desc:"Scrape a URL, convert to EDS HTML, upload to DA, preview",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit controls whether upload executes." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"DaClient for upload and preview." },
+          { nodes:["out"], edges:[], pkgs:"scrapeAndConvert() pipeline (in-process)",
+            txt:"fetch(url) → extractMainContent() → extractPageMetadata() → absolutizeUrls() → cleanHtml() (strips scripts/styles/classes) → convertBlocks() (iframes→embed, figures→hero) → buildEdsDocument() (wraps in EDS skeleton + metadata block)." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js gate", txt:"Without --commit: prints generated HTML + diff and exits. With --commit: proceeds to upload." },
+          { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live", txt:"sourcePut() uploads EDS HTML to the derived path (URL pathname → .html extension)." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page",
+            txt:"helixPreview() triggers content pipeline. Failure is non-fatal — import is considered done even if preview fails." },
+        ]
+      },
+      { id:"migrate-batch", label:"migrate batch",
+        syntax:"da migrate batch <url-file>  [--commit]",
+        desc:"Import multiple URLs with resumable job state",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Single client for all concurrent operations." },
+          { nodes:["out"], edges:[], pkgs:"Job state — ~/.da/migrate-jobs/{id}.json",
+            txt:"Batch state persisted after each URL. Pass --job-id to resume — already-done URLs are skipped. Each entry: {status:'done'|'error'|'dry-run', path, title, error?}." },
+          { nodes:["client","xda","xhlx"], edges:["e-cli-xda","e-cli-xhlx"], pkgs:"runConcurrent → scrape → upload → preview",
+            txt:"Up to --concurrency (default 3) imports run in parallel. Each: scrapeAndConvert() → guardWrite() → sourcePut() → helixPreview(). Progress logged as [N/total] URL." },
+        ]
+      },
+    ]},
+
+    { group:"pipeline", items:[
+      { id:"pipeline-run", label:"pipeline run",
+        syntax:"da pipeline run <yaml-file>",
+        desc:"Execute a declarative YAML DAG of da commands",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root flags (--org, --repo, --commit) are inherited by all pipeline steps." },
+          { nodes:["out"], edges:[], pkgs:"YAML parse → validatePipeline() → topoSort()",
+            txt:"js-yaml parses the pipeline. validatePipeline() checks step ids and depends_on refs. topoSort() (Kahn's algorithm) produces ordered batches of steps that can run in parallel." },
+          { nodes:["out"], edges:[], pkgs:"Run state — ~/.da/pipeline-runs/{id}.json",
+            txt:"State file tracks each step: pending → running → completed/failed. Written after every transition. 'da pipeline abort' writes an abort signal checked before each batch." },
+          { nodes:["index","context","client","cfglib","authlib"], edges:["e-idx-ctx"], pkgs:"spawn child da process per step",
+            txt:"Each step spawns 'node bin/da.js {rootFlags} {step.command}' as a child process (stdio: inherit). Root flags from pipeline context prepended. Timeout via SIGTERM. Steps in same batch run concurrently." },
+        ]
+      },
+    ]},
+
+    { group:"code", items:[
+      { id:"code-sync", label:"code sync",
+        syntax:"da code sync [path]",
+        desc:"Trigger code-bus sync — invalidates CDN for JS/CSS assets",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"DaClient constructed." },
+          { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (code bus)",
+            txt:"POST /code/{org}/{repo}/{branch}/{path}. Triggers code-bus sync for JS/CSS/HTML assets — not content. Use after pushing code changes to kick CDN invalidation without waiting for the GitHub webhook." },
+        ]
+      },
+    ]},
+
+    { group:"index", items:[
+      { id:"index-validate", label:"index validate",
+        syntax:"da index validate  [--file]  [--env preview|live]",
+        desc:"Check helix-query.yaml fields against live responses",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js + helix-query.yaml",
+            txt:"resolveConfig() for org/repo. loadQueryYaml() walks upward from cwd finding helix-query.yaml. js-yaml parses index definitions." },
+          { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → *.aem.page|live query-index",
+            txt:"For each index, fetches {branch}--{repo}--{org}.{domain}{target}.json?limit=1. Checks defined property fields appear in live response columns. Reports fields-missing with actual live column list." },
+        ]
+      },
+      { id:"index-query", label:"index query",
+        syntax:"da index query <idx>  [--filter k=v]  [--limit N]",
+        desc:"Run a live query against an index",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js + helix-query.yaml", txt:"Resolves config and loads index definitions." },
+          { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → query-index → output",
+            txt:"Fetches {base}{target}.json?limit=N&offset=O. Applies client-side --filter key=value substring matching. No auth needed — query-index is a public EDS endpoint." },
+        ]
+      },
+    ]},
+
+    { group:"site", items:[
+      { id:"site-create", label:"site create",
+        syntax:"da site create <name>  [--org]  [--da-org]",
+        desc:"Scaffold a new EDS site from the snowflake template",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["out"], edges:[], pkgs:"gh CLI → fork snowflake template",
+            txt:"Runs 'gh repo create {ghUser}/{name} --template ai-ecoverse/snowflake --public --clone'. Requires GitHub CLI to be authenticated. Snowflake is the canonical EDS starter." },
+          { nodes:["out"], edges:[], pkgs:"Write fstab.yaml → git commit + push",
+            txt:"Creates fstab.yaml: mountpoints: /: https://content.da.live/{daOrg}/{name}/. Commits and pushes to main. Without fstab.yaml the EDS site returns 404 on all routes." },
+          { nodes:["client","cfglib","authlib","ftok","xhlx"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (warm index)",
+            txt:"Triggers preview of /index to warm the pipeline. Checks for empty content pipeline (AEM Sync app not installed). Prints preview URL and install instructions." },
+        ]
+      },
+    ]},
+
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+
+const nodeMap = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+function cx(n){ return n.x + n.w/2; }
+
+function edgePath(src, dst) {
+  const x1=cx(src), y1=src.y+src.h, x2=cx(dst), y2=dst.y;
+  const cp = Math.min(Math.abs(y2-y1)*0.55, 70);
+  return `M${x1},${y1} C${x1},${y1+cp} ${x2},${y2-cp} ${x2},${y2}`;
+}
+
+// ── sidebar ────────────────────────────────────────────────────
+const tree = document.getElementById('cmd-tree');
+DATA.commands.forEach(g => {
+  const div = document.createElement('div');
+  div.className = 'grp';
+  div.innerHTML = `<div class="grp-hd">${g.group}<span class="grp-arrow">▾</span></div><div class="grp-body"></div>`;
+  const body = div.querySelector('.grp-body');
+  g.items.forEach(cmd => {
+    const el = document.createElement('div');
+    el.className = 'cmd'; el.textContent = cmd.label; el.dataset.id = cmd.id;
+    el.addEventListener('click', () => selectCmd(cmd.id));
+    body.appendChild(el);
+  });
+  div.querySelector('.grp-hd').addEventListener('click', () => div.classList.toggle('closed'));
+  tree.appendChild(div);
+});
+
+// ── nodes ─────────────────────────────────────────────────────
+const nodesLayer = document.getElementById('nodes-layer');
+DATA.nodes.forEach(n => {
+  const g = svgEl('g', { class:`nd nd-${n.type}`, id:`nd-${n.id}` });
+  const rect = svgEl('rect', { x:n.x, y:n.y, width:n.w, height:n.h, rx:7, ry:7 });
+  g.appendChild(rect);
+  if (n.label) {
+    const lbl = svgEl('text', { x:cx(n), y:n.y+(n.sub?17:27), 'text-anchor':'middle', class:'lbl' });
+    lbl.textContent = n.label;
+    g.appendChild(lbl);
+  }
+  if (n.sub) {
+    const sub = svgEl('text', { x:cx(n), y:n.y+32, 'text-anchor':'middle', class:'sub' });
+    sub.textContent = n.sub.length>40 ? n.sub.slice(0,38)+'…' : n.sub;
+    g.appendChild(sub);
+  }
+  nodesLayer.appendChild(g);
+});
+
+// ── edges ─────────────────────────────────────────────────────
+const edgesLayer = document.getElementById('edges-layer');
+DATA.edges.forEach(e => {
+  const src=nodeMap[e.from], dst=nodeMap[e.to];
+  if(!src||!dst) return;
+  const g = svgEl('g', { id:`ed-${e.id}` });
+  const path = svgEl('path', { d:edgePath(src,dst), class:'edge', 'marker-end':'url(#arr)' });
+  const mx=(cx(src)+cx(dst))/2+4, my=(src.y+src.h+dst.y)/2;
+  const lbl = svgEl('text', { x:mx, y:my, class:'edgelbl' });
+  lbl.textContent = e.label;
+  g.appendChild(path); g.appendChild(lbl);
+  edgesLayer.appendChild(g);
+});
+
+// ── selection ──────────────────────────────────────────────────
+let activeStepIdx = -1, currentCmd = null;
+
+function allCmds(){ return DATA.commands.flatMap(g => g.items); }
+
+function selectCmd(id) {
+  const cmd = allCmds().find(c => c.id===id);
+  if(!cmd) return;
+  currentCmd=cmd; activeStepIdx=-1;
+  document.querySelectorAll('.cmd').forEach(el => el.classList.toggle('on', el.dataset.id===id));
+  document.getElementById('active-label').innerHTML = `<span class="dim">$ </span>da ${cmd.syntax||cmd.label}`;
+  resetDiagram();
+  const allN=new Set(), allE=new Set();
+  cmd.steps.forEach(s=>{ s.nodes.forEach(n=>allN.add(n)); s.edges.forEach(e=>allE.add(e)); });
+  allN.forEach(nid=>setNodeState(nid,'hi'));
+  allE.forEach(eid=>setEdgeState(eid,true));
+  DATA.nodes.forEach(n=>{ if(!allN.has(n.id)) setNodeState(n.id,'dim'); });
+  DATA.edges.forEach(e=>{ if(!allE.has(e.id)) setEdgeStateDim(e.id); });
+  renderSteps(cmd);
+}
+
+function resetDiagram() {
+  DATA.nodes.forEach(n=>{
+    const g=document.getElementById(`nd-${n.id}`);
+    if(g){ g.classList.remove('hi','dim'); }
+  });
+  DATA.edges.forEach(e=>{
+    const g=document.getElementById(`ed-${e.id}`);
+    if(!g) return;
+    g.querySelector('path').className.baseVal='edge';
+    g.querySelector('path').setAttribute('marker-end','url(#arr)');
+    const lbl=g.querySelector('text');
+    if(lbl) lbl.className.baseVal='edgelbl';
+  });
+}
+
+function setNodeState(nid, state) {
+  const g=document.getElementById(`nd-${nid}`);
+  if(!g) return;
+  g.classList.remove('hi','dim');
+  if(state) g.classList.add(state);
+}
+
+function setEdgeState(eid, active) {
+  const ed=DATA.edges.find(e=>e.id===eid);
+  const g=document.getElementById(`ed-${eid}`);
+  if(!g||!ed) return;
+  if(active){
+    g.querySelector('path').className.baseVal=`edge hi hi-${ed.color}`;
+    g.querySelector('path').setAttribute('marker-end',`url(#arr-${ed.color})`);
+    const lbl=g.querySelector('text');
+    if(lbl) lbl.className.baseVal='edgelbl hi';
+  }
+}
+
+function setEdgeStateDim(eid) {
+  const g=document.getElementById(`ed-${eid}`);
+  if(!g) return;
+  g.querySelector('path').className.baseVal='edge dim';
+  const lbl=g.querySelector('text');
+  if(lbl) lbl.className.baseVal='edgelbl dim';
+}
+
+function renderSteps(cmd) {
+  document.getElementById('empty').style.display='none';
+  const stepsEl=document.getElementById('steps');
+  stepsEl.style.display='block';
+  stepsEl.innerHTML='';
+  const title=document.createElement('div');
+  title.id='ann-title';
+  title.innerHTML=`<span>${cmd.label} — execution steps</span><span style="color:#484f58;font-weight:400;text-transform:none;letter-spacing:0">${cmd.desc}</span>`;
+  stepsEl.appendChild(title);
+  cmd.steps.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.className='step'; row.dataset.idx=i;
+    row.innerHTML=`<div class="step-n">${i+1}</div><div class="step-body"><div class="step-pkgs">${s.pkgs}</div><div class="step-txt">${s.txt}</div></div>`;
+    row.addEventListener('mouseenter',()=>{ if(activeStepIdx<0) highlightStep(cmd,i); });
+    row.addEventListener('mouseleave',()=>{ if(activeStepIdx<0) highlightAll(cmd); });
+    row.addEventListener('click',()=>{
+      activeStepIdx = activeStepIdx===i ? -1 : i;
+      document.querySelectorAll('.step').forEach(el=>el.classList.remove('on'));
+      if(activeStepIdx>=0){
+        document.querySelectorAll('.step')[activeStepIdx]?.classList.add('on');
+        highlightStep(cmd,activeStepIdx);
+      } else { highlightAll(cmd); }
+    });
+    stepsEl.appendChild(row);
+  });
+}
+
+function highlightAll(cmd) {
+  resetDiagram();
+  const allN=new Set(), allE=new Set();
+  cmd.steps.forEach(s=>{ s.nodes.forEach(n=>allN.add(n)); s.edges.forEach(e=>allE.add(e)); });
+  allN.forEach(nid=>setNodeState(nid,'hi'));
+  allE.forEach(eid=>setEdgeState(eid,true));
+  DATA.nodes.forEach(n=>{ if(!allN.has(n.id)) setNodeState(n.id,'dim'); });
+  DATA.edges.forEach(e=>{ if(!allE.has(e.id)) setEdgeStateDim(e.id); });
+}
+
+function highlightStep(cmd, idx) {
+  const step=cmd.steps[idx];
+  if(!step) return;
+  const allN=new Set(cmd.steps.flatMap(s=>s.nodes));
+  const allE=new Set(cmd.steps.flatMap(s=>s.edges));
+  resetDiagram();
+  DATA.nodes.forEach(n=>{ if(!allN.has(n.id)) setNodeState(n.id,'dim'); });
+  DATA.edges.forEach(e=>{ if(!allE.has(e.id)) setEdgeStateDim(e.id); });
+  allN.forEach(nid=>{ if(!step.nodes.includes(nid)) setNodeState(nid,'dim'); });
+  allE.forEach(eid=>{ if(!step.edges.includes(eid)) setEdgeStateDim(eid); });
+  step.nodes.forEach(nid=>setNodeState(nid,'hi'));
+  step.edges.forEach(eid=>setEdgeState(eid,true));
+}
+
+// open first group
+document.querySelectorAll('.grp')[0]?.classList.remove('closed');
+</script>
+</body>
+</html>
