@@ -220,18 +220,19 @@ const DATA = {
   ],
 
   edges: [
-    { id:"e-idx-ctx",   from:"index",  to:"context", label:"setGlobals(opts)",       color:"core" },
-    { id:"e-ctx-cfg",   from:"context",to:"cfglib",  label:"getGlobals() →flags",    color:"lib" },
-    { id:"e-cfg-fglob", from:"cfglib", to:"fglob",   label:"readJson()",             color:"file" },
-    { id:"e-cfg-fproj", from:"cfglib", to:"fproj",   label:"findProjectConfig()",    color:"file" },
-    { id:"e-ath-xauth", from:"authlib",to:"xauth",   label:"spawnSync npx",          color:"ext" },
-    { id:"e-ath-ftok",  from:"authlib",to:"ftok",    label:"read / write cache",     color:"file" },
-    { id:"e-mut-ctx",   from:"mut",    to:"context", label:"getGlobals().commit",    color:"lib" },
-    { id:"e-cli-cfg",   from:"client", to:"cfglib",  label:"resolveConfig()",        color:"lib" },
-    { id:"e-cli-ath",   from:"client", to:"authlib", label:"getToken()",             color:"lib" },
-    { id:"e-cli-xda",   from:"client", to:"xda",     label:"Bearer · UA header",     color:"ext" },
-    { id:"e-cli-xhlx",  from:"client", to:"xhlx",    label:"Bearer · UA header",     color:"ext" },
-    { id:"e-pth-cli",   from:"paths",  to:"client",  label:"DA list for glob paths", color:"client" },
+    // srcDx/dstDx spread edges that share a node so they fan out instead of stacking
+    { id:"e-idx-ctx",   from:"index",  to:"context", label:"setGlobals(opts)",       color:"core",   srcDx:-110 },
+    { id:"e-ctx-cfg",   from:"context",to:"cfglib",  label:"getGlobals() →flags",    color:"lib"  },
+    { id:"e-cfg-fglob", from:"cfglib", to:"fglob",   label:"readJson()",             color:"file",   srcDx:-18, dstDx:-38 },
+    { id:"e-cfg-fproj", from:"cfglib", to:"fproj",   label:"findProjectConfig()",    color:"file",   srcDx:18,  dstDx:-12 },
+    { id:"e-ath-xauth", from:"authlib",to:"xauth",   label:"spawnSync npx",          color:"ext",    srcDx:16,  dstDx:-22 },
+    { id:"e-ath-ftok",  from:"authlib",to:"ftok",    label:"read / write cache",     color:"file",   srcDx:-16, dstDx:52  },
+    { id:"e-mut-ctx",   from:"mut",    to:"context", label:"getGlobals().commit",    color:"lib"  },
+    { id:"e-cli-cfg",   from:"client", to:"cfglib",  label:"resolveConfig()",        color:"lib",    srcDx:-48, dstDx:22  },
+    { id:"e-cli-ath",   from:"client", to:"authlib", label:"getToken()",             color:"lib",    srcDx:-18, dstDx:0   },
+    { id:"e-cli-xda",   from:"client", to:"xda",     label:"Bearer · UA header",     color:"ext",    srcDx:-42, dstDx:28  },
+    { id:"e-cli-xhlx",  from:"client", to:"xhlx",    label:"Bearer · UA header",     color:"ext",    srcDx:32,  dstDx:-22 },
+    { id:"e-pth-cli",   from:"paths",  to:"client",  label:"DA list for glob paths", color:"client", srcDx:-28, dstDx:68  },
   ],
 
   commands: [
@@ -569,10 +570,29 @@ function svgEl(tag, attrs) {
 }
 function cx(n){ return n.x + n.w/2; }
 
-function edgePath(src, dst) {
-  const x1=cx(src), y1=src.y+src.h, x2=cx(dst), y2=dst.y;
-  const cp = Math.min(Math.abs(y2-y1)*0.55, 70);
-  return `M${x1},${y1} C${x1},${y1+cp} ${x2},${y2-cp} ${x2},${y2}`;
+function edgePath(e, src, dst) {
+  const x1 = cx(src)+(e.srcDx||0), x2 = cx(dst)+(e.dstDx||0);
+  const srcBot = src.y+src.h, dstBot = dst.y+dst.h;
+  // same vertical layer → horizontal arc
+  if (Math.abs(src.y - dst.y) < 8) {
+    const my = src.y + src.h/2;
+    if (src.x < dst.x) {
+      // src left of dst: short side exit
+      return `M${src.x+src.w},${my} C${src.x+src.w+22},${my} ${dst.x-22},${my} ${dst.x},${my}`;
+    } else {
+      // src right of dst: arc above the row
+      const ay = src.y - 32;
+      return `M${src.x},${my} C${src.x-34},${ay} ${dst.x+dst.w+34},${ay} ${dst.x+dst.w},${my}`;
+    }
+  }
+  // upward edge: exit top of src, enter bottom of dst
+  if (src.y >= dst.y) {
+    const cp = Math.min(Math.abs(src.y - dstBot)*0.55, 75);
+    return `M${x1},${src.y} C${x1},${src.y-cp} ${x2},${dstBot+cp} ${x2},${dstBot}`;
+  }
+  // normal downward
+  const cp = Math.min(Math.max((dst.y - srcBot)*0.55, 20), 70);
+  return `M${x1},${srcBot} C${x1},${srcBot+cp} ${x2},${dst.y-cp} ${x2},${dst.y}`;
 }
 
 // ── sidebar ────────────────────────────────────────────────────
@@ -617,9 +637,9 @@ DATA.edges.forEach(e => {
   const src=nodeMap[e.from], dst=nodeMap[e.to];
   if(!src||!dst) return;
   const g = svgEl('g', { id:`ed-${e.id}` });
-  const path = svgEl('path', { d:edgePath(src,dst), class:'edge', 'marker-end':'url(#arr)' });
-  const mx=(cx(src)+cx(dst))/2+4, my=(src.y+src.h+dst.y)/2;
-  const lbl = svgEl('text', { x:mx, y:my, class:'edgelbl' });
+  const path = svgEl('path', { d:edgePath(e,src,dst), class:'edge', 'marker-end':'url(#arr)' });
+  const lx=(cx(src)+(e.srcDx||0)+cx(dst)+(e.dstDx||0))/2+4, my=(src.y+src.h+dst.y)/2;
+  const lbl = svgEl('text', { x:lx, y:my, class:'edgelbl' });
   lbl.textContent = e.label;
   g.appendChild(path); g.appendChild(lbl);
   edgesLayer.appendChild(g);
