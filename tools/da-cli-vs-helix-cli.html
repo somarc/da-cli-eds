@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DA CLI vs Adobe AEM CLI</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --ink: #191817;
+  --muted: #635f58;
+  --paper: #fbfaf6;
+  --panel: #fffdf8;
+  --line: #ded6c8;
+  --amber: #f0b429;
+  --green: #2f855a;
+  --blue: #2b6cb0;
+  --red: #c53030;
+  --coal: #24211d;
+  --soft: #f4efe3;
+  --da: #1f6f50;
+  --aem: #225b8d;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --sans: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--blue);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 56px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line);
+  background: rgb(251 250 246 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.topbar a {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.topbar a:hover {
+  color: var(--ink);
+}
+
+.topbar .title {
+  margin-left: auto;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.hero {
+  padding: 70px 28px 34px;
+  color: #f9f6ed;
+  background:
+    linear-gradient(120deg, rgb(25 24 23 / 92%), rgb(36 33 29 / 78%)),
+    url("../media/da-cli-splash.mp4");
+  background-color: var(--coal);
+}
+
+.hero-inner,
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #f1d58f;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 880px;
+  margin: 0;
+  font-size: clamp(42px, 7vw, 78px);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.hero p {
+  max-width: 840px;
+  margin: 24px 0 0;
+  color: #efe7d7;
+  font-size: 20px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 42px;
+}
+
+.metric {
+  min-height: 118px;
+  padding: 18px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: rgb(255 255 255 / 7%);
+}
+
+.metric strong {
+  display: block;
+  color: #fff8e7;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.metric span {
+  display: block;
+  margin-top: 10px;
+  color: #d8cfbf;
+  font-size: 14px;
+}
+
+.section {
+  padding: 46px 28px;
+}
+
+.section h2 {
+  margin: 0 0 12px;
+  color: var(--coal);
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.section > p {
+  max-width: 860px;
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.profile {
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.profile h3 {
+  margin: 0;
+  padding: 18px 20px;
+  color: white;
+  font-size: 24px;
+}
+
+.profile.da h3 {
+  background: var(--da);
+}
+
+.profile.aem h3 {
+  background: var(--aem);
+}
+
+.profile dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0;
+  margin: 0;
+}
+
+.profile dt,
+.profile dd {
+  margin: 0;
+  padding: 13px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.profile dt {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.profile dd {
+  color: var(--ink);
+}
+
+.matrix-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  min-width: 220px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+th:first-child,
+td:first-child {
+  min-width: 210px;
+  border-left: 0;
+}
+
+thead th {
+  position: sticky;
+  top: 56px;
+  z-index: 3;
+  background: #efe7d6;
+  color: var(--coal);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+tbody th {
+  background: #f7f2e8;
+  color: var(--coal);
+  font-size: 15px;
+}
+
+td {
+  color: #2d2a26;
+  font-size: 15px;
+}
+
+.winner {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: white;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.winner.da {
+  background: var(--da);
+}
+
+.winner.aem {
+  background: var(--aem);
+}
+
+.winner.tie {
+  background: var(--muted);
+}
+
+code {
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  background: rgb(240 180 41 / 16%);
+  color: #795000;
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.cmd-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr 0.9fr;
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.cmd-grid > div {
+  padding: 14px 16px;
+  background: var(--panel);
+}
+
+.cmd-grid .head {
+  background: #efe7d6;
+  color: var(--coal);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cmd-grid .area {
+  color: var(--coal);
+  font-weight: 800;
+}
+
+.yes,
+.partial,
+.no {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.yes {
+  color: var(--green);
+}
+
+.partial {
+  color: #9a6400;
+}
+
+.no {
+  color: var(--red);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 20px;
+}
+
+.card h3 {
+  margin: 0 0 10px;
+  color: var(--coal);
+  font-size: 20px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.source-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.source {
+  padding: 14px 16px;
+  border-left: 4px solid var(--amber);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.source strong {
+  display: block;
+  color: var(--coal);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.callout {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border: 1px solid #d4b25f;
+  background: #fff5d8;
+  color: #4d3b09;
+}
+
+.callout strong {
+  color: #2f2609;
+}
+
+@media (width <= 840px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 18px;
+  }
+
+  .topbar .title {
+    margin-left: 0;
+  }
+
+  .hero {
+    padding: 42px 18px 26px;
+  }
+
+  .hero-grid,
+  .split,
+  .cards,
+  .source-list {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 34px 18px;
+  }
+
+  .profile dl {
+    grid-template-columns: 1fr;
+  }
+
+  .profile dd {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .cmd-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cmd-grid .head {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Page navigation">
+  <a href="/">DA CLI Docs</a>
+  <a href="/tools/da-cli-flows.html">Workflow Explorer</a>
+  <a href="#matrix">Comparison Matrix</a>
+  <a href="#coverage">Command Coverage</a>
+  <span class="title">da-cli vs @adobe/aem-cli</span>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Deep CLI comparison</p>
+    <h1>DA CLI is the operational control plane Adobe's official CLI does not try to be.</h1>
+    <p>
+      Adobe's official <code>@adobe/aem-cli</code>, still shipped from the Helix CLI repository,
+      is strong for local development, import workflows, and local DA content checkout.
+      <code>@somarc/da-cli</code> goes wider: DA Admin API automation, preview and publish
+      orchestration, route ownership, index validation, audits, site diagnostics, migration,
+      code-bus checks, and agent-friendly safety rails.
+    </p>
+    <div class="hero-grid" aria-label="High level comparison">
+      <div class="metric"><strong>16</strong><span>top-level da-cli command groups in the local checkout.</span></div>
+      <div class="metric"><strong>3</strong><span>documented Adobe AEM CLI groups: <code>up</code>, <code>import</code>, <code>content</code>.</span></div>
+      <div class="metric"><strong>Dry-run first</strong><span>da-cli makes remote mutations explicit with <code>--commit</code>.</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="profiles">
+    <h2>Product Profiles</h2>
+    <p>
+      The two tools overlap around DA content, but their center of gravity is different.
+      Adobe's CLI optimizes the authoring developer loop. da-cli optimizes operational work
+      across DA, Helix Admin, EDS routing, publishing, validation, and automation.
+    </p>
+    <div class="split">
+      <article class="profile da">
+        <h3>@somarc/da-cli</h3>
+        <dl>
+          <dt>Binary</dt>
+          <dd><code>da</code></dd>
+          <dt>Primary use</dt>
+          <dd>Manage DA-backed EDS sites and content across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, code, design, site, skills, and Stardust workflows.</dd>
+          <dt>Safety model</dt>
+          <dd>Write operations are dry-run by default and require <code>--commit</code>. Output formats include table, JSON, and Markdown.</dd>
+          <dt>Runtime deps</dt>
+          <dd>Lean Node package using <code>commander</code> and <code>js-yaml</code>; Python 3 is used by auth token caching.</dd>
+        </dl>
+      </article>
+      <article class="profile aem">
+        <h3>@adobe/aem-cli from helix-cli</h3>
+        <dl>
+          <dt>Binaries</dt>
+          <dd><code>aem</code> and compatibility alias <code>hlx</code></dd>
+          <dt>Primary use</dt>
+          <dd>Run a local AEM/EDS development server, run the importer server, and manage a local DA content workspace.</dd>
+          <dt>Safety model</dt>
+          <dd>Content workflow mirrors Git concepts with clone, add, commit, status, diff, merge, and push. Local server provides live reload, proxying, TLS, and browser log forwarding.</dd>
+          <dt>Runtime deps</dt>
+          <dd>Feature-rich Node service stack for dev server, proxying, import UI, shared Helix config, Git helpers, and browser injectables.</dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="matrix">
+    <h2>Deep Comparison Matrix</h2>
+    <p>
+      This matrix is intentionally practical: it compares what an EDS engineer or automation
+      agent can actually do from the command line today based on the local repositories.
+    </p>
+    <div class="matrix-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>da-cli</th>
+            <th>Adobe AEM CLI</th>
+            <th>Practical readout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Local development server</th>
+            <td><span class="winner aem">AEM CLI wins</span> da-cli does not implement a local proxy/dev server.</td>
+            <td><span class="yes">Strong</span> <code>aem up</code> serves local projects, proxies remote content, supports live reload, TLS, browser opening, forwarded browser logs, and local HTML folder mounting.</td>
+            <td>Use Adobe's CLI when the job is browser-local development and asset/runtime simulation.</td>
+          </tr>
+          <tr>
+            <th>DA Admin API coverage</th>
+            <td><span class="winner da">da-cli wins</span> Direct DA API operations across list, tree, get, put, delete, move, copy, versions, auth token handling, site diagnostics, and route cleanup.</td>
+            <td><span class="partial">Partial</span> DA content workspace commands exist, but the documented surface is focused on local checkout and push.</td>
+            <td>da-cli is better for direct DA repository administration and scripts that need exact remote operations.</td>
+          </tr>
+          <tr>
+            <th>Preview pipeline</th>
+            <td><span class="winner da">da-cli wins</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths and can verify empty or unreachable output.</td>
+            <td><span class="no">Not documented</span> The official README does not expose preview orchestration commands.</td>
+            <td>da-cli owns the full source-to-preview promotion loop from CLI automation.</td>
+          </tr>
+          <tr>
+            <th>Publish and deploy</th>
+            <td><span class="winner da">da-cli wins</span> Publish, unpublish, batch publish, tree publish, and combined preview-then-publish deploy flows are explicit and commit-gated.</td>
+            <td><span class="no">Not documented</span> No equivalent publish/deploy command group in the official command list.</td>
+            <td>da-cli is the stronger release operations tool.</td>
+          </tr>
+          <tr>
+            <th>Content workspace</th>
+            <td><span class="winner tie">Tie</span> Supports remote CRUD plus a local <code>content/</code> workspace with clone, status, diff, add, commit, push, and merge.</td>
+            <td><span class="winner tie">Tie</span> Supports local DA content clone, status, diff, add, commit, push, and merge; <code>aem up</code> also serves local content first.</td>
+            <td>Adobe's CLI is better when local content must render through <code>aem up</code>; da-cli is better when content workspace work is part of broader remote operations.</td>
+          </tr>
+          <tr>
+            <th>Route ownership and destructive safety</th>
+            <td><span class="winner da">da-cli wins</span> <code>route classify</code>, <code>route canonical</code>, <code>route audit</code>, and <code>route clean</code> distinguish contentbus, codebus, hybrid, orphan, and probe-failed routes.</td>
+            <td><span class="no">Not documented</span> No equivalent route ownership model surfaced in the official CLI documentation.</td>
+            <td>da-cli is safer for cleanup and migration work where DA and code-owned routes can coexist.</td>
+          </tr>
+          <tr>
+            <th>Site diagnostics</th>
+            <td><span class="winner da">da-cli wins</span> <code>site doctor</code> checks registration, content source type, code-bus visibility, shared DA docs, preview/live state, and optional deep sampling.</td>
+            <td><span class="no">Not documented</span> No site doctor command in the official README command set.</td>
+            <td>da-cli provides a single diagnostic entry point for account, repo, route, and delivery-state questions.</td>
+          </tr>
+          <tr>
+            <th>Search index operations</th>
+            <td><span class="winner da">da-cli wins</span> <code>index show</code>, <code>index validate</code>, and <code>index query</code> inspect <code>helix-query.yaml</code> and compare configured fields with live responses.</td>
+            <td><span class="no">Not documented</span> No index inspection or query command in the official README.</td>
+            <td>da-cli turns query-index validation into a repeatable CLI check.</td>
+          </tr>
+          <tr>
+            <th>Quality audits</th>
+            <td><span class="winner da">da-cli wins</span> Audits cover semantics, blocks, full-page checks, and contracts.</td>
+            <td><span class="no">Not documented</span> No comparable audit command group in the official command list.</td>
+            <td>da-cli is better for preflight checks before preview, publish, or migration completion.</td>
+          </tr>
+          <tr>
+            <th>Migration tooling</th>
+            <td><span class="winner da">da-cli wins</span> Migration commands include import, batch import, job status, and validation.</td>
+            <td><span class="partial">Different strength</span> <code>aem import</code> runs the importer server; it is UI/server oriented rather than remote job automation.</td>
+            <td>Use Adobe's CLI for the importer UI server; use da-cli for scripted migration flows and validation.</td>
+          </tr>
+          <tr>
+            <th>Code-bus visibility</th>
+            <td><span class="winner da">da-cli wins</span> Code commands cover sync, status, job lookup, sidekick config, and purge.</td>
+            <td><span class="no">Not documented</span> The official surface does not expose code-bus operational commands.</td>
+            <td>da-cli reaches beyond DA content into EDS code delivery state.</td>
+          </tr>
+          <tr>
+            <th>Config model</th>
+            <td><span class="winner da">da-cli wins</span> Project and global DA config, environment fallback, branch defaults, source annotation, and per-command overrides are first-class.</td>
+            <td><span class="partial">Focused</span> Environment variables configure local server and global logging; shared Helix config is consumed by the dev server.</td>
+            <td>da-cli is stronger for repeatable multi-repo automation; Adobe's CLI is tuned for local project runtime configuration.</td>
+          </tr>
+          <tr>
+            <th>Automation output</th>
+            <td><span class="winner da">da-cli wins</span> Global <code>--format table|json|md</code>, <code>--quiet</code>, <code>--verbose</code>, and request IDs make it script and agent friendly.</td>
+            <td><span class="partial">Partial</span> Logs are configurable, but the official README does not present structured output as a cross-command contract.</td>
+            <td>da-cli is easier to compose in CI, agent workflows, reports, and shell scripts.</td>
+          </tr>
+          <tr>
+            <th>Authentication ergonomics</th>
+            <td><span class="winner da">da-cli wins</span> <code>auth login</code>, <code>logout</code>, <code>status</code>, and <code>token</code> expose explicit token lifecycle management.</td>
+            <td><span class="partial">Internal</span> DA auth support exists under content internals, but the official README does not document standalone auth commands.</td>
+            <td>da-cli is clearer when credentials need to be inspected, renewed, or piped into other tools.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="coverage">
+    <h2>Command Coverage</h2>
+    <p>
+      The command map shows why the two CLIs feel so different in practice. Adobe's CLI
+      is intentionally compact. da-cli exposes the operational edges that normally require
+      curl calls, custom scripts, manual Admin API probing, or browser checks.
+    </p>
+    <div class="cmd-grid" role="table" aria-label="Command coverage matrix">
+      <div class="head">Area</div>
+      <div class="head">da-cli</div>
+      <div class="head">Adobe AEM CLI</div>
+
+      <div class="area">Local server</div>
+      <div><span class="no">No dedicated command</span></div>
+      <div><span class="yes">Yes</span> <code>aem up</code></div>
+
+      <div class="area">Importer UI/server</div>
+      <div><span class="partial">Scripted migration</span> <code>da migrate import</code>, <code>batch</code>, <code>status</code>, <code>validate</code></div>
+      <div><span class="yes">Yes</span> <code>aem import</code></div>
+
+      <div class="area">Content workspace</div>
+      <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
+      <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
+
+      <div class="area">Remote content CRUD</div>
+      <div><span class="yes">Yes</span> list, tree, get, put, delete, move, copy, versions</div>
+      <div><span class="partial">Limited</span> content push workflow is documented, direct CRUD is not surfaced as a command set</div>
+
+      <div class="area">Preview and publish</div>
+      <div><span class="yes">Yes</span> page, pages, tree, status, unpublish, deploy</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Routes</div>
+      <div><span class="yes">Yes</span> classify, canonical, audit, clean</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Index</div>
+      <div><span class="yes">Yes</span> show, validate, query</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Audits</div>
+      <div><span class="yes">Yes</span> semantics, blocks, full, contracts</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Site operations</div>
+      <div><span class="yes">Yes</span> create, list, info, doctor</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Code-bus</div>
+      <div><span class="yes">Yes</span> sync, status, job, sidekick config, purge</div>
+      <div><span class="no">No documented equivalent</span></div>
+
+      <div class="area">Design and skills</div>
+      <div><span class="yes">Yes</span> design detection/audits, skill install/list/read/search/update/bootstrap, Stardust flows</div>
+      <div><span class="no">No documented equivalent</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="decision">
+    <h2>Decision Guide</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Use da-cli for operations</h3>
+        <p>Choose it for preview, publish, deploy, DA content administration, route ownership, code-bus checks, index validation, site diagnostics, audits, and migration automation.</p>
+      </article>
+      <article class="card">
+        <h3>Use Adobe AEM CLI for local dev</h3>
+        <p>Choose it for <code>aem up</code>, local proxy behavior, live reload, TLS, local content rendering, forwarded browser logs, and the importer server.</p>
+      </article>
+      <article class="card">
+        <h3>Use both in a mature workflow</h3>
+        <p>Run Adobe's server while developing locally, then use da-cli to validate, preview, publish, audit, and diagnose the DA-backed site before release.</p>
+      </article>
+    </div>
+    <div class="callout">
+      <strong>Bottom line:</strong> Adobe's CLI is the official local development tool.
+      da-cli is the broader EDS operations CLI. If the goal is best-in-class command-line
+      control over DA-backed sites, da-cli has the deeper surface area and the safer automation model.
+    </div>
+  </section>
+
+  <section class="section" id="sources">
+    <h2>Sources Checked</h2>
+    <p>
+      This page was built from the local checked-out repositories, so it reflects the
+      command surfaces available in this workspace when the page was created.
+    </p>
+    <div class="source-list">
+      <div class="source">
+        <strong>/Users/mhess/Documents/Fluffyjaws Workspace/da-cli</strong>
+        package manifest, README, and <code>src/commands/*</code> command registration.
+      </div>
+      <div class="source">
+        <strong>/Users/mhess/aem/aem-code/Helix/helix-cli</strong>
+        package manifest, README, <code>src/cli.js</code>, top-level command modules, and content command modules.
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
