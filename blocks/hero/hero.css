@@ -13,42 +13,21 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  position: relative;
-  z-index: 1;
-  color: #fff;
-  text-shadow: 0 1px 4px rgb(0 0 0 / 60%);
+  color: var(--background-color);
 }
 
-.hero picture,
-.hero video {
+.hero picture {
   position: absolute;
   z-index: -1;
   inset: 0;
   object-fit: cover;
   box-sizing: border-box;
-  width: 100%;
-  height: 100%;
 }
 
 .hero img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-}
-
-.hero p,
-.hero a {
-  position: relative;
-  z-index: 1;
-  color: rgb(255 255 255 / 90%);
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 30%) 100%);
-  z-index: 0;
 }
 
 @media (width >= 900px) {
