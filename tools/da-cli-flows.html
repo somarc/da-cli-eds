@@ -37,6 +37,28 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
   margin-left:auto;
   font-family:'IBM Plex Mono',monospace;
   font-size:10px;color:#484f58;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+#site-nav .share{
+  flex-shrink:0;
+  border:1px solid #30363d;
+  border-radius:5px;
+  padding:5px 10px;
+  background:#0d1117;
+  color:#8b949e;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  cursor:pointer;
+  transition:border-color .15s,color .15s;
+}
+#site-nav .share:hover,
+#site-nav .share:focus-visible{
+  border-color:#58a6ff;
+  color:#e6edf3;
+  outline:none;
 }
 
 /* ── workspace (sidebar + main) ── */
@@ -142,6 +164,115 @@ svg#dg{display:block;width:100%;height:100%}
 .step-txt{font-size:11.5px;color:#c9d1d9;line-height:1.45}
 #empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:#484f58}
 #empty .tip{font-size:11px}
+
+@media (width <= 820px) {
+  body{height:auto;min-height:100dvh;overflow:visible}
+  #site-nav{
+    position:sticky;top:0;z-index:20;
+    flex-wrap:wrap;
+    height:auto;min-height:52px;
+    padding:8px 12px;
+    gap:6px 10px;
+  }
+  #site-nav a,#site-nav .badge,#site-nav .share{font-size:10px}
+  #site-nav .sep{margin:0 2px}
+  #site-nav .page-title{font-size:12px}
+  #site-nav .badge{
+    order:5;
+    flex:1 0 100%;
+    margin-left:0;
+  }
+  #site-nav .share{
+    margin-left:auto;
+    padding:4px 8px;
+  }
+  #workspace{display:block;overflow:visible;min-height:0}
+  #sidebar{
+    width:auto;min-width:0;
+    border-right:0;
+    border-bottom:1px solid #30363d;
+    overflow:visible;
+  }
+  #sidebar-hd{padding:12px}
+  #sidebar-hd h2{font-size:14px}
+  #sidebar-hd p{font-size:12px;line-height:1.35}
+  #cmd-tree{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+  }
+  .grp{
+    flex:0 0 min(78vw,270px);
+    border-right:1px solid #21262d;
+    border-bottom:0;
+    scroll-snap-align:start;
+  }
+  .grp-hd{
+    position:sticky;top:0;z-index:1;
+    padding:9px 12px;
+    background:#161b22;
+  }
+  .grp-body{
+    max-height:198px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .cmd{
+    min-height:48px;
+    padding:7px 12px 7px 18px;
+    font-size:11px;
+  }
+  #main{display:block;overflow:visible;min-height:0}
+  #toolbar{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+    min-height:0;
+    padding:10px 12px;
+  }
+  #active-label{width:100%;font-size:11px;white-space:normal}
+  #legend{flex-wrap:wrap;gap:8px 10px;font-size:10px}
+  #diagram-wrap{
+    height:clamp(260px,62vw,360px);
+    overflow:auto hidden;
+    border-bottom:1px solid #30363d;
+    -webkit-overflow-scrolling:touch;
+  }
+  svg#dg{
+    width:760px;
+    min-width:760px;
+    height:100%;
+  }
+  #ann{
+    height:auto;min-height:220px;
+    overflow:visible;
+    padding:12px;
+  }
+  #ann-title{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:3px;
+    font-size:10px;
+  }
+  .step{gap:8px;padding:9px 6px}
+  .step-txt{font-size:12px}
+}
+
+@media (width <= 480px) {
+  #site-nav{align-items:flex-start}
+  #site-nav a{max-width:86px}
+  #site-nav .page-title{
+    max-width:128px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  #sidebar-hd p{display:none}
+  .grp{flex-basis:84vw}
+  #diagram-wrap{height:285px}
+  svg#dg{width:720px;min-width:720px}
+}
 </style>
 </head>
 <body>
@@ -154,7 +285,8 @@ svg#dg{display:block;width:100%;height:100%}
   </a>
   <div class="sep"></div>
   <span class="page-title">Workflow Explorer</span>
-  <span class="badge">da-cli · interactive reference</span>
+  <span class="badge" id="breadcrumb">32 command surfaces · DA command map</span>
+  <button class="share" id="share-link" type="button">copy link</button>
 </nav>
 
 <div id="workspace">
@@ -651,6 +783,13 @@ const DATA = {
 
 const nodeMap = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const COMMAND_COUNT = DATA.commands.reduce((total, group) => total + group.items.length, 0);
+const DEFAULT_BREADCRUMB = `${COMMAND_COUNT} command surfaces · DA command map`;
+const commandMap = Object.fromEntries(allCmds().map(cmd => [cmd.id, cmd]));
+const groupByCommand = Object.fromEntries(DATA.commands.flatMap(group => group.items.map(cmd => [cmd.id, group.group])));
+const breadcrumb = document.getElementById('breadcrumb');
+const shareLink = document.getElementById('share-link');
+let suppressHashUpdate = false;
 
 function svgEl(tag, attrs) {
   const el = document.createElementNS(SVG_NS, tag);
@@ -739,20 +878,56 @@ let activeStepIdx = -1, currentCmd = null;
 
 function allCmds(){ return DATA.commands.flatMap(g => g.items); }
 
-function selectCmd(id) {
-  const cmd = allCmds().find(c => c.id===id);
+function readHashState() {
+  const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  return {
+    command: params.get('command') || params.get('scenario'),
+    step: Number.parseInt(params.get('step') || '', 10),
+  };
+}
+
+function commandUrl(cmd = currentCmd, step = activeStepIdx) {
+  const params = new URLSearchParams();
+  if (cmd) params.set('command', cmd.id);
+  if (Number.isInteger(step) && step >= 0) params.set('step', String(step + 1));
+  const url = new URL(window.location.href);
+  url.hash = params.toString();
+  return url.toString();
+}
+
+function updateHash(cmd = currentCmd, step = activeStepIdx) {
+  if (suppressHashUpdate || !cmd) return;
+  window.history.replaceState(null, '', commandUrl(cmd, step));
+}
+
+function updateBreadcrumb(cmd = currentCmd, step = activeStepIdx) {
+  if (!cmd) {
+    breadcrumb.textContent = DEFAULT_BREADCRUMB;
+    return;
+  }
+  const group = groupByCommand[cmd.id] || 'commands';
+  const parts = [`${COMMAND_COUNT} command surfaces`, group, cmd.label];
+  if (Number.isInteger(step) && step >= 0) parts.push(`step ${step + 1}`);
+  breadcrumb.textContent = parts.join(' / ');
+}
+
+function selectCmd(id, options = {}) {
+  const cmd = commandMap[id];
   if(!cmd) return;
-  currentCmd=cmd; activeStepIdx=-1;
+  currentCmd=cmd;
+  activeStepIdx=Number.isInteger(options.step) ? options.step : -1;
   document.querySelectorAll('.cmd').forEach(el => el.classList.toggle('on', el.dataset.id===id));
+  const activeButton = document.querySelector(`.cmd[data-id="${id}"]`);
+  activeButton?.scrollIntoView({ block:'nearest', inline:'center' });
   document.getElementById('active-label').innerHTML = `<span class="dim">$ </span>da ${cmd.syntax||cmd.label}`;
-  resetDiagram();
-  const allN=new Set(), allE=new Set();
-  cmd.steps.forEach(s=>{ s.nodes.forEach(n=>allN.add(n)); s.edges.forEach(e=>allE.add(e)); });
-  allN.forEach(nid=>setNodeState(nid,'hi'));
-  allE.forEach(eid=>setEdgeState(eid,true));
-  DATA.nodes.forEach(n=>{ if(!allN.has(n.id)) setNodeState(n.id,'dim'); });
-  DATA.edges.forEach(e=>{ if(!allE.has(e.id)) setEdgeStateDim(e.id); });
   renderSteps(cmd);
+  if (activeStepIdx >= 0) {
+    highlightStep(cmd, activeStepIdx);
+  } else {
+    highlightAll(cmd);
+  }
+  updateBreadcrumb(cmd, activeStepIdx);
+  updateHash(cmd, activeStepIdx);
 }
 
 function resetDiagram() {
@@ -819,7 +994,10 @@ function renderSteps(cmd) {
         document.querySelectorAll('.step')[activeStepIdx]?.classList.add('on');
         highlightStep(cmd,activeStepIdx);
       } else { highlightAll(cmd); }
+      updateBreadcrumb(cmd, activeStepIdx);
+      updateHash(cmd, activeStepIdx);
     });
+    row.classList.toggle('on', activeStepIdx === i);
     stepsEl.appendChild(row);
   });
 }
@@ -848,8 +1026,32 @@ function highlightStep(cmd, idx) {
   step.edges.forEach(eid=>setEdgeState(eid,true));
 }
 
+function selectFromHash() {
+  const { command, step } = readHashState();
+  const cmd = commandMap[command] || allCmds()[0];
+  const stepIndex = Number.isInteger(step) && step > 0 && step <= cmd.steps.length ? step - 1 : -1;
+  suppressHashUpdate = true;
+  selectCmd(cmd.id, { step: stepIndex });
+  suppressHashUpdate = false;
+}
+
+shareLink.addEventListener('click', async () => {
+  const url = commandUrl();
+  try {
+    await navigator.clipboard.writeText(url);
+    shareLink.textContent = 'copied';
+  } catch {
+    window.prompt('Copy workflow link', url);
+    shareLink.textContent = 'ready';
+  }
+  window.setTimeout(() => { shareLink.textContent = 'copy link'; }, 1400);
+});
+
+window.addEventListener('hashchange', selectFromHash);
+
 // open first group
 document.querySelectorAll('.grp')[0]?.classList.remove('closed');
+selectFromHash();
 </script>
 </body>
 </html>
