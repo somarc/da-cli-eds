@@ -207,7 +207,7 @@ svg#dg{display:block;width:100%;height:100%}
 const DATA = {
 
   nodes: [
-    { id:"index",   x:300, y:14,  w:260, h:50, type:"core",   label:"src/index.js",     sub:"Program Setup · Global Flags · preAction hook" },
+    { id:"index",   x:300, y:14,  w:260, h:50, type:"core",   label:"src/index.js",     sub:"Program Setup · .env · Global Flags" },
     { id:"context", x:8,   y:110, w:130, h:46, type:"lib",    label:"context.js",       sub:"Global singleton" },
     { id:"cfglib",  x:153, y:110, w:125, h:46, type:"lib",    label:"config.js",        sub:"Config resolver" },
     { id:"authlib", x:293, y:110, w:110, h:46, type:"lib",    label:"auth.js",          sub:"Token manager" },
@@ -222,7 +222,7 @@ const DATA = {
     { id:"ftok",    x:8,   y:434, w:220, h:46, type:"file",   label:"~/.aem/da-token.json", sub:"Token cache" },
     { id:"fglob",   x:244, y:434, w:210, h:46, type:"file",   label:"~/.da/config.json",    sub:"Global config" },
     { id:"fproj",   x:470, y:434, w:130, h:46, type:"file",   label:".da.json",             sub:"Project config" },
-    { id:"fruns",   x:616, y:434, w:230, h:46, type:"file",   label:"~/.da run state",      sub:"pipeline-runs · migrate-jobs" },
+    { id:"fruns",   x:616, y:434, w:230, h:46, type:"file",   label:"local DA state",        sub:"pipeline-runs · migrate-jobs · content workspace" },
   ],
 
   edges: [
@@ -251,7 +251,7 @@ const DATA = {
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"],
             pkgs:"index → context",
-            txt:"preAction hook fires before any subcommand runs. Root flags (--org, --repo, --env, --commit, --dry-run) are pushed into the context singleton so every lib function can read them without walking the Commander parent chain." },
+            txt:"src/index.js loads the nearest .env, then the preAction hook pushes root flags (--org, --repo, --env, --format, --log-level, --log-file, --request-id, --commit, --dry-run) into the context singleton so every lib function can read them without walking the Commander parent chain." },
           { nodes:["authlib","ftok"], edges:["e-ath-ftok"],
             pkgs:"auth.js → ~/.aem/da-token.json",
             txt:"getToken() reads ~/.aem/da-token.json and checks the JWT exp claim. If the cached token has >30 s remaining and --refresh was not passed, it is returned immediately — no network call needed." },
@@ -296,7 +296,7 @@ const DATA = {
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags applied." },
           { nodes:["cfglib","context","fglob","fproj"], edges:["e-ctx-cfg","e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js ← context + files",
-            txt:"resolveConfig() merges in precedence order: global config → project config → root CLI flags (from context singleton) → command-local overrides. Returns org, repo, env plus a sources map showing where each value came from." },
+            txt:"resolveConfig() merges in precedence order: global config → project config → DA_*/AEM_* environment from process.env/.env → root CLI flags from context → command-local overrides. Returns org, repo, env plus a sources map showing where each value came from." },
         ]
       },
     ]},
@@ -308,9 +308,69 @@ const DATA = {
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags into singleton." },
           { nodes:["client","cfglib","authlib","context","fglob","fproj","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ctx-cfg","e-cfg-fglob","e-cfg-fproj","e-ath-ftok"], pkgs:"createClient() → config + auth",
-            txt:"createClient() resolves org/repo/env (precedence: override → flag → project .da.json → global config), calls getToken() to fetch or validate cached token. Returns a ready DaClient instance." },
+            txt:"createClient() resolves org/repo/env (precedence: override → flag → DA_*/AEM_* env → project .da.json → global config), calls getToken() to fetch or validate cached token. Returns a ready DaClient instance." },
           { nodes:["client","xda","out"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live → output",
-            txt:"GET /list/{org}/{repo}/{path} with Authorization: Bearer and browser User-Agent (Cloudflare bot-block bypass). Response is a flat array of {name, ext?, lastModified}. output.js renders as table, JSON, or markdown per --format." },
+            txt:"GET /list/{org}/{repo}/{path} with Authorization, browser User-Agent, and optional x-request-id from --request-id/DA_REQUEST_ID. Response is a flat array of {name, ext?, lastModified}. output.js renders as table, JSON, or markdown per --format and routes diagnostics through --log-level/--log-file." },
+        ]
+      },
+      { id:"content-clone", label:"content clone",
+        syntax:"da content clone --path /blog  [--force]",
+        desc:"Clone DA source documents into local content/",
+        steps:[
+          { nodes:["index","context","cfglib"], edges:["e-idx-ctx","e-ctx-cfg"], pkgs:"index → context → config",
+            txt:"Root config can come from CLI flags, .env, DA_*/AEM_* variables, .da.json, or ~/.da/config.json. clone requires a path or --all so accidental full-site clones are explicit." },
+          { nodes:["client","paths","xda"], edges:["e-cli-cfg","e-cli-ath","e-pth-cli","e-cli-xda"], pkgs:"content-workspace.js → listContentPaths()",
+            txt:"Recursively lists DA source paths below the requested root, then fetches each document through sourceGet(). Existing content/ is protected unless --force is passed." },
+          { nodes:["fruns","out"], edges:["e-out-runs"], pkgs:"content/ + .da/content-state.json",
+            txt:"Writes source files under content/ and records remote hashes, staged paths, local commits, and clone root in .da/content-state.json. This gives da-cli a Git-like local content workspace without requiring Git history for DA documents." },
+        ]
+      },
+      { id:"content-status", label:"content status",
+        syntax:"da content status",
+        desc:"Show local content workspace changes",
+        steps:[
+          { nodes:["fruns"], edges:["e-out-runs"], pkgs:"content-workspace.js",
+            txt:"Reads .da/content-state.json and scans content/. Each file is classified as added, modified, deleted, or unchanged by comparing its current SHA-256 hash with the cloned base hash." },
+          { nodes:["out"], edges:[], pkgs:"output.js",
+            txt:"Prints only changed files, including staged=yes when a path has been added to the local staging set. A clean workspace prints 'nothing to commit, working tree clean'." },
+        ]
+      },
+      { id:"content-diff", label:"content diff",
+        syntax:"da content diff [path]",
+        desc:"Diff local content against current remote DA source",
+        steps:[
+          { nodes:["client","xda","fruns"], edges:["e-cli-cfg","e-cli-ath","e-cli-xda","e-out-runs"], pkgs:"content-workspace.js → da-client",
+            txt:"For a single path or all changed paths, fetches the current remote DA source and compares it with local content/ using the same simpleDiff helper used by direct content put dry-runs." },
+          { nodes:["out"], edges:[], pkgs:"output.js",
+            txt:"Diff output goes through the logging layer, so --log-level and --log-file can capture review artifacts without mixing them into structured stdout." },
+        ]
+      },
+      { id:"content-add-commit", label:"content add / commit",
+        syntax:"da content add [files...]  &&  da content commit -m \"message\"",
+        desc:"Stage and record local content workspace changes",
+        steps:[
+          { nodes:["fruns"], edges:["e-out-runs"], pkgs:"content-workspace.js",
+            txt:"add stages all changed files by default, or normalizes specific content/... paths to DA paths. commit requires a message, records an id, timestamp, message, and path list, then clears the staging set." },
+          { nodes:["out"], edges:[], pkgs:"output.js",
+            txt:"The local commit is a DA workspace checkpoint, not a Git commit. It gives push a clear intent boundary while leaving repository history for code/docs changes." },
+        ]
+      },
+      { id:"content-push", label:"content push",
+        syntax:"da --commit content push [--path /blog]",
+        desc:"Push committed local content workspace changes to DA",
+        steps:[
+          { nodes:["fruns","mut","context"], edges:["e-out-runs","e-mut-ctx"], pkgs:"state + guardWrite()",
+            txt:"push plans changed paths from content status and refuses uncommitted changes unless --force is passed. It prints the plan first, then uses the global dry-run guard; without root --commit no remote write happens." },
+          { nodes:["client","xda"], edges:["e-cli-cfg","e-cli-ath","e-cli-xda"], pkgs:"da-client → admin.da.live",
+            txt:"Committed local files are uploaded with sourcePut(); committed deletions call sourceDelete(). Successful pushes update .da/content-state.json base hashes and clear local commit records." },
+        ]
+      },
+      { id:"content-merge", label:"content merge",
+        syntax:"da content merge [path]",
+        desc:"Refresh local content from remote DA source",
+        steps:[
+          { nodes:["client","xda","fruns"], edges:["e-cli-cfg","e-cli-ath","e-cli-xda","e-out-runs"], pkgs:"content-workspace.js → da-client",
+            txt:"Fetches the requested DA path or all tracked paths, writes the remote source into content/, and updates the recorded base hash. Use this to absorb remote DA edits before another local edit/push cycle." },
         ]
       },
       { id:"content-get", label:"content get",
