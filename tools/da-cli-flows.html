@@ -222,6 +222,7 @@ const DATA = {
     { id:"ftok",    x:8,   y:434, w:220, h:46, type:"file",   label:"~/.aem/da-token.json", sub:"Token cache" },
     { id:"fglob",   x:244, y:434, w:210, h:46, type:"file",   label:"~/.da/config.json",    sub:"Global config" },
     { id:"fproj",   x:470, y:434, w:130, h:46, type:"file",   label:".da.json",             sub:"Project config" },
+    { id:"fruns",   x:616, y:434, w:230, h:46, type:"file",   label:"~/.da run state",      sub:"pipeline-runs · migrate-jobs" },
   ],
 
   edges: [
@@ -238,6 +239,7 @@ const DATA = {
     { id:"e-cli-xda",   from:"client", to:"xda",     label:"Bearer · UA header",     color:"ext",    srcDx:-42, dstDx:28  },
     { id:"e-cli-xhlx",  from:"client", to:"xhlx",    label:"Bearer · UA header",     color:"ext",    srcDx:32,  dstDx:-22 },
     { id:"e-pth-cli",   from:"paths",  to:"client",  label:"DA list for glob paths", color:"client", srcDx:-28, dstDx:68  },
+    { id:"e-out-runs",  from:"out",    to:"fruns",   label:"read / write state",     color:"file",   srcDx:20,  dstDx:0   },
   ],
 
   commands: [
@@ -481,7 +483,7 @@ const DATA = {
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
           { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Single client for all concurrent operations." },
-          { nodes:["out"], edges:[], pkgs:"Job state — ~/.da/migrate-jobs/{id}.json",
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:"Job state — ~/.da/migrate-jobs/{id}.json",
             txt:"Batch state persisted after each URL. Pass --job-id to resume — already-done URLs are skipped. Each entry: {status:'done'|'error'|'dry-run', path, title, error?}." },
           { nodes:["client","xda","xhlx"], edges:["e-cli-xda","e-cli-xhlx"], pkgs:"runConcurrent → scrape → upload → preview",
             txt:"Up to --concurrency (default 3) imports run in parallel. Each: scrapeAndConvert() → guardWrite() → sourcePut() → helixPreview(). Progress logged as [N/total] URL." },
@@ -492,15 +494,37 @@ const DATA = {
     { group:"pipeline", items:[
       { id:"pipeline-run", label:"pipeline run",
         syntax:"da pipeline run <yaml-file>",
-        desc:"Execute a declarative YAML DAG of da commands",
+        desc:"Execute an extensible YAML DAG of da command primitives",
         steps:[
-          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root flags (--org, --repo, --commit) are inherited by all pipeline steps." },
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root flags (--org, --repo, --commit) are inherited by all pipeline steps. This lets a single approval boundary control the whole workflow." },
           { nodes:["out"], edges:[], pkgs:"YAML parse → validatePipeline() → topoSort()",
-            txt:"js-yaml parses the pipeline. validatePipeline() checks step ids and depends_on refs. topoSort() (Kahn's algorithm) produces ordered batches of steps that can run in parallel." },
-          { nodes:["out"], edges:[], pkgs:"Run state — ~/.da/pipeline-runs/{id}.json",
-            txt:"State file tracks each step: pending → running → completed/failed. Written after every transition. 'da pipeline abort' writes an abort signal checked before each batch." },
+            txt:"js-yaml parses the pipeline. The descriptive language composes existing da primitives by id, command, depends_on, timeout, fail_fast, continue_on_error, and requires_approval. validatePipeline() checks step ids and dependency refs. topoSort() produces batches that can run in parallel." },
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:"Run state — ~/.da/pipeline-runs/{id}.json",
+            txt:"State file tracks pending, running, completed, failed, and aborted steps. Written after every transition for status, audit trail, and abort coordination. Re-running the same YAML starts a new run; pipeline does not auto-resume a prior run." },
           { nodes:["index","context","client","cfglib","authlib"], edges:["e-idx-ctx"], pkgs:"spawn child da process per step",
-            txt:"Each step spawns 'node bin/da.js {rootFlags} {step.command}' as a child process (stdio: inherit). Root flags from pipeline context prepended. Timeout via SIGTERM. Steps in same batch run concurrently." },
+            txt:"Each step spawns 'node bin/da.js {rootFlags} {step.command}' as a child process (stdio: inherit). Because each command is just a CLI primitive, agents can scale EDS work by arranging known primitives or adding new CLI primitives and referencing them in YAML. Timeout uses SIGTERM. Steps in the same dependency batch run concurrently." },
+        ]
+      },
+      { id:"pipeline-status", label:"pipeline status",
+        syntax:"da pipeline status [run-id]",
+        desc:"Inspect pipeline run progress from persisted state",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags are loaded, but status is local run-state inspection rather than a remote DA operation." },
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:"Read ~/.da/pipeline-runs",
+            txt:"Without a run id, reads the run-state directory and lists recent runs. With a run id, loads the matching JSON and prints each step status with the run metadata." },
+          { nodes:["out"], edges:[], pkgs:"output.js",
+            txt:"Shows progress without mutating the run. Use it as the audit trail for what completed, failed, or was still running in a previous pipeline attempt." },
+        ]
+      },
+      { id:"pipeline-abort", label:"pipeline abort",
+        syntax:"da pipeline abort <run-id>",
+        desc:"Signal a running pipeline to stop before the next batch",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags are initialized, then the command targets a local run-state file." },
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:"Update ~/.da/pipeline-runs/{id}.json",
+            txt:"Loads the run state and marks _meta.abortRequested = true. A running pipeline checks that signal before starting the next dependency batch." },
+          { nodes:["out"], edges:[], pkgs:"cooperative stop",
+            txt:"In-flight child commands are allowed to finish. Abort prevents new batches from starting; it is not a force-kill and it does not convert the run into an automatic resume checkpoint." },
         ]
       },
     ]},
