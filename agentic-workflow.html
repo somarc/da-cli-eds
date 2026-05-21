@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic DA-CLI Workflow</title>
+  <meta name="description" content="A content-first starting workflow and seed prompt for using da-cli agentically to create full-gambit Edge Delivery Services sites.">
+  <meta property="og:title" content="Agentic DA-CLI Workflow">
+  <meta property="og:description" content="How to start an agentic da-cli session for content-first Edge Delivery site creation.">
+  <script src="/scripts/scripts.js" type="module"></script>
+  <link rel="stylesheet" href="/styles/styles.css">
+  <style>
+    main.agentic-workflow {
+      --workflow-bg: #f7f4ee;
+      --workflow-ink: #1d1c19;
+      --workflow-muted: #5f5b52;
+      --workflow-line: #ded7ca;
+      --workflow-panel: #fffdf8;
+      --workflow-accent: #1f6f50;
+      --workflow-blue: #225b8d;
+      --workflow-code: #141821;
+
+      background: var(--workflow-bg);
+      color: var(--workflow-ink);
+    }
+
+    main.agentic-workflow .section {
+      padding: 48px 24px;
+    }
+
+    main.agentic-workflow .section > div {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    main.agentic-workflow .eyebrow {
+      margin: 0 0 12px;
+      color: var(--workflow-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    main.agentic-workflow h1 {
+      max-width: 920px;
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 5.4rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    main.agentic-workflow h2 {
+      margin-top: 0;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.05;
+    }
+
+    main.agentic-workflow h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    main.agentic-workflow p,
+    main.agentic-workflow li {
+      color: var(--workflow-muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    main.agentic-workflow .lead {
+      max-width: 780px;
+      margin-top: 24px;
+      color: #34312b;
+      font-size: 1.24rem;
+    }
+
+    main.agentic-workflow .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    main.agentic-workflow .workflow-card {
+      min-height: 180px;
+      border: 1px solid var(--workflow-line);
+      border-radius: 8px;
+      padding: 20px;
+      background: var(--workflow-panel);
+    }
+
+    main.agentic-workflow .workflow-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--workflow-blue);
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    main.agentic-workflow .ordered-flow {
+      display: grid;
+      gap: 12px;
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: workflow-step;
+    }
+
+    main.agentic-workflow .ordered-flow li {
+      position: relative;
+      min-height: 64px;
+      border-left: 4px solid var(--workflow-accent);
+      padding: 10px 16px 10px 58px;
+      background: var(--workflow-panel);
+      counter-increment: workflow-step;
+    }
+
+    main.agentic-workflow .ordered-flow li::before {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--workflow-accent);
+      color: white;
+      content: counter(workflow-step);
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 28px;
+      text-align: center;
+    }
+
+    main.agentic-workflow pre {
+      overflow-x: auto;
+      border-radius: 8px;
+      padding: 22px;
+      background: var(--workflow-code);
+      color: #eef4f8;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    main.agentic-workflow code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    main.agentic-workflow :not(pre) > code {
+      border-radius: 4px;
+      padding: 2px 5px;
+      background: #ebe4d8;
+      color: #25221d;
+      font-size: 0.94em;
+    }
+
+    main.agentic-workflow .workflow-callout {
+      border-left: 4px solid var(--workflow-blue);
+      padding: 18px 22px;
+      background: #eef4f8;
+    }
+
+    main.agentic-workflow .button-container {
+      margin-top: 26px;
+    }
+
+    @media (min-width: 900px) {
+      main.agentic-workflow .section {
+        padding: 72px 40px;
+      }
+
+      main.agentic-workflow .hero-band {
+        min-height: 76vh;
+        display: flex;
+        align-items: center;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/lazy-styles.css">
+</head>
+
+<body>
+  <header></header>
+  <main class="agentic-workflow">
+    <div class="section hero-band">
+      <div>
+        <p class="eyebrow">Agentic workflow</p>
+        <h1>Start with intent, but make the site content-driven first.</h1>
+        <p class="lead">da-cli is most effective when an agent uses it as an orchestration surface for Edge Delivery Services: read the command surface, establish site readiness, author real content, upload and preview the content tree, then add blocks only where the content model asks for richer behavior.</p>
+        <p class="button-container">
+          <a class="button primary" href="#seed-prompt">Copy the Seed Prompt</a>
+          <a class="button secondary" href="/tools/da-cli-flows.html">Open Workflow Explorer</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div>
+        <h2>Operating Model</h2>
+        <div class="workflow-grid">
+          <div class="workflow-card">
+            <strong>Read the CLI first</strong>
+            <h3>Use the repo as the interface contract.</h3>
+            <p>Start with <code>AGENTS.md</code>, <code>README.md</code>, <code>src/commands/</code>, and <code>src/lib/</code>. The agent should know what da-cli can do before inventing side scripts.</p>
+          </div>
+          <div class="workflow-card">
+            <strong>Prepare the site</strong>
+            <h3>Make first-run readiness explicit.</h3>
+            <p>Clone the boilerplate repo, verify AEM Sync is installed, confirm or create <code>fstab.yaml</code>, and treat DA mount readiness as a gate before upload.</p>
+          </div>
+          <div class="workflow-card">
+            <strong>Author content</strong>
+            <h3>Let pages and messages lead.</h3>
+            <p>Create the information architecture and semantic source documents under <code>content/</code>. Blocks come after the content shape is visible.</p>
+          </div>
+          <div class="workflow-card">
+            <strong>Validate objectively</strong>
+            <h3>Use gates, not vibes.</h3>
+            <p>Upload with <code>content put-tree</code>, preview with <code>preview tree</code>, audit with quality gates, reconcile gaps, and use browser evidence for runtime errors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div>
+        <h2>Recommended Starting Flow</h2>
+        <ol class="ordered-flow">
+          <li>Receive the repo URL for a site created from the boilerplate, with AEM Sync installed.</li>
+          <li>Clone the repo locally and inspect the existing project shape before adding files.</li>
+          <li>Verify <code>fstab.yaml</code> points <code>/</code> to the intended DA content mount.</li>
+          <li>Draft the site map, core narratives, shared navigation, footer, metadata, and page content under <code>content/</code>.</li>
+          <li>Run <code>da content put-tree content</code> as a dry run, then upload with root <code>--commit</code>.</li>
+          <li>Run <code>da preview tree / --verify --commit</code> so shared content such as nav, footer, and fragments exists before judging pages.</li>
+          <li>Add or refine blocks only where the content requires a richer primitive such as cards, tabs, comparison tables, calculators, forms, search, or related articles.</li>
+          <li>Run quality gates, browser-console validation, and reconciliation. Record every workaround in a friction log so the CLI can improve.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section" id="seed-prompt">
+      <div>
+        <h2>Generalized Seed Prompt</h2>
+        <p>Use this prompt at the start of a new agentic session when the goal is to create a full-gambit EDS site with da-cli.</p>
+        <pre><code>We are using the local da-cli repo to create a full-gambit Adobe Edge Delivery Services site from intent.
+
+Before making changes or generating the site, read:
+
+1. AGENTS.md
+2. README.md
+3. The CLI command surfaces under src/commands/
+4. The site, pipeline, content, preview, audit, and reconcile primitives under src/lib/
+
+Use da-cli as the primary orchestration surface. Do not bypass it with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
+
+Important development model:
+
+- Treat EDS as content-driven first.
+- Start by authoring the site information architecture and page content under content/.
+- Verify fstab.yaml and DA mount readiness before uploading content.
+- Use block primitives only after the content model makes the need clear.
+- Prefer semantic content and progressive enhancement over decorative block-first layout.
+- Use da content put-tree for DA upload.
+- Use da preview tree or da preview /path for preview validation.
+- Use da pipeline quality-gate and da site reconcile to audit and improve the result.
+- If local validation is needed, use da up as the local EDS server substrate.
+- Browser-console validation means opening the local or preview URL in a real browser and checking console, page, and network errors; da up alone is not enough.
+
+Goal:
+
+Create a complete, high-quality EDS site from a concise business intent. The site should exercise as many reusable primitives as naturally fit: navigation, metadata, hero, cards, comparison tables, tabs, forms, search, related articles, calculators or interactive tools, fragments, footer, and quality gates.
+
+While working, keep a friction log with:
+
+- What the agent tried
+- Which da-cli command helped
+- Where the CLI was missing a primitive
+- Any manual workaround used
+- Suggested da-cli improvement
+
+Do not start by inventing blocks. Start by designing the content map, then author content, then add or refine blocks where the content demands richer behavior.</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <aside class="workflow-callout">
+        <h2>What This Workflow Tests</h2>
+        <p>The important question is not whether an agent can hand-build a nice site. The question is whether da-cli gives the agent enough safe, composable primitives to move from repo readiness to content upload, preview, audit, reconciliation, and runtime validation without hidden manual work.</p>
+      </aside>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
