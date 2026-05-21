@@ -523,7 +523,7 @@ code {
     </p>
     <div class="hero-grid" aria-label="High level comparison">
       <div class="metric"><strong>16</strong><span>top-level da-cli command groups in the local checkout.</span></div>
-      <div class="metric"><strong>32</strong><span>mapped command surfaces in the <code>@somarc/aem-cli</code> workflow explorer.</span></div>
+      <div class="metric"><strong>31</strong><span>surfaced command flows in the <code>@somarc/aem-cli</code> workflow explorer.</span></div>
       <div class="metric"><strong>Dry-run first</strong><span>da-cli makes remote mutations explicit with <code>--commit</code>.</span></div>
     </div>
   </div>
@@ -558,7 +558,7 @@ code {
           <dt>Binary</dt>
           <dd><code>aem</code></dd>
           <dt>Primary use</dt>
-          <dd>Bridge local AEM CLI ergonomics with selected da-cli operations: auth, DA content workspace, preview/publish/deploy, route diagnostics, index checks, code-bus sync, and local dev commands.</dd>
+          <dd>Bridge local AEM CLI ergonomics with selected da-cli operations: auth, DA content workspace, preview/publish/deploy, route diagnostics, index checks, code-bus sync, and local development commands.</dd>
           <dt>Safety model</dt>
           <dd>Adopts explicit commit gates for publish, deploy, and code-bus mutation while preserving the familiar <code>aem</code> command shape.</dd>
           <dt>Runtime deps</dt>
@@ -602,7 +602,7 @@ code {
           <tr>
             <th>Local development server</th>
             <td><span class="winner aem">AEM CLI wins</span> da-cli does not implement a local proxy/dev server.</td>
-            <td><span class="winner tie">Inherited</span> Keeps <code>aem up</code> and importer/dev-server paths as part of the forked command map.</td>
+            <td><span class="winner tie">Inherited</span> Keeps <code>aem up</code> and importer paths as part of the forked command map.</td>
             <td><span class="yes">Strong</span> <code>aem up</code> serves local projects, proxies remote content, supports live reload, TLS, browser opening, forwarded browser logs, and local HTML folder mounting.</td>
             <td>Use AEM CLI lineage when the job is browser-local development and asset/runtime simulation.</td>
           </tr>
@@ -717,7 +717,7 @@ code {
 
       <div class="area">Local server</div>
       <div><span class="no">No dedicated command</span></div>
-      <div><span class="yes">Yes</span> <code>aem up</code>, <code>import</code>, <code>hack</code></div>
+      <div><span class="yes">Yes</span> <code>aem up</code>, <code>import</code></div>
       <div><span class="yes">Yes</span> <code>aem up</code></div>
 
       <div class="area">Importer UI/server</div>
@@ -814,7 +814,7 @@ code {
       </div>
       <div class="source">
         <strong>/Users/mhess/Documents/Fluffyjaws Workspace/aem-cli-eds</strong>
-        workflow explorer command map for the <code>@somarc/aem-cli</code> fork: 32 mapped surfaces across authoring, content workspace, delivery, diagnostics, code-bus, and dev server.
+        workflow explorer command map for the <code>@somarc/aem-cli</code> fork: 31 surfaced flows across authoring, content workspace, delivery, diagnostics, code-bus, and local development.
       </div>
       <div class="source">
         <strong>/Users/mhess/aem/aem-code/Helix/helix-cli</strong>
