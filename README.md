@@ -1,34 +1,32 @@
-# Your Project's Title...
-Your project's description...
+# DA CLI Docs Site
+
+Public Edge Delivery Services documentation site for `@somarc/da-cli`.
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.aem.page/
-- Live: https://main--{repo}--{owner}.aem.live/
 
-## Documentation
+- Preview: `https://main--da-cli-eds--somarc.aem.page/`
+- Live: `https://main--da-cli-eds--somarc.aem.live/`
 
-Before using the aem-boilerplate, we recommand you to go through the documentation on https://www.aem.live/docs/ and more specifically:
-1. [Developer Tutorial](https://www.aem.live/developer/tutorial)
-2. [The Anatomy of a Project](https://www.aem.live/developer/anatomy-of-a-project)
-3. [Web Performance](https://www.aem.live/developer/keeping-it-100)
-4. [Markup, Sections, Blocks, and Auto Blocking](https://www.aem.live/developer/markup-sections-blocks)
+## Purpose
 
-## Installation
+This repo contains the public documentation site for DA CLI, including authored pages and static tool pages such as:
+
+- `/commands`
+- `/quickref`
+- `/pipeline`
+- `/api`
+- `/agentic-workflow.html`
+- `/tools/da-cli-flows.html`
+- `/tools/da-cli-vs-helix-cli.html`
+
+The static tool pages are hand-maintained and should include a visible DA CLI version marker when they describe command behavior.
+
+## Local Development
 
 ```sh
-npm i
-```
-
-## Linting
-
-```sh
+npm install
 npm run lint
+aem up
 ```
 
-## Local development
-
-1. Create a new repository based on the `aem-boilerplate` template
-1. Add the [AEM Code Sync GitHub App](https://github.com/apps/aem-code-sync) to the repository
-1. Install the [AEM CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/aem-cli`
-1. Start AEM Proxy: `aem up` (opens your browser at `http://localhost:3000`)
-1. Open the `{repo}` directory in your favorite IDE and start coding :)
+Use `aem up` for the normal local EDS development loop. Use `da up` from the DA CLI repo when validating DA CLI's agent-friendly local server behavior.

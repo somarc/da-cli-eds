@@ -603,68 +603,68 @@ code {
           </tr>
           <tr>
             <th>DA Admin API coverage</th>
-            <td><span class="winner da">da-cli wins</span> Direct DA API operations across list, tree, get, put, delete, move, copy, versions, auth token handling, site diagnostics, and route cleanup.</td>
-            <td><span class="partial">Partial</span> DA content workspace commands exist, but the documented surface is focused on local checkout and push.</td>
+            <td><span class="yes">Strong</span> Direct DA API operations across list, tree, get, put, delete, move, copy, versions, auth token handling, site diagnostics, and route cleanup.</td>
+            <td><span class="partial">Partial</span> AEM CLI has DA content workspace workflows, but broad remote CRUD and operational diagnostics are not its main role.</td>
             <td>Use da-cli for remote CRUD, bulk operations, and account/repo diagnostics.</td>
           </tr>
           <tr>
             <th>Preview pipeline</th>
-            <td><span class="winner da">da-cli wins</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths.</td>
-            <td><span class="no">Not documented</span> The official README does not expose preview orchestration commands.</td>
+            <td><span class="yes">Strong</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths.</td>
+            <td><span class="partial">Different focus</span> AEM CLI is primarily the local dev-server and importer workflow surface.</td>
             <td>Use da-cli for preview flushes, status checks, and batch preview work.</td>
           </tr>
           <tr>
             <th>Publish and deploy</th>
-            <td><span class="winner da">da-cli wins</span> Publish, unpublish, batch publish, tree publish, and combined preview-then-publish deploy flows are explicit and commit-gated.</td>
-            <td><span class="no">Not documented</span> No equivalent publish/deploy command group in the official command list.</td>
+            <td><span class="yes">Strong</span> Publish, unpublish, batch publish, tree publish, and combined preview-then-publish deploy flows are explicit and commit-gated.</td>
+            <td><span class="partial">Different focus</span> AEM CLI is not the release automation surface this page recommends for DA-backed EDS publishes.</td>
             <td>Use da-cli for releases and live-state mutation.</td>
           </tr>
           <tr>
             <th>Content workspace</th>
-            <td><span class="winner tie">Tie</span> Supports remote CRUD plus a local <code>content/</code> workspace with clone, status, diff, add, commit, push, and merge.</td>
-            <td><span class="winner tie">Tie</span> Supports local DA content clone, status, diff, add, commit, push, and merge; <code>aem up</code> also serves local content first.</td>
+            <td><span class="yes">Yes</span> Supports remote CRUD plus a local <code>content/</code> workspace with clone, status, diff, add, commit, push, and merge.</td>
+            <td><span class="yes">Yes</span> Supports local DA content clone, status, diff, add, commit, push, and merge; <code>aem up</code> also serves local content first.</td>
             <td>Use AEM CLI when local rendering is central. Use da-cli when workspace work is part of broader remote operations.</td>
           </tr>
           <tr>
             <th>Route ownership and destructive safety</th>
-            <td><span class="winner da">da-cli wins</span> <code>route classify</code>, <code>route canonical</code>, <code>route audit</code>, and <code>route clean</code> distinguish contentbus, codebus, hybrid, orphan, and probe-failed routes.</td>
-            <td><span class="no">Not documented</span> No equivalent route ownership model surfaced in the official CLI documentation.</td>
+            <td><span class="yes">Strong</span> <code>route classify</code>, <code>route canonical</code>, <code>route audit</code>, and <code>route clean</code> distinguish contentbus, codebus, hybrid, orphan, and probe-failed routes.</td>
+            <td><span class="partial">Different focus</span> Route ownership diagnostics are a DA CLI operational concern.</td>
             <td>Use da-cli when the question is which system owns a route or whether cleanup is safe.</td>
           </tr>
           <tr>
             <th>Site diagnostics</th>
-            <td><span class="winner da">da-cli wins</span> <code>site doctor</code> checks registration, content source type, code-bus visibility, shared DA docs, preview/live state, and optional deep sampling.</td>
-            <td><span class="no">Not documented</span> No site doctor command in the official README command set.</td>
+            <td><span class="yes">Strong</span> <code>site doctor</code> checks registration, content source type, code-bus visibility, shared DA docs, preview/live state, and optional deep sampling.</td>
+            <td><span class="partial">Different focus</span> AEM CLI is not positioned here as a remote site readiness auditor.</td>
             <td>da-cli provides a single diagnostic entry point for account, repo, route, and delivery-state questions.</td>
           </tr>
           <tr>
             <th>Search index operations</th>
-            <td><span class="winner da">da-cli wins</span> <code>index show</code>, <code>index validate</code>, and <code>index query</code> inspect <code>helix-query.yaml</code> and compare configured fields with live responses.</td>
-            <td><span class="no">Not documented</span> No index inspection or query command in the official README.</td>
+            <td><span class="yes">Strong</span> <code>index show</code>, <code>index validate</code>, and <code>index query</code> inspect <code>helix-query.yaml</code> and compare configured fields with live responses.</td>
+            <td><span class="partial">Different focus</span> Use DA CLI when index validation is part of release prep.</td>
             <td>Use da-cli for index validation and query checks during release prep.</td>
           </tr>
           <tr>
             <th>Quality audits</th>
-            <td><span class="winner da">da-cli wins</span> Audits cover semantics, blocks, full-page checks, and contracts.</td>
-            <td><span class="no">Not documented</span> No comparable audit command group in the official command list.</td>
+            <td><span class="yes">Strong</span> Audits cover semantics, blocks, full-page checks, content gaps, and contracts.</td>
+            <td><span class="partial">Different focus</span> Use browser and local development tools for runtime debugging; use DA CLI for repeatable content audits.</td>
             <td>da-cli is better for preflight checks before preview, publish, or migration completion.</td>
           </tr>
           <tr>
             <th>Migration tooling</th>
-            <td><span class="winner da">da-cli wins</span> Migration commands include import, batch import, job status, and validation.</td>
+            <td><span class="yes">Strong</span> Migration commands include import, batch import, job status, and validation.</td>
             <td><span class="partial">Different strength</span> <code>aem import</code> runs the importer server; it is UI/server oriented rather than remote job automation.</td>
             <td>Use Adobe's CLI for the importer UI server; use da-cli for scripted migration flows and validation.</td>
           </tr>
           <tr>
             <th>Code-bus visibility</th>
-            <td><span class="winner da">da-cli wins</span> Code commands cover sync, status, job lookup, sidekick config, and purge.</td>
-            <td><span class="no">Not documented</span> The official surface does not expose code-bus operational commands.</td>
+            <td><span class="yes">Strong</span> Code commands cover sync, status, job lookup, sidekick config, and purge.</td>
+            <td><span class="partial">Different focus</span> Use DA CLI when code-bus state is part of the release checklist.</td>
             <td>Use da-cli when code-bus state is part of the release checklist.</td>
           </tr>
           <tr>
             <th>Agent and automation output</th>
-            <td><span class="winner da">da-cli wins</span> Global <code>--format table|json|md</code>, <code>status</code>, <code>resolve</code>, and agent-oriented command envelopes make it script friendly.</td>
-            <td><span class="partial">Partial</span> Logs are configurable, but the official README does not present structured output as a cross-command contract.</td>
+            <td><span class="yes">Strong</span> Global <code>--format table|json|md</code>, <code>status</code>, <code>resolve</code>, and agent-oriented JSON make it script friendly.</td>
+            <td><span class="partial">Different focus</span> AEM CLI logs are useful for local development, while DA CLI emphasizes machine-readable operational output.</td>
             <td>da-cli is easier to compose in CI, agent workflows, reports, and shell scripts.</td>
           </tr>
         </tbody>
@@ -706,32 +706,32 @@ code {
 
       <div class="area">Preview and publish</div>
       <div><span class="yes">Yes</span> page, pages, tree, status, unpublish, deploy</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
 
       <div class="area">Routes</div>
       <div><span class="yes">Yes</span> classify, canonical, audit, clean</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
 
       <div class="area">Index</div>
       <div><span class="yes">Yes</span> show, validate, query</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
 
       <div class="area">Audits</div>
       <div><span class="yes">Yes</span> semantics, blocks, full, contracts</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
 
       <div class="area">Site operations</div>
       <div><span class="yes">Yes</span> create, list, info, doctor</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
 
       <div class="area">Code-bus</div>
       <div><span class="yes">Yes</span> sync, status, job, sidekick config, purge</div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div><span class="partial">Different focus</span></div>
       <div>DA CLI</div>
     </div>
   </section>
@@ -749,13 +749,13 @@ code {
       </article>
       <article class="card">
         <h3>Use both in a mature workflow</h3>
-        <p>Run AEM CLI lineage while developing locally, use the fork where parity exists, then use da-cli for the broader validation, publishing, audit, and diagnostic surface.</p>
+        <p>Run AEM CLI lineage while developing locally, use <code>da up</code> for deterministic local/proxied checks, then use DA CLI for validation, publishing, audit, and diagnostic workflows.</p>
       </article>
     </div>
     <div class="callout">
       <strong>Bottom line:</strong> Adobe's CLI is the official local development tool. DA CLI is
       the broader EDS operations CLI and the source of truth for release checks, route ownership,
-      full DA CRUD, migration jobs, agent envelopes, and destructive actions that need guardrails.
+      full DA CRUD, migration jobs, agent-oriented JSON, and destructive actions that need guardrails.
     </div>
   </section>
 
@@ -763,8 +763,9 @@ code {
     <h2>Version Marker</h2>
     <p>
       This page is a hand-maintained public decision guide, validated against
-      <code>@somarc/da-cli 0.4.3</code> on 2026-06-06. Use the workflow explorer for the
-      command-by-command map.
+      <code>@somarc/da-cli 0.4.3</code> on 2026-06-06. It describes recommended tool choice,
+      not a complete audit of every AEM CLI capability. Use the workflow explorer for the
+      DA CLI command-by-command map.
     </p>
     <div class="source-list">
       <div class="source">

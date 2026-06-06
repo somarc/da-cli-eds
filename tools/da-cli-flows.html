@@ -287,7 +287,7 @@ svg#dg{display:block;width:100%;height:100%}
   <a href="/tools/da-cli-vs-helix-cli.html">CLI Comparison</a>
   <a href="/agentic-workflow.html">Agentic Workflow</a>
   <span class="page-title">Workflow Explorer</span>
-  <span class="badge" id="breadcrumb">@somarc/da-cli 0.4.3 · validated 2026-06-06 · hand-maintained map</span>
+  <span class="badge" id="breadcrumb">@somarc/da-cli 0.4.3 · validated 2026-06-06 · selected flow map</span>
   <button class="share" id="share-link" type="button">copy link</button>
 </nav>
 
@@ -295,8 +295,8 @@ svg#dg{display:block;width:100%;height:100%}
 
 <div id="sidebar">
   <div id="sidebar-hd">
-    <h2>DA-CLI Commands</h2>
-    <p>Mapped against @somarc/da-cli 0.4.3. Click a command to trace its flow.</p>
+    <h2>Selected DA-CLI Flows</h2>
+    <p>Curated high-use flows mapped against @somarc/da-cli 0.4.3. This is not the full command reference.</p>
   </div>
   <div id="cmd-tree"></div>
 </div>
@@ -391,7 +391,7 @@ const DATA = {
             txt:"getToken() reads ~/.aem/da-token.json and checks the JWT exp claim. If the cached token has >30 s remaining and --refresh was not passed, it is returned immediately — no network call needed." },
           { nodes:["authlib","xauth","ftok"], edges:["e-ath-xauth","e-ath-ftok"],
             pkgs:"auth.js → da-auth-helper → ~/.aem/da-token.json",
-            txt:"Cache miss or --refresh: spawnSync runs 'npx github:adobe-rnd/da-auth-helper token'. JWT returned on stdout, decoded for exp claim, written to ~/.aem/da-token.json via python3 (Node subshell inheritance silently drops env vars)." },
+            txt:"Cache miss or --refresh: spawnSync runs 'npx github:adobe-rnd/da-auth-helper token'. JWT returned on stdout, decoded for exp claim, and written to ~/.aem/da-token.json with 0600 permissions." },
         ]
       },
       { id:"auth-status", label:"auth status",
@@ -635,6 +635,18 @@ const DATA = {
       },
     ]},
 
+    { group:"local", items:[
+      { id:"up", label:"up",
+        syntax:"da up [--port 3000] [--fallback preview|live|none]",
+        desc:"Run an agent-friendly local EDS server for deterministic route checks",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Loads root flags and server options such as --root, --content, --fallback, --host, and --port." },
+          { nodes:["fproj","xhlx"], edges:[], pkgs:"local files + preview/live fallback", txt:"Serves local code and local content workspace files first, then falls back to preview or live delivery when configured. Use this for deterministic probes, not as a replacement for the full human aem up dev loop." },
+          { nodes:["out"], edges:[], pkgs:"local HTTP server", txt:"Prints the localhost URL and keeps the server running until interrupted." },
+        ]
+      },
+    ]},
+
     { group:"route", items:[
       { id:"route-classify", label:"route classify",
         syntax:"da route classify <path>",
@@ -862,7 +874,7 @@ const nodeMap = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const CLI_VERSION = '@somarc/da-cli 0.4.3';
 const COMMAND_COUNT = DATA.commands.reduce((total, group) => total + group.items.length, 0);
-const DEFAULT_BREADCRUMB = `${CLI_VERSION} · ${COMMAND_COUNT} mapped surfaces · validated 2026-06-06`;
+const DEFAULT_BREADCRUMB = `${CLI_VERSION} · ${COMMAND_COUNT} selected mapped surfaces · validated 2026-06-06`;
 const commandMap = Object.fromEntries(allCmds().map(cmd => [cmd.id, cmd]));
 const groupByCommand = Object.fromEntries(DATA.commands.flatMap(group => group.items.map(cmd => [cmd.id, group.group])));
 const breadcrumb = document.getElementById('breadcrumb');
@@ -984,7 +996,7 @@ function updateBreadcrumb(cmd = currentCmd, step = activeStepIdx) {
     return;
   }
   const group = groupByCommand[cmd.id] || 'commands';
-  const parts = [CLI_VERSION, `${COMMAND_COUNT} command surfaces`, group, cmd.label];
+  const parts = [CLI_VERSION, `${COMMAND_COUNT} selected surfaces`, group, cmd.label];
   if (Number.isInteger(step) && step >= 0) parts.push(`step ${step + 1}`);
   breadcrumb.textContent = parts.join(' / ');
 }
