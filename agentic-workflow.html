@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Agentic DA-CLI Workflow</title>
-  <meta name="description" content="A content-first starting workflow and seed prompt for using da-cli agentically to create full-gambit Edge Delivery Services sites.">
+  <meta name="description" content="A content-first starting workflow and seed prompt for using da-cli agentically to create DA-backed Edge Delivery Services workflows.">
   <meta property="og:title" content="Agentic DA-CLI Workflow">
   <meta property="og:description" content="How to start an agentic da-cli session for content-first Edge Delivery site creation.">
   <script src="/scripts/scripts.js" type="module"></script>
@@ -202,9 +202,9 @@
         <h2>Operating Model</h2>
         <div class="workflow-grid">
           <div class="workflow-card">
-            <strong>Read the CLI first</strong>
-            <h3>Use the repo as the interface contract.</h3>
-            <p>Start with <code>AGENTS.md</code>, <code>README.md</code>, <code>src/commands/</code>, and <code>src/lib/</code>. The agent should know what da-cli can do before inventing side scripts.</p>
+            <strong>Orient with the CLI first</strong>
+            <h3>Use the command surface as the interface contract.</h3>
+            <p>Start with <code>da status</code>, <code>da resolve</code>, <code>da site doctor --agent</code>, <code>da preview explain</code>, and the public command reference. The agent should know what da-cli can do before inventing side scripts.</p>
           </div>
           <div class="workflow-card">
             <strong>Prepare the site</strong>
@@ -219,7 +219,7 @@
           <div class="workflow-card">
             <strong>Validate objectively</strong>
             <h3>Use gates, not vibes.</h3>
-            <p>Upload with <code>content put-tree</code>, preview with <code>preview tree</code>, audit with quality gates, reconcile gaps, and use browser evidence for runtime errors.</p>
+            <p>Upload with <code>content put-tree</code>, preview with root <code>--commit</code>, audit with quality gates, reconcile gaps, and use browser evidence for runtime errors.</p>
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@
           <li>Verify <code>fstab.yaml</code> points <code>/</code> to the intended DA content mount.</li>
           <li>Draft the site map, core narratives, shared navigation, footer, metadata, and page content under <code>content/</code>.</li>
           <li>Run <code>da content put-tree content</code> as a dry run, then upload with root <code>--commit</code>.</li>
-          <li>Run <code>da preview tree / --verify --commit</code> so shared content such as nav, footer, and fragments exists before judging pages.</li>
+          <li>Run <code>da --commit preview tree /</code> so shared content such as nav, footer, and fragments exists before judging pages.</li>
           <li>Add or refine blocks only where the content requires a richer primitive such as cards, tabs, comparison tables, calculators, forms, search, or related articles.</li>
           <li>Run quality gates, browser-console validation, and reconciliation. Record every workaround in a friction log so the CLI can improve.</li>
         </ol>
@@ -244,15 +244,16 @@
     <div class="section" id="seed-prompt">
       <div>
         <h2>Generalized Seed Prompt</h2>
-        <p>Use this prompt at the start of a new agentic session when the goal is to create a full-gambit EDS site with da-cli.</p>
-        <pre><code>We are using the local da-cli repo to create a full-gambit Adobe Edge Delivery Services site from intent.
+        <p>Use this prompt at the start of an agentic session when the goal is to operate on a DA-backed EDS site with da-cli.</p>
+        <pre><code>We are using the local da-cli repo to create a DA-backed Edge Delivery Services workflow from intent.
 
-Before making changes or generating the site, read:
+Before making changes, orient with:
 
-1. AGENTS.md
-2. README.md
-3. The CLI command surfaces under src/commands/
-4. The site, pipeline, content, preview, audit, and reconcile primitives under src/lib/
+1. da status --format json
+2. da resolve <target> --format json
+3. da site doctor --agent --format json
+4. da preview explain <path> --format json
+5. The public Commands, Quick Reference, and Pipeline docs
 
 Use da-cli as the primary orchestration surface. Do not bypass it with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
 
@@ -264,14 +265,14 @@ Important development model:
 - Use block primitives only after the content model makes the need clear.
 - Prefer semantic content and progressive enhancement over decorative block-first layout.
 - Use da content put-tree for DA upload.
-- Use da preview tree or da preview /path for preview validation.
-- Use da pipeline quality-gate and da site reconcile to audit and improve the result.
+- Use da --commit preview tree or da --commit preview page <path> for preview rebuilds, and da preview status for freshness checks.
+- Use da pipeline quality-gate, da audit contracts --verify-code, and da site reconcile to audit and improve the result.
 - If local validation is needed, use da up as the local EDS server substrate.
 - Browser-console validation means opening the local or preview URL in a real browser and checking console, page, and network errors; da up alone is not enough.
 
 Goal:
 
-Create a complete, high-quality EDS site from a concise business intent. The site should exercise as many reusable primitives as naturally fit: navigation, metadata, hero, cards, comparison tables, tabs, forms, search, related articles, calculators or interactive tools, fragments, footer, and quality gates.
+Create a complete, high-quality DA-backed EDS workflow from a concise business intent. The work should exercise reusable primitives only where they naturally fit: navigation, metadata, hero, cards, comparison tables, tabs, forms, search, related articles, calculators or interactive tools, fragments, footer, and quality gates.
 
 While working, keep a friction log with:
 
