@@ -74,6 +74,49 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 #sidebar-hd{padding:14px 16px;border-bottom:1px solid #30363d}
 #sidebar-hd h2{font-size:13px;font-weight:700;color:#58a6ff;letter-spacing:.01em}
 #sidebar-hd p{font-size:11px;color:#8b949e;margin-top:3px}
+#scope-panel{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:6px;
+  margin-top:10px;
+}
+.scope-row{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:6px 7px;
+  background:#0d1117;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+}
+.scope-row span:first-child{color:#8b949e}
+.scope-row span:last-child{color:#c9d1d9;text-align:right}
+#journeys{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:5px;
+  margin-top:10px;
+}
+.journey{
+  width:100%;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:6px 7px;
+  background:#161b22;
+  color:#c9d1d9;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  text-align:left;
+  cursor:pointer;
+}
+.journey:hover,
+.journey:focus-visible{
+  border-color:#58a6ff;
+  color:#fff;
+  outline:none;
+}
 .grp{border-bottom:1px solid #21262d}
 .grp-hd{padding:7px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
 .grp-hd:hover{background:#1c2128;color:#c9d1d9}
@@ -90,6 +133,24 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 #toolbar{padding:8px 16px;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;gap:16px;min-height:42px;flex-shrink:0}
 #active-label{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7ee787;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #active-label .dim{color:#8b949e}
+.risk-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:18px;
+  margin-left:8px;
+  border:1px solid #30363d;
+  border-radius:999px;
+  padding:2px 7px;
+  color:#c9d1d9;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  vertical-align:middle;
+}
+.risk-read{border-color:#238636;color:#7ee787}
+.risk-local{border-color:#b45309;color:#fbbf24}
+.risk-preview{border-color:#1f6feb;color:#79c0ff}
+.risk-live{border-color:#a371f7;color:#d2a8ff}
+.risk-destructive{border-color:#da3633;color:#ff7b72}
 #legend{display:flex;gap:14px;font-size:11px;color:#8b949e;flex-shrink:0}
 .leg{display:flex;align-items:center;gap:5px}
 .leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
@@ -196,6 +257,12 @@ svg#dg{display:block;width:100%;height:100%}
   #sidebar-hd{padding:12px}
   #sidebar-hd h2{font-size:14px}
   #sidebar-hd p{font-size:12px;line-height:1.35}
+  #scope-panel{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  #journeys{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
   #cmd-tree{
     display:flex;
     overflow-x:auto;
@@ -269,6 +336,8 @@ svg#dg{display:block;width:100%;height:100%}
     white-space:nowrap;
   }
   #sidebar-hd p{display:none}
+  #scope-panel{grid-template-columns:1fr}
+  #journeys{grid-template-columns:1fr}
   .grp{flex-basis:84vw}
   #diagram-wrap{height:285px}
   svg#dg{width:720px;min-width:720px}
@@ -297,6 +366,12 @@ svg#dg{display:block;width:100%;height:100%}
   <div id="sidebar-hd">
     <h2>Selected DA-CLI Flows</h2>
     <p>Curated high-use flows mapped against @somarc/da-cli 0.4.3. This is not the full command reference.</p>
+    <div id="scope-panel" aria-label="Map scope">
+      <div class="scope-row"><span>version</span><span>0.4.3</span></div>
+      <div class="scope-row"><span>map</span><span>selected flows</span></div>
+      <div class="scope-row"><span>verified</span><span>2026-06-06</span></div>
+    </div>
+    <div id="journeys" aria-label="Journey shortcuts"></div>
   </div>
   <div id="cmd-tree"></div>
 </div>
@@ -866,6 +941,15 @@ const DATA = {
   ],
 };
 
+const JOURNEYS = [
+  { label: 'Agent orient', command: 'status' },
+  { label: 'Resolve target', command: 'resolve' },
+  { label: 'Author content', command: 'content-put' },
+  { label: 'Preview page', command: 'preview-page' },
+  { label: 'Publish live', command: 'publish-page' },
+  { label: 'Local probe', command: 'up' },
+];
+
 // ═══════════════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════════════
@@ -880,6 +964,24 @@ const groupByCommand = Object.fromEntries(DATA.commands.flatMap(group => group.i
 const breadcrumb = document.getElementById('breadcrumb');
 const shareLink = document.getElementById('share-link');
 let suppressHashUpdate = false;
+
+function commandRisk(cmd) {
+  const syntax = cmd.syntax ?? '';
+  const id = cmd.id ?? '';
+  if (/delete|unpublish|purge|clean|route-clean/.test(syntax) || /unpublish|purge|clean|delete/.test(id)) {
+    return { label: 'destructive', className: 'risk-destructive' };
+  }
+  if (/publish|deploy/.test(syntax) || /job promote/.test(syntax)) {
+    return { label: 'live mutation', className: 'risk-live' };
+  }
+  if (/preview|code sync|migrate|site create/.test(syntax)) {
+    return { label: 'preview/write', className: 'risk-preview' };
+  }
+  if (/content put|content push|pipeline run|pipeline abort|job start|job run|up/.test(syntax)) {
+    return { label: 'local or source write', className: 'risk-local' };
+  }
+  return { label: 'read-only', className: 'risk-read' };
+}
 
 function svgEl(tag, attrs) {
   const el = document.createElementNS(SVG_NS, tag);
@@ -914,6 +1016,16 @@ function edgePath(e, src, dst) {
 }
 
 // ── sidebar ────────────────────────────────────────────────────
+const journeys = document.getElementById('journeys');
+JOURNEYS.forEach(journey => {
+  const btn = document.createElement('button');
+  btn.className = 'journey';
+  btn.type = 'button';
+  btn.textContent = journey.label;
+  btn.addEventListener('click', () => selectCmd(journey.command));
+  journeys.appendChild(btn);
+});
+
 const tree = document.getElementById('cmd-tree');
 DATA.commands.forEach(g => {
   const div = document.createElement('div');
@@ -1009,7 +1121,13 @@ function selectCmd(id, options = {}) {
   document.querySelectorAll('.cmd').forEach(el => el.classList.toggle('on', el.dataset.id===id));
   const activeButton = document.querySelector(`.cmd[data-id="${id}"]`);
   activeButton?.scrollIntoView({ block:'nearest', inline:'center' });
-  document.getElementById('active-label').innerHTML = `<span class="dim">$ </span>${cmd.syntax||cmd.label}`;
+  const risk = commandRisk(cmd);
+  const activeLabel = document.getElementById('active-label');
+  activeLabel.replaceChildren();
+  const prompt = document.createElement('span');
+  prompt.className = 'dim';
+  prompt.textContent = '$ ';
+  activeLabel.append(prompt, document.createTextNode(cmd.syntax || cmd.label), riskChip(risk));
   renderSteps(cmd);
   if (activeStepIdx >= 0) {
     highlightStep(cmd, activeStepIdx);
@@ -1069,7 +1187,16 @@ function renderSteps(cmd) {
   stepsEl.innerHTML='';
   const title=document.createElement('div');
   title.id='ann-title';
-  title.innerHTML=`<span>${cmd.label} — execution steps</span><span style="color:#484f58;font-weight:400;text-transform:none;letter-spacing:0">${cmd.desc}</span>`;
+  const risk = commandRisk(cmd);
+  const titleText = document.createElement('span');
+  titleText.append(document.createTextNode(`${cmd.label} — execution steps`), riskChip(risk));
+  const desc = document.createElement('span');
+  desc.style.color = '#484f58';
+  desc.style.fontWeight = '400';
+  desc.style.textTransform = 'none';
+  desc.style.letterSpacing = '0';
+  desc.textContent = cmd.desc;
+  title.append(titleText, desc);
   stepsEl.appendChild(title);
   cmd.steps.forEach((s,i)=>{
     const row=document.createElement('div');
@@ -1090,6 +1217,13 @@ function renderSteps(cmd) {
     row.classList.toggle('on', activeStepIdx === i);
     stepsEl.appendChild(row);
   });
+}
+
+function riskChip(risk) {
+  const chip = document.createElement('span');
+  chip.className = `risk-chip ${risk.className}`;
+  chip.textContent = risk.label;
+  return chip;
 }
 
 function highlightAll(cmd) {
