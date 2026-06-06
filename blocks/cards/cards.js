@@ -6,11 +6,23 @@ const CMD_GROUPS = {
   'da content': 'group-data',
   'da preview': 'group-delivery',
   'da publish': 'group-delivery',
+  'da deploy': 'group-delivery',
   'da route': 'group-management',
   'da index': 'group-management',
+  'da block': 'group-quality',
   'da migrate': 'group-quality',
   'da audit': 'group-quality',
+  'da code': 'group-delivery',
+  'da design': 'group-quality',
+  'da commerce': 'group-data',
+  'da job': 'group-orchestration',
   'da pipeline': 'group-orchestration',
+  'da stardust': 'group-orchestration',
+  'da site': 'group-management',
+  'da skills': 'group-orchestration',
+  'da up': 'group-delivery',
+  'da resolve': 'group-management',
+  'da status': 'group-management',
 };
 
 export default function decorate(block) {

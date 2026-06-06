@@ -1,0 +1,14 @@
+.highlight {
+  border-left: 4px solid var(--accent-color);
+  padding: 24px;
+  background-color: rgb(250 189 47 / 10%);
+}
+
+.highlight h2,
+.highlight h3 {
+  margin-top: 0;
+}
+
+.highlight p:last-child {
+  margin-bottom: 0;
+}
