@@ -513,18 +513,19 @@ code {
 <header class="hero">
   <div class="hero-inner">
     <p class="eyebrow">CLI decision guide</p>
-    <h1>Use DA CLI for operations. Use AEM CLI for local development.</h1>
+    <h1>Use DA CLI for operations and agent-local checks. Use AEM CLI for full local development.</h1>
     <p>
       <code>@somarc/da-cli</code> is the operational CLI for DA-backed EDS sites:
       content administration, preview, publish, deploy, route ownership, site diagnostics,
-      audits, jobs, pipelines, and agent-readable JSON. Adobe's AEM CLI lineage remains
-      the right tool for <code>aem up</code>, local proxying, importer UI work, and the
-      browser-local development loop.
+      audits, jobs, pipelines, agent-readable JSON, and <code>da up</code> for deterministic
+      local/proxied checks. Adobe's AEM CLI lineage remains the right tool for the full
+      human development loop: <code>aem up</code>, local proxying, importer UI work, live reload,
+      TLS, and browser ergonomics.
     </p>
     <div class="hero-grid" aria-label="High level comparison">
       <div class="metric"><strong>0.4.3</strong><span>Comparison validated against the released <code>@somarc/da-cli</code> surface.</span></div>
       <div class="metric"><strong>Dry-run first</strong><span>Remote mutations require root <code>--commit</code>.</span></div>
-      <div class="metric"><strong>Local dev</strong><span>AEM CLI still owns the dev server and importer UI loop.</span></div>
+      <div class="metric"><strong>Local dev</strong><span><code>da up</code> is agent-friendly; <code>aem up</code> is the full human dev loop.</span></div>
     </div>
   </div>
 </header>
@@ -534,8 +535,8 @@ code {
     <h2>Fast Read</h2>
     <p>
       The tools overlap around DA content, but their center of gravity is different. Treat
-      <code>da</code> as the release, diagnostics, and automation surface. Treat
-      <code>aem</code> or <code>hlx</code> as the local development surface.
+      <code>da</code> as the release, diagnostics, automation, and deterministic local-check
+      surface. Treat <code>aem</code> or <code>hlx</code> as the full local development surface.
     </p>
     <div class="split">
       <article class="profile da">
@@ -544,11 +545,11 @@ code {
           <dt>Binary</dt>
           <dd><code>da</code></dd>
           <dt>Primary use</dt>
-          <dd>Operate DA-backed EDS sites across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, job, code, block, commerce, and site diagnostics.</dd>
+          <dd>Operate DA-backed EDS sites across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, job, code, block, commerce, site diagnostics, and <code>up</code>.</dd>
           <dt>Safety model</dt>
           <dd>Write operations are dry-run by default and require root <code>--commit</code>. Output formats include table, JSON, and Markdown.</dd>
           <dt>Best fit</dt>
-          <dd>Remote operations, release checks, content administration, automation, CI, and agent workflows.</dd>
+          <dd>Remote operations, release checks, content administration, automation, CI, agent workflows, and deterministic local/proxied route checks.</dd>
         </dl>
       </article>
       <article class="profile aem">
@@ -557,7 +558,7 @@ code {
           <dt>Binaries</dt>
           <dd><code>aem</code> and compatibility alias <code>hlx</code></dd>
           <dt>Primary use</dt>
-          <dd>Run a local AEM/EDS development server, run the importer server, and manage a local DA content workspace.</dd>
+          <dd>Run the full local AEM/EDS development server, run the importer server, and manage a local DA content workspace.</dd>
           <dt>Safety model</dt>
           <dd>Content workspace commands mirror Git concepts. The dev server provides local rendering, proxying, TLS, live reload, and browser log forwarding.</dd>
           <dt>Best fit</dt>
@@ -568,7 +569,7 @@ code {
         <h3>Use Both</h3>
         <dl>
           <dt>Pattern</dt>
-          <dd>Develop locally with AEM CLI, then validate, preview, publish, and diagnose with DA CLI.</dd>
+          <dd>Use <code>da up</code> for agent-friendly local/proxied checks. Use <code>aem up</code> for the full browser-oriented development loop. Then validate, preview, publish, and diagnose with DA CLI.</dd>
           <dt>Hand-off</dt>
           <dd>Use <code>da status</code>, <code>da resolve</code>, and <code>da site doctor --agent</code> when work moves from local editing to remote site state.</dd>
           <dt>Best fit</dt>
@@ -596,9 +597,9 @@ code {
         <tbody>
           <tr>
             <th>Local development server</th>
-            <td><span class="winner aem">AEM CLI wins</span> da-cli does not implement a local proxy/dev server.</td>
+            <td><span class="partial">Purpose-built</span> <code>da up</code> runs an agent-friendly local EDS server with local content lookup and preview/live fallback.</td>
             <td><span class="yes">Strong</span> <code>aem up</code> serves local projects, proxies remote content, supports live reload, TLS, browser opening, forwarded browser logs, and local HTML folder mounting.</td>
-            <td>Use AEM CLI when the job is browser-local development and runtime simulation.</td>
+            <td>Use <code>da up</code> for deterministic checks and automation. Use <code>aem up</code> for human browser-local development and runtime simulation.</td>
           </tr>
           <tr>
             <th>DA Admin API coverage</th>
@@ -674,7 +675,8 @@ code {
   <section class="section" id="coverage">
     <h2>Common Workflow Split</h2>
     <p>
-      The split is usually simple: use AEM CLI until the work needs remote truth, then use DA CLI.
+      The split is usually simple: use DA CLI for deterministic checks and remote truth; use
+      AEM CLI when the task needs the full local browser development loop.
     </p>
     <div class="cmd-grid" role="table" aria-label="Command coverage matrix">
       <div class="head">Area</div>
@@ -683,9 +685,9 @@ code {
       <div class="head">Default choice</div>
 
       <div class="area">Local server</div>
-      <div><span class="no">No dedicated command</span></div>
+      <div><span class="partial">Yes</span> <code>da up</code> for agent-friendly local/proxied serving</div>
       <div><span class="yes">Yes</span> <code>aem up</code></div>
-      <div>AEM CLI</div>
+      <div>DA CLI for automation, AEM CLI for human dev</div>
 
       <div class="area">Importer UI/server</div>
       <div><span class="partial">Scripted migration</span> import, batch, status, validate</div>
@@ -743,7 +745,7 @@ code {
       </article>
       <article class="card">
         <h3>Use Adobe AEM CLI for local dev</h3>
-        <p>Choose it for <code>aem up</code>, local proxy behavior, live reload, TLS, local content rendering, forwarded browser logs, and the importer server.</p>
+        <p>Choose it for the full <code>aem up</code> experience: local proxy behavior, live reload, TLS, local content rendering, forwarded browser logs, and the importer server.</p>
       </article>
       <article class="card">
         <h3>Use both in a mature workflow</h3>
