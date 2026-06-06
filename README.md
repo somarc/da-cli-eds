@@ -26,7 +26,14 @@ The static tool pages are hand-maintained and should include a visible DA CLI ve
 ```sh
 npm install
 npm run lint
+npm run validate:flows
 aem up
 ```
 
 Use `aem up` for the normal local EDS development loop. Use `da up` from the DA CLI repo when validating DA CLI's agent-friendly local server behavior.
+
+`npm run validate:flows` checks the static workflow explorer against the installed `da` command. To validate against a local checkout instead, pass `DA_BIN`:
+
+```sh
+DA_BIN="../da-cli/bin/da.js" npm run validate:flows
+```
