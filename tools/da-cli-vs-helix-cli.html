@@ -507,37 +507,35 @@ code {
   <a href="/tools/da-cli-flows.html">Workflow Explorer</a>
   <a href="/agentic-workflow.html">Agentic Workflow</a>
   <span class="page-title">CLI Comparison</span>
-  <span class="badge">da-cli · aem-cli fork · Adobe AEM CLI parity map</span>
+  <span class="badge">@somarc/da-cli 0.4.3 · validated 2026-06-06</span>
 </nav>
 
 <header class="hero">
   <div class="hero-inner">
-    <p class="eyebrow">Deep CLI comparison</p>
-    <h1>DA CLI is the operational control plane, and our AEM CLI fork is the parity bridge.</h1>
+    <p class="eyebrow">CLI decision guide</p>
+    <h1>Use DA CLI for operations. Use AEM CLI for local development.</h1>
     <p>
-      Adobe's official <code>@adobe/aem-cli</code>, still shipped from the Helix CLI repository,
-      is strong for local development, import workflows, and local DA content checkout. Our
-      <code>@somarc/aem-cli</code> fork carries a focused subset of DA CLI operational surfaces.
-      <code>@somarc/da-cli</code> goes wider: DA Admin API automation, preview and publish
-      orchestration, route ownership, index validation, audits, site diagnostics, migration,
-      code-bus checks, and agent-friendly safety rails.
+      <code>@somarc/da-cli</code> is the operational CLI for DA-backed EDS sites:
+      content administration, preview, publish, deploy, route ownership, site diagnostics,
+      audits, jobs, pipelines, and agent-readable JSON. Adobe's AEM CLI lineage remains
+      the right tool for <code>aem up</code>, local proxying, importer UI work, and the
+      browser-local development loop.
     </p>
     <div class="hero-grid" aria-label="High level comparison">
-      <div class="metric"><strong>16</strong><span>top-level da-cli command groups in the local checkout.</span></div>
-      <div class="metric"><strong>31</strong><span>surfaced command flows in the <code>@somarc/aem-cli</code> workflow explorer.</span></div>
-      <div class="metric"><strong>Dry-run first</strong><span>da-cli makes remote mutations explicit with <code>--commit</code>.</span></div>
+      <div class="metric"><strong>0.4.3</strong><span>Comparison validated against the released <code>@somarc/da-cli</code> surface.</span></div>
+      <div class="metric"><strong>Dry-run first</strong><span>Remote mutations require root <code>--commit</code>.</span></div>
+      <div class="metric"><strong>Local dev</strong><span>AEM CLI still owns the dev server and importer UI loop.</span></div>
     </div>
   </div>
 </header>
 
 <main>
   <section class="section" id="profiles">
-    <h2>Product Profiles</h2>
+    <h2>Fast Read</h2>
     <p>
-      The tools overlap around DA content, but their center of gravity is different.
-      Adobe's CLI optimizes the authoring developer loop. The AEM CLI fork selectively
-      imports operational paths from da-cli. da-cli remains the broadest surface for DA,
-      Helix Admin, EDS routing, publishing, validation, and automation.
+      The tools overlap around DA content, but their center of gravity is different. Treat
+      <code>da</code> as the release, diagnostics, and automation surface. Treat
+      <code>aem</code> or <code>hlx</code> as the local development surface.
     </p>
     <div class="split">
       <article class="profile da">
@@ -546,47 +544,44 @@ code {
           <dt>Binary</dt>
           <dd><code>da</code></dd>
           <dt>Primary use</dt>
-          <dd>Manage DA-backed EDS sites and content across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, code, design, site, skills, and Stardust workflows.</dd>
+          <dd>Operate DA-backed EDS sites across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, job, code, block, commerce, and site diagnostics.</dd>
           <dt>Safety model</dt>
-          <dd>Write operations are dry-run by default and require <code>--commit</code>. Output formats include table, JSON, and Markdown.</dd>
-          <dt>Runtime deps</dt>
-          <dd>Lean Node package using <code>commander</code> and <code>js-yaml</code>; Python 3 is used by auth token caching.</dd>
-        </dl>
-      </article>
-      <article class="profile fork">
-        <h3>@somarc/aem-cli fork</h3>
-        <dl>
-          <dt>Binary</dt>
-          <dd><code>aem</code></dd>
-          <dt>Primary use</dt>
-          <dd>Bridge local AEM CLI ergonomics with selected da-cli operations: auth, DA content workspace, preview/publish/deploy, route diagnostics, index checks, code-bus sync, and local development commands.</dd>
-          <dt>Safety model</dt>
-          <dd>Adopts explicit commit gates for publish, deploy, and code-bus mutation while preserving the familiar <code>aem</code> command shape.</dd>
-          <dt>Runtime deps</dt>
-          <dd>Forked command registry and workflow docs focused on parity mapping rather than full da-cli replacement.</dd>
+          <dd>Write operations are dry-run by default and require root <code>--commit</code>. Output formats include table, JSON, and Markdown.</dd>
+          <dt>Best fit</dt>
+          <dd>Remote operations, release checks, content administration, automation, CI, and agent workflows.</dd>
         </dl>
       </article>
       <article class="profile aem">
-        <h3>@adobe/aem-cli from helix-cli</h3>
+        <h3>@adobe/aem-cli / hlx lineage</h3>
         <dl>
           <dt>Binaries</dt>
           <dd><code>aem</code> and compatibility alias <code>hlx</code></dd>
           <dt>Primary use</dt>
           <dd>Run a local AEM/EDS development server, run the importer server, and manage a local DA content workspace.</dd>
           <dt>Safety model</dt>
-          <dd>Content workflow mirrors Git concepts with clone, add, commit, status, diff, merge, and push. Local server provides live reload, proxying, TLS, and browser log forwarding.</dd>
-          <dt>Runtime deps</dt>
-          <dd>Feature-rich Node service stack for dev server, proxying, import UI, shared Helix config, Git helpers, and browser injectables.</dd>
+          <dd>Content workspace commands mirror Git concepts. The dev server provides local rendering, proxying, TLS, live reload, and browser log forwarding.</dd>
+          <dt>Best fit</dt>
+          <dd>Local authoring, block development, importer UI work, and browser-runtime debugging.</dd>
+        </dl>
+      </article>
+      <article class="profile fork">
+        <h3>Use Both</h3>
+        <dl>
+          <dt>Pattern</dt>
+          <dd>Develop locally with AEM CLI, then validate, preview, publish, and diagnose with DA CLI.</dd>
+          <dt>Hand-off</dt>
+          <dd>Use <code>da status</code>, <code>da resolve</code>, and <code>da site doctor --agent</code> when work moves from local editing to remote site state.</dd>
+          <dt>Best fit</dt>
+          <dd>Teams that need a clean split between local development ergonomics and production-oriented operations.</dd>
         </dl>
       </article>
     </div>
   </section>
 
   <section class="section" id="matrix">
-    <h2>Deep Comparison Matrix</h2>
+    <h2>Capability Map</h2>
     <p>
-      This matrix is intentionally practical: it compares what an EDS engineer or automation
-      agent can actually do from the command line today based on the local repositories.
+      This is intentionally compact. For command-level details, use the workflow explorer.
     </p>
     <div class="matrix-wrap">
       <table>
@@ -594,7 +589,6 @@ code {
           <tr>
             <th>Capability</th>
             <th>da-cli</th>
-            <th>Somarc AEM CLI fork</th>
             <th>Adobe AEM CLI</th>
             <th>Practical readout</th>
           </tr>
@@ -603,100 +597,74 @@ code {
           <tr>
             <th>Local development server</th>
             <td><span class="winner aem">AEM CLI wins</span> da-cli does not implement a local proxy/dev server.</td>
-            <td><span class="winner tie">Inherited</span> Keeps <code>aem up</code> and importer paths as part of the forked command map.</td>
             <td><span class="yes">Strong</span> <code>aem up</code> serves local projects, proxies remote content, supports live reload, TLS, browser opening, forwarded browser logs, and local HTML folder mounting.</td>
-            <td>Use AEM CLI lineage when the job is browser-local development and asset/runtime simulation.</td>
+            <td>Use AEM CLI when the job is browser-local development and runtime simulation.</td>
           </tr>
           <tr>
             <th>DA Admin API coverage</th>
             <td><span class="winner da">da-cli wins</span> Direct DA API operations across list, tree, get, put, delete, move, copy, versions, auth token handling, site diagnostics, and route cleanup.</td>
-            <td><span class="partial">Subset</span> Covers auth, seed, clone, add, commit, push, status, diff, and merge; direct list/tree/get/put/delete/move/copy/version administration remains a da-cli gap.</td>
             <td><span class="partial">Partial</span> DA content workspace commands exist, but the documented surface is focused on local checkout and push.</td>
-            <td>Parity path: keep content workspace in the fork, but route full remote CRUD and bulk administration to da-cli.</td>
+            <td>Use da-cli for remote CRUD, bulk operations, and account/repo diagnostics.</td>
           </tr>
           <tr>
             <th>Preview pipeline</th>
-            <td><span class="winner da">da-cli wins</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths and can verify empty or unreachable output.</td>
-            <td><span class="partial">Nearly covered</span> Includes <code>aem preview page</code>, <code>tree</code>, and <code>status</code>; batch page-list preview remains stronger in da-cli.</td>
+            <td><span class="winner da">da-cli wins</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths.</td>
             <td><span class="no">Not documented</span> The official README does not expose preview orchestration commands.</td>
-            <td>Parity path: fork covers common page/tree preview; da-cli remains the automation tool for richer batch preview.</td>
+            <td>Use da-cli for preview flushes, status checks, and batch preview work.</td>
           </tr>
           <tr>
             <th>Publish and deploy</th>
             <td><span class="winner da">da-cli wins</span> Publish, unpublish, batch publish, tree publish, and combined preview-then-publish deploy flows are explicit and commit-gated.</td>
-            <td><span class="partial">Core covered</span> Includes <code>aem publish page</code>, <code>tree</code>, <code>unpublish</code>, and <code>deploy page</code> with commit gates.</td>
             <td><span class="no">Not documented</span> No equivalent publish/deploy command group in the official command list.</td>
-            <td>The fork has a credible release path for page/tree flows; da-cli still owns broader batch and operational reporting.</td>
+            <td>Use da-cli for releases and live-state mutation.</td>
           </tr>
           <tr>
             <th>Content workspace</th>
             <td><span class="winner tie">Tie</span> Supports remote CRUD plus a local <code>content/</code> workspace with clone, status, diff, add, commit, push, and merge.</td>
-            <td><span class="winner tie">Covered</span> Mirrors the core workspace lifecycle and adds seed for authored source bootstrapping.</td>
             <td><span class="winner tie">Tie</span> Supports local DA content clone, status, diff, add, commit, push, and merge; <code>aem up</code> also serves local content first.</td>
-            <td>Adobe's CLI is better when local content must render through <code>aem up</code>; da-cli is better when content workspace work is part of broader remote operations.</td>
+            <td>Use AEM CLI when local rendering is central. Use da-cli when workspace work is part of broader remote operations.</td>
           </tr>
           <tr>
             <th>Route ownership and destructive safety</th>
             <td><span class="winner da">da-cli wins</span> <code>route classify</code>, <code>route canonical</code>, <code>route audit</code>, and <code>route clean</code> distinguish contentbus, codebus, hybrid, orphan, and probe-failed routes.</td>
-            <td><span class="partial">Diagnostics covered</span> Includes <code>aem route classify</code>, <code>canonical</code>, and <code>audit</code>; destructive cleanup remains a da-cli-only surface.</td>
             <td><span class="no">Not documented</span> No equivalent route ownership model surfaced in the official CLI documentation.</td>
-            <td>Parity path: diagnostics can live in the fork; cleanup should stay in da-cli unless the fork adopts the same guardrails.</td>
+            <td>Use da-cli when the question is which system owns a route or whether cleanup is safe.</td>
           </tr>
           <tr>
             <th>Site diagnostics</th>
             <td><span class="winner da">da-cli wins</span> <code>site doctor</code> checks registration, content source type, code-bus visibility, shared DA docs, preview/live state, and optional deep sampling.</td>
-            <td><span class="no">Gap</span> No site doctor or site inventory surface in the forked workflow map.</td>
             <td><span class="no">Not documented</span> No site doctor command in the official README command set.</td>
             <td>da-cli provides a single diagnostic entry point for account, repo, route, and delivery-state questions.</td>
           </tr>
           <tr>
             <th>Search index operations</th>
             <td><span class="winner da">da-cli wins</span> <code>index show</code>, <code>index validate</code>, and <code>index query</code> inspect <code>helix-query.yaml</code> and compare configured fields with live responses.</td>
-            <td><span class="winner tie">Covered</span> Includes <code>aem index show</code>, <code>validate</code>, and <code>query</code>.</td>
             <td><span class="no">Not documented</span> No index inspection or query command in the official README.</td>
-            <td>Index parity is a good candidate to keep in both da-cli and the AEM fork.</td>
+            <td>Use da-cli for index validation and query checks during release prep.</td>
           </tr>
           <tr>
             <th>Quality audits</th>
             <td><span class="winner da">da-cli wins</span> Audits cover semantics, blocks, full-page checks, and contracts.</td>
-            <td><span class="no">Gap</span> No equivalent audit group in the forked workflow map.</td>
             <td><span class="no">Not documented</span> No comparable audit command group in the official command list.</td>
             <td>da-cli is better for preflight checks before preview, publish, or migration completion.</td>
           </tr>
           <tr>
             <th>Migration tooling</th>
             <td><span class="winner da">da-cli wins</span> Migration commands include import, batch import, job status, and validation.</td>
-            <td><span class="partial">Importer only</span> Retains <code>aem import</code> server behavior, but not da-cli's remote migration job model.</td>
             <td><span class="partial">Different strength</span> <code>aem import</code> runs the importer server; it is UI/server oriented rather than remote job automation.</td>
             <td>Use Adobe's CLI for the importer UI server; use da-cli for scripted migration flows and validation.</td>
           </tr>
           <tr>
             <th>Code-bus visibility</th>
             <td><span class="winner da">da-cli wins</span> Code commands cover sync, status, job lookup, sidekick config, and purge.</td>
-            <td><span class="partial">Most covered</span> Includes <code>aem code sync</code>, <code>status</code>, <code>job</code>, and <code>sidekick get</code>; purge remains da-cli-only.</td>
             <td><span class="no">Not documented</span> The official surface does not expose code-bus operational commands.</td>
-            <td>Parity path: fork can cover routine code-bus visibility while da-cli retains deeper operations.</td>
+            <td>Use da-cli when code-bus state is part of the release checklist.</td>
           </tr>
           <tr>
-            <th>Config model</th>
-            <td><span class="winner da">da-cli wins</span> Project and global DA config, environment fallback, branch defaults, source annotation, and per-command overrides are first-class.</td>
-            <td><span class="partial">Project scoped</span> Uses project context and shared options for owner, repo, branch, token, and commit gates, but not the full da-cli config surface.</td>
-            <td><span class="partial">Focused</span> Environment variables configure local server and global logging; shared Helix config is consumed by the dev server.</td>
-            <td>da-cli is stronger for repeatable multi-repo automation; Adobe's CLI is tuned for local project runtime configuration.</td>
-          </tr>
-          <tr>
-            <th>Automation output</th>
-            <td><span class="winner da">da-cli wins</span> Global <code>--format table|json|md</code>, <code>--quiet</code>, <code>--verbose</code>, and request IDs make it script and agent friendly.</td>
-            <td><span class="partial">Operational output</span> Prints URLs, status, and structured command results for mapped surfaces, but does not expose da-cli's global output contract.</td>
+            <th>Agent and automation output</th>
+            <td><span class="winner da">da-cli wins</span> Global <code>--format table|json|md</code>, <code>status</code>, <code>resolve</code>, and agent-oriented command envelopes make it script friendly.</td>
             <td><span class="partial">Partial</span> Logs are configurable, but the official README does not present structured output as a cross-command contract.</td>
             <td>da-cli is easier to compose in CI, agent workflows, reports, and shell scripts.</td>
-          </tr>
-          <tr>
-            <th>Authentication ergonomics</th>
-            <td><span class="winner da">da-cli wins</span> <code>auth login</code>, <code>logout</code>, <code>status</code>, and <code>token</code> expose explicit token lifecycle management.</td>
-            <td><span class="winner tie">Covered</span> Includes <code>aem auth login</code>, <code>logout</code>, <code>status</code>, and <code>token</code>.</td>
-            <td><span class="partial">Internal</span> DA auth support exists under content internals, but the official README does not document standalone auth commands.</td>
-            <td>Auth parity is already in the fork and should stay aligned with da-cli token behavior.</td>
           </tr>
         </tbody>
       </table>
@@ -704,72 +672,65 @@ code {
   </section>
 
   <section class="section" id="coverage">
-    <h2>Command Coverage</h2>
+    <h2>Common Workflow Split</h2>
     <p>
-      The command map shows why the two CLIs feel so different in practice. Adobe's CLI
-      is intentionally compact. da-cli exposes the operational edges that normally require
-      curl calls, custom scripts, manual Admin API probing, or browser checks.
+      The split is usually simple: use AEM CLI until the work needs remote truth, then use DA CLI.
     </p>
     <div class="cmd-grid" role="table" aria-label="Command coverage matrix">
       <div class="head">Area</div>
       <div class="head">da-cli</div>
-      <div class="head">Somarc AEM CLI fork</div>
       <div class="head">Adobe AEM CLI</div>
+      <div class="head">Default choice</div>
 
       <div class="area">Local server</div>
       <div><span class="no">No dedicated command</span></div>
-      <div><span class="yes">Yes</span> <code>aem up</code>, <code>import</code></div>
       <div><span class="yes">Yes</span> <code>aem up</code></div>
+      <div>AEM CLI</div>
 
       <div class="area">Importer UI/server</div>
-      <div><span class="partial">Scripted migration</span> <code>da migrate import</code>, <code>batch</code>, <code>status</code>, <code>validate</code></div>
+      <div><span class="partial">Scripted migration</span> import, batch, status, validate</div>
       <div><span class="yes">Yes</span> <code>aem import</code></div>
-      <div><span class="yes">Yes</span> <code>aem import</code></div>
+      <div>AEM CLI for UI, DA CLI for automation</div>
 
       <div class="area">Content workspace</div>
       <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
-      <div><span class="yes">Yes</span> seed, clone, add, commit, push, status, diff, merge</div>
       <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
+      <div>Either, depending on local rendering needs</div>
 
       <div class="area">Remote content CRUD</div>
       <div><span class="yes">Yes</span> list, tree, get, put, delete, move, copy, versions</div>
-      <div><span class="partial">Partial</span> source upload through seed/push; no broad CRUD command set</div>
-      <div><span class="partial">Limited</span> content push workflow is documented, direct CRUD is not surfaced as a command set</div>
+      <div><span class="partial">Limited</span> content push workflow</div>
+      <div>DA CLI</div>
 
       <div class="area">Preview and publish</div>
       <div><span class="yes">Yes</span> page, pages, tree, status, unpublish, deploy</div>
-      <div><span class="partial">Mostly</span> preview page/tree/status, publish page/tree/unpublish, deploy page</div>
       <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
 
       <div class="area">Routes</div>
       <div><span class="yes">Yes</span> classify, canonical, audit, clean</div>
-      <div><span class="partial">Diagnostics</span> classify, canonical, audit</div>
       <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
 
       <div class="area">Index</div>
       <div><span class="yes">Yes</span> show, validate, query</div>
-      <div><span class="yes">Yes</span> show, validate, query</div>
       <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
 
       <div class="area">Audits</div>
       <div><span class="yes">Yes</span> semantics, blocks, full, contracts</div>
-      <div><span class="no">No mapped equivalent</span></div>
       <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
 
       <div class="area">Site operations</div>
       <div><span class="yes">Yes</span> create, list, info, doctor</div>
-      <div><span class="no">No mapped equivalent</span></div>
       <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
 
       <div class="area">Code-bus</div>
       <div><span class="yes">Yes</span> sync, status, job, sidekick config, purge</div>
-      <div><span class="partial">Most</span> sync, status, job, sidekick get</div>
       <div><span class="no">No documented equivalent</span></div>
-
-      <div class="area">Design and skills</div>
-      <div><span class="yes">Yes</span> design detection/audits, skill install/list/read/search/update/bootstrap, Stardust flows</div>
-      <div><span class="no">No mapped equivalent</span></div>
-      <div><span class="no">No documented equivalent</span></div>
+      <div>DA CLI</div>
     </div>
   </section>
 
@@ -778,11 +739,7 @@ code {
     <div class="cards">
       <article class="card">
         <h3>Use da-cli for operations</h3>
-        <p>Choose it for preview, publish, deploy, DA content administration, route ownership, code-bus checks, index validation, site diagnostics, audits, and migration automation.</p>
-      </article>
-      <article class="card">
-        <h3>Use the AEM fork for parity pilots</h3>
-        <p>Choose it when an operator wants the familiar <code>aem</code> shape but needs selected da-cli surfaces for auth, content workspace, delivery, route, index, and code-bus work.</p>
+        <p>Choose it for preview, publish, deploy, DA content administration, route ownership, code-bus checks, index validation, site diagnostics, audits, jobs, pipelines, and migration automation.</p>
       </article>
       <article class="card">
         <h3>Use Adobe AEM CLI for local dev</h3>
@@ -794,32 +751,34 @@ code {
       </article>
     </div>
     <div class="callout">
-      <strong>Bottom line:</strong> Adobe's CLI is the official local development tool.
-      The AEM CLI fork is a practical subset for migrating selected da-cli operations into
-      the <code>aem</code> command shape. da-cli remains the broader EDS operations CLI and
-      the source of truth for gaps like audits, site doctor, full DA CRUD, migration jobs,
-      and destructive route cleanup.
+      <strong>Bottom line:</strong> Adobe's CLI is the official local development tool. DA CLI is
+      the broader EDS operations CLI and the source of truth for release checks, route ownership,
+      full DA CRUD, migration jobs, agent envelopes, and destructive actions that need guardrails.
     </div>
   </section>
 
   <section class="section" id="sources">
-    <h2>Sources Checked</h2>
+    <h2>Version Marker</h2>
     <p>
-      This page was built from the local checked-out repositories, so it reflects the
-      command surfaces available in this workspace when the page was created.
+      This page is a hand-maintained public decision guide, validated against
+      <code>@somarc/da-cli 0.4.3</code> on 2026-06-06. Use the workflow explorer for the
+      command-by-command map.
     </p>
     <div class="source-list">
       <div class="source">
-        <strong>/Users/mhess/Documents/Fluffyjaws Workspace/da-cli</strong>
-        package manifest, README, and <code>src/commands/*</code> command registration.
+        <strong>DA CLI</strong>
+        Operational command surface: <code>da status</code>, <code>da resolve</code>,
+        <code>da site doctor --agent</code>, preview/publish/deploy, content, route,
+        audit, pipeline, job, code, block, and commerce commands.
       </div>
       <div class="source">
-        <strong>/Users/mhess/Documents/Fluffyjaws Workspace/aem-cli-eds</strong>
-        workflow explorer command map for the <code>@somarc/aem-cli</code> fork: 31 surfaced flows across authoring, content workspace, delivery, diagnostics, code-bus, and local development.
+        <strong>AEM CLI</strong>
+        Local development and importer surface: <code>aem up</code>, <code>aem import</code>,
+        local proxy behavior, live reload, TLS, and local content rendering.
       </div>
       <div class="source">
-        <strong>/Users/mhess/aem/aem-code/Helix/helix-cli</strong>
-        package manifest, README, <code>src/cli.js</code>, top-level command modules, and content command modules.
+        <strong>Workflow Explorer</strong>
+        The detailed DA CLI command map lives at <code>/tools/da-cli-flows.html</code>.
       </div>
     </div>
   </section>
