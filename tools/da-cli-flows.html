@@ -287,7 +287,7 @@ svg#dg{display:block;width:100%;height:100%}
   <a href="/tools/da-cli-vs-helix-cli.html">CLI Comparison</a>
   <a href="/agentic-workflow.html">Agentic Workflow</a>
   <span class="page-title">Workflow Explorer</span>
-  <span class="badge" id="breadcrumb">32 command surfaces · DA command map</span>
+  <span class="badge" id="breadcrumb">@somarc/da-cli 0.4.3 · validated 2026-06-06 · hand-maintained map</span>
   <button class="share" id="share-link" type="button">copy link</button>
 </nav>
 
@@ -296,7 +296,7 @@ svg#dg{display:block;width:100%;height:100%}
 <div id="sidebar">
   <div id="sidebar-hd">
     <h2>DA-CLI Commands</h2>
-    <p>Click a command to trace its flow</p>
+    <p>Mapped against @somarc/da-cli 0.4.3. Click a command to trace its flow.</p>
   </div>
   <div id="cmd-tree"></div>
 </div>
@@ -518,7 +518,7 @@ const DATA = {
         ]
       },
       { id:"content-put", label:"content put",
-        syntax:"da content put <path> <file>  [--commit]",
+        syntax:"da --commit content put <path> <file>",
         desc:"Upload a document — dry-run by default",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit flag (if present) stored in context singleton. Without it the command exits after showing a diff." },
@@ -545,10 +545,10 @@ const DATA = {
 
     { group:"preview", items:[
       { id:"preview-page", label:"preview page",
-        syntax:"da preview page <path>",
+        syntax:"da --commit preview page <path>",
         desc:"Flush DA cache, then trigger Helix content pipeline",
         steps:[
-          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root --commit stored. Preview mutates *.aem.page pipeline state, so the released CLI requires the root commit gate." },
           { nodes:["client","cfglib","authlib","ftok","fglob","fproj"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cfg-fglob","e-cfg-fproj"], pkgs:"createClient()", txt:"DaClient constructed." },
           { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (DA flush)",
             txt:"POST /preview/{org}/{repo}{path} flushes the DA editor cache (best-effort). Failure here does not block the EDS pipeline. This is DA-internal only, not the same as an EDS preview URL." },
@@ -559,7 +559,7 @@ const DATA = {
         ]
       },
       { id:"preview-pages", label:"preview pages",
-        syntax:"da preview pages <source>  [--concurrency N]",
+        syntax:"da --commit preview pages <source>  [--concurrency N]",
         desc:"Batch preview from file or path prefix",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -574,7 +574,7 @@ const DATA = {
 
     { group:"publish", items:[
       { id:"publish-page", label:"publish page",
-        syntax:"da publish page <path>  --commit",
+        syntax:"da --commit publish page <path>",
         desc:"Promote a previewed page to live CDN (*.aem.live)",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit flag stored." },
@@ -586,7 +586,7 @@ const DATA = {
         ]
       },
       { id:"publish-unpublish", label:"publish unpublish",
-        syntax:"da publish unpublish <path>  --commit",
+        syntax:"da --commit publish unpublish <path>",
         desc:"Remove a page from live CDN",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -599,7 +599,7 @@ const DATA = {
 
     { group:"deploy", items:[
       { id:"deploy-page", label:"deploy page",
-        syntax:"da deploy page <path>  [--commit]",
+        syntax:"da --commit deploy page <path>",
         desc:"Preview then publish in one command",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit controls publish gate." },
@@ -610,6 +610,27 @@ const DATA = {
             txt:"Without --commit: prints dry-run summary and exits. With --commit: continues to live." },
           { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (live)",
             txt:"POST /live — page promoted to *.aem.live. Live URL printed to stdout." },
+        ]
+      },
+    ]},
+
+    { group:"agent", items:[
+      { id:"status", label:"status",
+        syntax:"da status [target] --format json",
+        desc:"Show agent-oriented CLI, config, auth, git, and optional target readiness",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root flags are captured, output format is usually json for agent use." },
+          { nodes:["cfglib","authlib","ftok","fglob","fproj"], edges:["e-ctx-cfg","e-ath-ftok","e-cfg-fglob","e-cfg-fproj"], pkgs:"config + auth + git probes", txt:"Builds a readiness envelope with resolved config, token validity, git status, warnings, and executable next commands." },
+          { nodes:["out"], edges:[], pkgs:"agent response envelope", txt:"Returns ok, operation, data, warnings, and next. When a target is supplied, includes target resolution and suggested follow-up da commands." },
+        ]
+      },
+      { id:"resolve", label:"resolve",
+        syntax:"da resolve <target> --format json",
+        desc:"Resolve DA/AEM URL or path into owner, repo, branch, route, and next commands",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Target string is parsed with current flags/config as fallback context." },
+          { nodes:["cfglib","out"], edges:["e-ctx-cfg"], pkgs:"resolve.js", txt:"AEM preview/live URLs are parsed directly; relative paths use configured org/repo/branch. Confidence explains whether the resolution is high, medium, low, or none." },
+          { nodes:["out"], edges:[], pkgs:"agent response envelope", txt:"Emits previewUrl, liveUrl, source path, confidence, warnings, and next commands such as preview status and content get." },
         ]
       },
     ]},
@@ -658,7 +679,7 @@ const DATA = {
 
     { group:"migrate", items:[
       { id:"migrate-import", label:"migrate import",
-        syntax:"da migrate import <url>  [--commit]",
+        syntax:"da --commit migrate import <url>",
         desc:"Scrape a URL, convert to EDS HTML, upload to DA, preview",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit controls whether upload executes." },
@@ -672,7 +693,7 @@ const DATA = {
         ]
       },
       { id:"migrate-batch", label:"migrate batch",
-        syntax:"da migrate batch <url-file>  [--commit]",
+        syntax:"da --commit migrate batch <url-file>",
         desc:"Import multiple URLs with resumable job state",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -721,11 +742,45 @@ const DATA = {
             txt:"In-flight child commands are allowed to finish. Abort prevents new batches from starting; it is not a force-kill and it does not convert the run into an automatic resume checkpoint." },
         ]
       },
+      { id:"pipeline-quality-gate", label:"pipeline quality-gate",
+        syntax:"da pipeline quality-gate <source> --format json",
+        desc:"Combine audit, design, and token signals into a release gate",
+        steps:[
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Loads target context and gate options." },
+          { nodes:["aengine","out"], edges:[], pkgs:"quality-gate.js", txt:"Scores audit findings, design findings, and optional Stardust token requirements. Exits non-zero when the gate fails." },
+        ]
+      },
+      { id:"pipeline-scaffold", label:"pipeline scaffold",
+        syntax:"da pipeline scaffold [kind]",
+        desc:"Print starter YAML for repeatable agent/operator workflows",
+        steps:[
+          { nodes:["out"], edges:[], pkgs:"pipeline-scaffold.js", txt:"Prints YAML starters such as agent-validate, block-cdd, release-candidate, and site-build for review before use." },
+        ]
+      },
+    ]},
+
+    { group:"job", items:[
+      { id:"job-list", label:"job list",
+        syntax:"da job list",
+        desc:"List durable local DA operation jobs",
+        steps:[
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:".da/jobs", txt:"Reads local job summaries without touching remote DA or Helix state." },
+        ]
+      },
+      { id:"job-promote", label:"job promote",
+        syntax:"da job promote <preview-job-id>",
+        desc:"Publish successfully previewed paths from a durable preview job",
+        steps:[
+          { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:".da/jobs", txt:"Loads preview job task results and selects successful paths." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js gate", txt:"Publish still requires the root commit path and target safety checks before live mutation." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"admin.hlx.page live", txt:"Promotes only the successful previewed paths to *.aem.live." },
+        ]
+      },
     ]},
 
     { group:"code", items:[
       { id:"code-sync", label:"code sync",
-        syntax:"da code sync [path]",
+        syntax:"da code sync [path]  |  da code sync block <name>",
         desc:"Trigger code-bus sync — invalidates CDN for JS/CSS assets",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -738,7 +793,7 @@ const DATA = {
 
     { group:"index", items:[
       { id:"index-validate", label:"index validate",
-        syntax:"da index validate  [--file]  [--env preview|live]",
+        syntax:"da index validate  [--file]  [--target preview|live]",
         desc:"Check helix-query.yaml fields against live responses",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -756,6 +811,26 @@ const DATA = {
           { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js + helix-query.yaml", txt:"Resolves config and loads index definitions." },
           { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → query-index → output",
             txt:"Fetches {base}{target}.json?limit=N&offset=O. Applies client-side --filter key=value substring matching. No auth needed — query-index is a public EDS endpoint." },
+        ]
+      },
+    ]},
+
+    { group:"block", items:[
+      { id:"block-inspect", label:"block inspect",
+        syntax:"da block inspect <name> --format json",
+        desc:"Inspect a known EDS block authoring contract",
+        steps:[
+          { nodes:["out"], edges:[], pkgs:"block-contracts.js", txt:"Returns expected authoring shape, examples, and remediation hints for known blocks." },
+        ]
+      },
+    ]},
+
+    { group:"commerce", items:[
+      { id:"commerce-plan", label:"commerce product-bus plan",
+        syntax:"da commerce product-bus plan <source> --format json",
+        desc:"Plan normalized Product Bus records from fixture-backed catalog data",
+        steps:[
+          { nodes:["out","fproj"], edges:[], pkgs:"commerce-product-bus.js", txt:"Reads fixture/source data, normalizes records, and writes reviewable plans before any ingest operation." },
         ]
       },
     ]},
@@ -785,8 +860,9 @@ const DATA = {
 
 const nodeMap = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const CLI_VERSION = '@somarc/da-cli 0.4.3';
 const COMMAND_COUNT = DATA.commands.reduce((total, group) => total + group.items.length, 0);
-const DEFAULT_BREADCRUMB = `${COMMAND_COUNT} command surfaces · DA command map`;
+const DEFAULT_BREADCRUMB = `${CLI_VERSION} · ${COMMAND_COUNT} mapped surfaces · validated 2026-06-06`;
 const commandMap = Object.fromEntries(allCmds().map(cmd => [cmd.id, cmd]));
 const groupByCommand = Object.fromEntries(DATA.commands.flatMap(group => group.items.map(cmd => [cmd.id, group.group])));
 const breadcrumb = document.getElementById('breadcrumb');
@@ -908,7 +984,7 @@ function updateBreadcrumb(cmd = currentCmd, step = activeStepIdx) {
     return;
   }
   const group = groupByCommand[cmd.id] || 'commands';
-  const parts = [`${COMMAND_COUNT} command surfaces`, group, cmd.label];
+  const parts = [CLI_VERSION, `${COMMAND_COUNT} command surfaces`, group, cmd.label];
   if (Number.isInteger(step) && step >= 0) parts.push(`step ${step + 1}`);
   breadcrumb.textContent = parts.join(' / ');
 }
@@ -921,7 +997,7 @@ function selectCmd(id, options = {}) {
   document.querySelectorAll('.cmd').forEach(el => el.classList.toggle('on', el.dataset.id===id));
   const activeButton = document.querySelector(`.cmd[data-id="${id}"]`);
   activeButton?.scrollIntoView({ block:'nearest', inline:'center' });
-  document.getElementById('active-label').innerHTML = `<span class="dim">$ </span>da ${cmd.syntax||cmd.label}`;
+  document.getElementById('active-label').innerHTML = `<span class="dim">$ </span>${cmd.syntax||cmd.label}`;
   renderSteps(cmd);
   if (activeStepIdx >= 0) {
     highlightStep(cmd, activeStepIdx);
