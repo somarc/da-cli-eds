@@ -278,9 +278,11 @@
         </div>
         <div class="skill-asset-panel">
           <h3>Loop authoring is the product surface.</h3>
-          <p>The useful move is not to rank modes of work. It is to make the loop explicit enough that an agent can run it, a human can inspect it, and the CLI can improve from the friction it records.</p>
+          <p>The useful move is not to rank modes of work. It is to make the loop explicit enough that an agent can run it, a human can inspect it, and the CLI can improve from the friction it records. A good loop takes an objective, decomposes the work, assigns the right role or primitive, orders the dependencies, executes, reviews against the original goal, gates before shipping, and reports only what matters.</p>
           <ul class="loop-authoring-list">
             <li>Command graph</li>
+            <li>Role assignment</li>
+            <li>Dependency order</li>
             <li>Approval gates</li>
             <li>Retries</li>
             <li>Preview evidence</li>
@@ -354,7 +356,7 @@ Before making changes, orient with:
 4. da preview explain <path> --format json
 5. The public Commands, Quick Reference, and Pipeline docs
 
-Use da-cli as the primary orchestration surface. Think in loops: observe, choose a safe primitive, run it, verify the result, and either stop or choose the next primitive. The loop is plumbing; the durable asset is the named, tested skill or command it calls. Do not bypass da-cli with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
+Use da-cli as the primary orchestration surface. Think in loops: turn the objective into coordinated work, decompose it, choose the right role or primitive, order the dependencies, run the safe primitive, verify the result, gate before shipping, and report only what matters. The loop is plumbing; the durable asset is the named, tested skill or command it calls. Do not bypass da-cli with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
 
 Important development model:
 
