@@ -100,6 +100,48 @@
       text-transform: uppercase;
     }
 
+    main.agentic-workflow .altitude-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1.1fr);
+      gap: 24px;
+      align-items: start;
+      margin-top: 28px;
+    }
+
+    main.agentic-workflow .altitude-panel > div {
+      border: 1px solid var(--workflow-line);
+      border-radius: 8px;
+      padding: 22px;
+      background: var(--workflow-panel);
+    }
+
+    main.agentic-workflow .loop-code {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    main.agentic-workflow .loop-ladder {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    main.agentic-workflow .loop-ladder div {
+      border: 1px solid var(--workflow-line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fffaf1;
+    }
+
+    main.agentic-workflow .loop-ladder strong {
+      display: block;
+      color: var(--workflow-blue);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     main.agentic-workflow .ordered-flow {
       display: grid;
       gap: 12px;
@@ -178,6 +220,12 @@
         align-items: center;
       }
     }
+
+    @media (max-width: 760px) {
+      main.agentic-workflow .altitude-panel {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
   <link rel="stylesheet" href="/styles/lazy-styles.css">
 </head>
@@ -189,11 +237,50 @@
       <div>
         <p class="eyebrow">Agentic workflow</p>
         <h1>Start with intent, but make the site content-driven first.</h1>
-        <p class="lead">da-cli is most effective when an agent uses it as an orchestration surface for Edge Delivery Services: read the command surface, establish site readiness, author real content, upload and preview the content tree, then add blocks only where the content model asks for richer behavior.</p>
+        <p class="lead">da-cli is most effective when an agent uses it as an orchestration surface for Edge Delivery Services: observe the site, choose a safe command, run it, read the result, and decide the next step. The human stops typing every prompt inside the loop and starts authoring the loop itself.</p>
         <p class="button-container">
           <a class="button primary" href="#seed-prompt">Copy the Seed Prompt</a>
           <a class="button secondary" href="/tools/da-cli-flows.html">Open Workflow Explorer</a>
         </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div>
+        <h2>What “Loop” Means Here</h2>
+        <p>A loop is a small operator program: it prompts the agent by running known commands, reads structured output, decides whether the site is ready, and either stops or runs the next command. In da-cli, that loop is not magic autonomy. It is a reviewable DAG of DA and EDS primitives with dry-run defaults, approval gates, public preview evidence, and repeatable diagnostics.</p>
+        <div class="altitude-panel">
+          <div>
+            <h3>The altitude shift</h3>
+            <p>The engineer still decides what should exist, what risk is acceptable, and when to ship. The work moves up a level: from manually driving every content write, preview, audit, and repair, to writing the workflow that drives those actions and records what happened.</p>
+            <p>That is why da-cli invests in JSON envelopes, route resolution, site doctor output, pipeline YAML, durable jobs, and quality gates. The model becomes a subroutine. The loop owns the boring repetition. The human owns judgment.</p>
+          </div>
+          <pre class="loop-code"><code>while not ready:
+  observe = da status / site doctor / audit
+  plan = choose next safe primitive
+  if plan mutates remote state:
+    require approval and root --commit
+  run plan
+  verify preview, codebus, routes, and browser state
+  record friction for the next CLI primitive</code></pre>
+        </div>
+        <div class="loop-ladder">
+          <div>
+            <strong>Stage 1</strong>
+            <h3>Autocomplete</h3>
+            <p>The tool helps inside the editor, but the human still manually drives every step.</p>
+          </div>
+          <div>
+            <strong>Stage 2</strong>
+            <h3>Parallel prompting</h3>
+            <p>The human coordinates several agents, compares outputs, and stitches the work together.</p>
+          </div>
+          <div>
+            <strong>Stage 3</strong>
+            <h3>Loop authoring</h3>
+            <p>The human writes the loop: command graph, gates, retries, evidence, and release criteria.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -220,6 +307,11 @@
             <strong>Validate objectively</strong>
             <h3>Use gates, not vibes.</h3>
             <p>Upload with <code>content put-tree</code>, preview with root <code>--commit</code>, audit with quality gates, reconcile gaps, and use browser evidence for runtime errors.</p>
+          </div>
+          <div class="workflow-card">
+            <strong>Close the loop</strong>
+            <h3>Decide whether another turn is justified.</h3>
+            <p>A useful loop has a stop condition: all checks pass, the remaining risk is named, or the next action requires human product judgment. It should not keep prompting because it can.</p>
           </div>
         </div>
       </div>
@@ -255,7 +347,7 @@ Before making changes, orient with:
 4. da preview explain <path> --format json
 5. The public Commands, Quick Reference, and Pipeline docs
 
-Use da-cli as the primary orchestration surface. Do not bypass it with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
+Use da-cli as the primary orchestration surface. Think in loops: observe, choose a safe primitive, run it, verify the result, and either stop or choose the next primitive. Do not bypass it with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
 
 Important development model:
 
@@ -269,6 +361,7 @@ Important development model:
 - Use da pipeline quality-gate, da audit contracts --verify-code, and da site reconcile to audit and improve the result.
 - If local validation is needed, use da up as the local EDS server substrate.
 - Browser-console validation means opening the local or preview URL in a real browser and checking console, page, and network errors; da up alone is not enough.
+- Stop the loop when objective checks pass, the remaining risk is explicit, or the next decision is product judgment rather than mechanical validation.
 
 Goal:
 
@@ -289,7 +382,7 @@ Do not start by inventing blocks. Start by designing the content map, then autho
     <div class="section">
       <aside class="workflow-callout">
         <h2>What This Workflow Tests</h2>
-        <p>The important question is not whether an agent can hand-build a nice site. The question is whether da-cli gives the agent enough safe, composable primitives to move from repo readiness to content upload, preview, audit, reconciliation, and runtime validation without hidden manual work.</p>
+        <p>The important question is not whether an agent can hand-build a nice site. The question is whether da-cli gives the agent enough safe, composable primitives to move from repo readiness to content upload, preview, audit, reconciliation, and runtime validation without hidden manual work. The loop narrative is only honest when every step is inspectable, every mutation is gated, and every retry has evidence.</p>
       </aside>
     </div>
   </main>
