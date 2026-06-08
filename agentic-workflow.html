@@ -346,7 +346,15 @@
       <div>
         <h2>Generalized Seed Prompt</h2>
         <p>Use this prompt at the start of an agentic session when the goal is to operate on a DA-backed EDS site with da-cli.</p>
-        <pre><code>We are using the local da-cli repo to create a DA-backed Edge Delivery Services workflow from intent.
+        <pre><code>We are using da-cli to turn a concise goal into a coordinated DA-backed Edge Delivery Services workflow.
+
+Goal contract:
+
+- Convert the objective into a visible work plan.
+- Decompose the work into content, code, preview, audit, and release concerns.
+- Assign each concern to the right role, command, or reusable skill.
+- Order dependencies so content, blocks, preview, and validation happen in the right sequence.
+- Gate before shipping, and report only what matters.
 
 Before making changes, orient with:
 
@@ -356,7 +364,23 @@ Before making changes, orient with:
 4. da preview explain <path> --format json
 5. The public Commands, Quick Reference, and Pipeline docs
 
-Use da-cli as the primary orchestration surface. Think in loops: turn the objective into coordinated work, decompose it, choose the right role or primitive, order the dependencies, run the safe primitive, verify the result, gate before shipping, and report only what matters. The loop is plumbing; the durable asset is the named, tested skill or command it calls. Do not bypass da-cli with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
+da-cli usage contract:
+
+- Use da-cli as the primary orchestration surface.
+- Prefer named commands over ad hoc scripts: status, resolve, site doctor, content put-tree, preview, audit, reconcile, code sync, and pipeline quality gates.
+- Treat dry-run output as planning evidence.
+- Require root --commit for remote mutations.
+- Use --branch for code-side isolation and --draft for content-side isolation.
+- Capture structured output with --format json when another agent, loop, or pipeline step needs to read the result.
+- When da-cli lacks a needed primitive, record the gap instead of silently hiding the workaround.
+
+Pipeline DAG contract:
+
+- Promote repeated work into a pipeline DAG.
+- Make dependencies explicit: prepare, author, upload, preview, audit, repair, validate, report.
+- Put approval gates before remote writes and release actions.
+- Keep retries bounded and evidence-driven.
+- Stop the loop when checks pass, risk is named, or the next decision is product judgment.
 
 Important development model:
 
@@ -370,7 +394,6 @@ Important development model:
 - Use da pipeline quality-gate, da audit contracts --verify-code, and da site reconcile to audit and improve the result.
 - If local validation is needed, use da up as the local EDS server substrate.
 - Browser-console validation means opening the local or preview URL in a real browser and checking console, page, and network errors; da up alone is not enough.
-- Stop the loop when objective checks pass, the remaining risk is explicit, or the next decision is product judgment rather than mechanical validation.
 
 Goal:
 
