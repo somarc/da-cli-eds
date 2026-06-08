@@ -142,6 +142,18 @@
       text-transform: uppercase;
     }
 
+    main.agentic-workflow .skill-asset-panel {
+      margin-top: 24px;
+      border: 1px solid rgba(219, 151, 29, 0.45);
+      border-radius: 8px;
+      padding: 22px;
+      background: #fff7e4;
+    }
+
+    main.agentic-workflow .skill-asset-panel strong {
+      color: var(--workflow-gold);
+    }
+
     main.agentic-workflow .ordered-flow {
       display: grid;
       gap: 12px;
@@ -264,6 +276,11 @@
   verify preview, codebus, routes, and browser state
   record friction for the next CLI primitive</code></pre>
         </div>
+        <div class="skill-asset-panel">
+          <h3>The loop is plumbing. The skill is the asset.</h3>
+          <p>The loop matters because it keeps the work moving, but the durable leverage is in the sharp, tested, named things it can call. In da-cli, those assets are commands and skills like <code>da status</code>, <code>da resolve</code>, <code>da site doctor --agent</code>, <code>da content put-tree</code>, <code>da preview explain</code>, <code>da audit contracts</code>, <code>da code sync block</code>, and project-specific pipeline nodes.</p>
+          <p>A loop with no reusable primitives is just repetition around an unknown actor. A loop calling a library of known DA and EDS skills is a system that compounds: every hard workflow can become a named primitive, and every repeated workflow can become a tested skill.</p>
+        </div>
         <div class="loop-ladder">
           <div>
             <strong>Stage 1</strong>
@@ -347,7 +364,7 @@ Before making changes, orient with:
 4. da preview explain <path> --format json
 5. The public Commands, Quick Reference, and Pipeline docs
 
-Use da-cli as the primary orchestration surface. Think in loops: observe, choose a safe primitive, run it, verify the result, and either stop or choose the next primitive. Do not bypass it with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
+Use da-cli as the primary orchestration surface. Think in loops: observe, choose a safe primitive, run it, verify the result, and either stop or choose the next primitive. The loop is plumbing; the durable asset is the named, tested skill or command it calls. Do not bypass da-cli with ad hoc scripts unless the CLI lacks a needed primitive. When friction appears, record whether da-cli should improve.
 
 Important development model:
 
