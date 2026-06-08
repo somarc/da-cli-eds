@@ -278,7 +278,7 @@
         </div>
         <div class="skill-asset-panel">
           <h3>Loop authoring is the product surface.</h3>
-          <p>The useful move is not to rank modes of work. It is to make the loop explicit enough that an agent can run it, a human can inspect it, and the CLI can improve from the friction it records. A good loop takes an objective, decomposes the work, assigns the right role or primitive, orders the dependencies, executes, reviews against the original goal, gates before shipping, and reports only what matters.</p>
+          <p>The useful move is not to rank modes of work. It is to make the loop explicit enough that an agent can run it, a human can inspect it, and the CLI can improve from the friction it records. A good loop takes an objective, decomposes the work, chooses the right role, command, reusable skill, or pipeline step, orders the dependencies, executes, reviews against the original goal, gates before shipping, and reports only what matters.</p>
           <ul class="loop-authoring-list">
             <li>Command graph</li>
             <li>Role assignment</li>
@@ -352,7 +352,7 @@ Goal contract:
 
 - Convert the objective into a visible work plan.
 - Decompose the work into content, code, preview, audit, and release concerns.
-- Assign each concern to the right role, command, or reusable skill.
+- Assign each concern to the right role, command, reusable skill, or pipeline step.
 - Order dependencies so content, blocks, preview, and validation happen in the right sequence.
 - Gate before shipping, and report only what matters.
 
@@ -373,6 +373,7 @@ da-cli usage contract:
 - Use --branch for code-side isolation and --draft for content-side isolation.
 - Capture structured output with --format json when another agent, loop, or pipeline step needs to read the result.
 - When da-cli lacks a needed primitive, record the gap instead of silently hiding the workaround.
+- da-cli does not replace product judgment or agent coordination; it gives those loops inspectable primitives, structured outputs, and safety gates.
 
 Pipeline DAG contract:
 
