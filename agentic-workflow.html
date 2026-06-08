@@ -120,28 +120,6 @@
       min-height: 100%;
     }
 
-    main.agentic-workflow .loop-ladder {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-    main.agentic-workflow .loop-ladder div {
-      border: 1px solid var(--workflow-line);
-      border-radius: 8px;
-      padding: 18px;
-      background: #fffaf1;
-    }
-
-    main.agentic-workflow .loop-ladder strong {
-      display: block;
-      color: var(--workflow-blue);
-      font-size: 0.82rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
     main.agentic-workflow .skill-asset-panel {
       margin-top: 24px;
       border: 1px solid rgba(219, 151, 29, 0.45);
@@ -152,6 +130,23 @@
 
     main.agentic-workflow .skill-asset-panel strong {
       color: var(--workflow-gold);
+    }
+
+    main.agentic-workflow .loop-authoring-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    main.agentic-workflow .loop-authoring-list li {
+      border: 1px solid rgba(219, 151, 29, 0.35);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: #fffaf1;
+      font-weight: 700;
     }
 
     main.agentic-workflow .ordered-flow {
@@ -281,22 +276,17 @@
           <p>The loop matters because it keeps the work moving, but the durable leverage is in the sharp, tested, named things it can call. In da-cli, those assets are commands and skills like <code>da status</code>, <code>da resolve</code>, <code>da site doctor --agent</code>, <code>da content put-tree</code>, <code>da preview explain</code>, <code>da audit contracts</code>, <code>da code sync block</code>, and project-specific pipeline nodes.</p>
           <p>A loop with no reusable primitives is just repetition around an unknown actor. A loop calling a library of known DA and EDS skills is a system that compounds: every hard workflow can become a named primitive, and every repeated workflow can become a tested skill.</p>
         </div>
-        <div class="loop-ladder">
-          <div>
-            <strong>Stage 1</strong>
-            <h3>Autocomplete</h3>
-            <p>The tool helps inside the editor, but the human still manually drives every step.</p>
-          </div>
-          <div>
-            <strong>Stage 2</strong>
-            <h3>Parallel prompting</h3>
-            <p>The human coordinates several agents, compares outputs, and stitches the work together.</p>
-          </div>
-          <div>
-            <strong>Stage 3</strong>
-            <h3>Loop authoring</h3>
-            <p>The human writes the loop: command graph, gates, retries, evidence, and release criteria.</p>
-          </div>
+        <div class="skill-asset-panel">
+          <h3>Loop authoring is the product surface.</h3>
+          <p>The useful move is not to rank modes of work. It is to make the loop explicit enough that an agent can run it, a human can inspect it, and the CLI can improve from the friction it records.</p>
+          <ul class="loop-authoring-list">
+            <li>Command graph</li>
+            <li>Approval gates</li>
+            <li>Retries</li>
+            <li>Preview evidence</li>
+            <li>Audit results</li>
+            <li>Release criteria</li>
+          </ul>
         </div>
       </div>
     </div>
