@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DA CLI Calibration Notes</title>
+  <meta name="description" content="How postmortems and multi-agent review feed future da-cli primitives, audits, pipelines, and jobs.">
+  <meta property="og:title" content="DA CLI Calibration Notes">
+  <meta property="og:description" content="Historical review notes are treated as calibration signal for safer DA CLI primitives and EDS workflows.">
+  <script src="/scripts/scripts.js" type="module"></script>
+  <link rel="stylesheet" href="/styles/styles.css">
+  <style>
+    main.calibration {
+      --calibration-bg: #f6f7f4;
+      --calibration-ink: #191f1b;
+      --calibration-muted: #586159;
+      --calibration-line: #d7ddd4;
+      --calibration-panel: #fff;
+      --calibration-green: #1f6f50;
+      --calibration-blue: #225b8d;
+      --calibration-warn: #8a5d12;
+
+      background: var(--calibration-bg);
+      color: var(--calibration-ink);
+    }
+
+    main.calibration .section {
+      padding: 48px 24px;
+    }
+
+    main.calibration .section > div {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    main.calibration .eyebrow {
+      margin: 0 0 12px;
+      color: var(--calibration-green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    main.calibration h1 {
+      max-width: 920px;
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 5.1rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    main.calibration h2 {
+      margin-top: 0;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1.08;
+    }
+
+    main.calibration h3 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+    }
+
+    main.calibration p,
+    main.calibration li {
+      color: var(--calibration-muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    main.calibration .lead {
+      max-width: 780px;
+      margin-top: 24px;
+      color: #303830;
+      font-size: 1.24rem;
+    }
+
+    main.calibration .note {
+      border-left: 4px solid var(--calibration-warn);
+      padding: 18px 22px;
+      background: #fff8e6;
+    }
+
+    main.calibration .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    main.calibration .card {
+      border: 1px solid var(--calibration-line);
+      border-radius: 8px;
+      padding: 20px;
+      background: var(--calibration-panel);
+    }
+
+    main.calibration .card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--calibration-blue);
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    main.calibration .ordered {
+      display: grid;
+      gap: 12px;
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: calibration-step;
+    }
+
+    main.calibration .ordered li {
+      position: relative;
+      min-height: 64px;
+      border-left: 4px solid var(--calibration-green);
+      padding: 10px 16px 10px 58px;
+      background: var(--calibration-panel);
+      counter-increment: calibration-step;
+    }
+
+    main.calibration .ordered li::before {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--calibration-green);
+      color: #fff;
+      content: counter(calibration-step);
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 28px;
+      text-align: center;
+    }
+
+    main.calibration code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    main.calibration :not(pre) > code {
+      border-radius: 4px;
+      padding: 2px 5px;
+      background: #e8ede4;
+      color: #252b24;
+      font-size: 0.94em;
+    }
+  </style>
+</head>
+
+<body>
+  <header></header>
+  <main class="calibration">
+    <div class="section">
+      <div>
+        <p class="eyebrow">Calibration notes</p>
+        <h1>Postmortems are historical signal, not current site truth.</h1>
+        <p class="lead">da-cli improves when agent reviews, implementation misses, and launch-readiness gaps are preserved as evidence. The point is not to freeze stale project claims. The point is to convert hard lessons into better primitives, audits, pipelines, jobs, and docs.</p>
+        <p class="button-container">
+          <a class="button primary" href="/agentic-workflow.html">Agentic Workflow</a>
+          <a class="button secondary" href="/tools/da-cli-flows.html">Workflow Explorer</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="note">
+        <h2>Read With Date Awareness</h2>
+        <p>Calibration notes can reference a specific site, repository, or migration moment. Those details must be re-verified before they become current backlog. Their durable value is the pattern they expose: what the CLI failed to make obvious, what the audit should have caught, and where an agent had to improvise.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div>
+        <h2>How Feedback Becomes Product Work</h2>
+        <div class="grid">
+          <div class="card">
+            <strong>Primitive gap</strong>
+            <h3>The CLI cannot inspect or mutate the thing directly.</h3>
+            <p>Promote repeated workarounds into named commands with structured output, dry-run behavior, and test coverage.</p>
+          </div>
+          <div class="card">
+            <strong>Pipeline gap</strong>
+            <h3>The workflow is expressible, but not ergonomic.</h3>
+            <p>Turn repeated sequences into reviewable YAML DAGs with explicit dependencies, approvals, retries, and reports.</p>
+          </div>
+          <div class="card">
+            <strong>Job gap</strong>
+            <h3>The work is long-running or mutation-heavy.</h3>
+            <p>Use durable state, cancellation, verification, ownership claims, and honest partial-failure reporting.</p>
+          </div>
+          <div class="card">
+            <strong>Audit gap</strong>
+            <h3>The review missed launch-readiness risk.</h3>
+            <p>Move beyond block inventory into runtime safety, metadata, query/index viability, redirects, analytics, accessibility, link health, and content depth.</p>
+          </div>
+          <div class="card">
+            <strong>Docs gap</strong>
+            <h3>The model is right, but hard to understand quickly.</h3>
+            <p>Clarify the distinction between primitives, pipeline DAGs, durable jobs, and agent operating loops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div>
+        <h2>Consensus Review Model</h2>
+        <ol class="ordered">
+          <li>Collect raw findings from specialized and general agents without treating any single agent as truth.</li>
+          <li>Normalize each finding as a bug, primitive gap, pipeline gap, job gap, audit gap, docs gap, or speculative idea.</li>
+          <li>Require concrete evidence: file path, command, failing case, missing behavior, browser observation, or reproducible workflow.</li>
+          <li>Prefer fixes that improve agent trust in DA and EDS mutations, especially where the operation writes remote state or changes launch behavior.</li>
+          <li>Make the repo decide with tests, docs, and small reviewable PRs.</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>

@@ -16,6 +16,7 @@ This repo contains the public documentation site for DA CLI, including authored 
 - `/pipeline`
 - `/api`
 - `/agentic-workflow.html`
+- `/calibration-notes.html`
 - `/tools/da-cli-flows.html`
 - `/tools/da-cli-vs-helix-cli.html`
 
