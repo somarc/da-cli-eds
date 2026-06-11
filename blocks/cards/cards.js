@@ -25,7 +25,27 @@ const CMD_GROUPS = {
   'da status': 'group-management',
 };
 
+const GROUP_LABELS = {
+  'group-foundation': 'Foundation',
+  'group-data': 'Source',
+  'group-delivery': 'Delivery',
+  'group-management': 'Diagnostics',
+  'group-quality': 'Quality',
+  'group-orchestration': 'Agentic',
+};
+
+// legend order — only groups actually present on the page are rendered
+const LEGEND_ORDER = [
+  'group-foundation',
+  'group-data',
+  'group-delivery',
+  'group-management',
+  'group-quality',
+  'group-orchestration',
+];
+
 export default function decorate(block) {
+  const present = new Set();
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
@@ -37,10 +57,28 @@ export default function decorate(block) {
     const heading = li.querySelector('h3');
     if (heading) {
       const group = CMD_GROUPS[heading.textContent.trim().toLowerCase()];
-      if (group) li.classList.add(group);
+      if (group) {
+        li.classList.add(group);
+        present.add(group);
+        const label = GROUP_LABELS[group];
+        if (label) li.setAttribute('data-group-label', label);
+      }
     }
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.replaceChildren(ul);
+
+  // inject a legend above the grid for groups present on the page
+  if (present.size > 1 && !block.previousElementSibling?.classList?.contains('cards-legend')) {
+    const legend = document.createElement('ul');
+    legend.className = 'cards-legend';
+    LEGEND_ORDER.filter((g) => present.has(g)).forEach((g) => {
+      const item = document.createElement('li');
+      item.className = g;
+      item.textContent = GROUP_LABELS[g];
+      legend.append(item);
+    });
+    block.parentElement.insertBefore(legend, block);
+  }
 }

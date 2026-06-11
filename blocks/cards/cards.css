@@ -8,13 +8,14 @@
 }
 
 .cards > ul > li {
+  position: relative;
   border: 1px solid var(--border-color);
   border-top: 3px solid var(--accent-color);
   border-radius: 0 0 8px 8px;
   background-color: var(--background-color);
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.15s, transform 0.15s;
+  transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
 }
 
 .cards > ul > li:hover {
@@ -41,9 +42,9 @@
 
 .cards .cards-card-body h3 {
   margin: 0 0 8px;
-  font-family: var(--body-font-family);
+  font-family: var(--mono-font-family);
   font-size: var(--body-font-size-s);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text-color);
 }
@@ -79,10 +80,70 @@
   text-decoration: none;
 }
 
-/* command group accent colors */
+/* command group accent colors — nudged apart for legibility while staying gruvbox */
 .cards > ul > li.group-foundation { border-top-color: var(--c-foundation); }
 .cards > ul > li.group-data { border-top-color: var(--c-data); }
 .cards > ul > li.group-delivery { border-top-color: var(--c-delivery); }
 .cards > ul > li.group-management { border-top-color: var(--c-management); }
 .cards > ul > li.group-quality { border-top-color: var(--c-quality); }
 .cards > ul > li.group-orchestration { border-top-color: var(--c-orchestration); }
+
+/* category tag on each card — turns the color stripe into a labeled signal */
+.cards > ul > li[data-group-label] .cards-card-body::before {
+  content: attr(data-group-label);
+  align-self: flex-start;
+  margin: 0 0 10px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-family: var(--mono-font-family);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--group-color, var(--dark-color));
+  background: var(--group-tint, rgb(80 73 69 / 8%));
+}
+
+.cards > ul > li.group-foundation { --group-color: #b57614; --group-tint: rgb(250 189 47 / 14%); }
+.cards > ul > li.group-data { --group-color: #427b58; --group-tint: rgb(142 192 124 / 18%); }
+.cards > ul > li.group-delivery { --group-color: #066678; --group-tint: rgb(69 133 136 / 16%); }
+.cards > ul > li.group-management { --group-color: #af3a03; --group-tint: rgb(254 128 25 / 14%); }
+.cards > ul > li.group-quality { --group-color: #79740e; --group-tint: rgb(184 187 38 / 20%); }
+.cards > ul > li.group-orchestration { --group-color: #9d0006; --group-tint: rgb(251 73 52 / 12%); }
+
+/* legend — a compact key authored as a paragraph immediately before the cards block,
+   or injected by cards.js. Each chip mirrors the group colors. */
+.cards-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 4px 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono-font-family);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark-color);
+  letter-spacing: 0.02em;
+}
+
+.cards-legend li::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--chip, var(--accent-color));
+}
+
+.cards-legend li.group-foundation::before { background: var(--c-foundation); }
+.cards-legend li.group-data::before { background: var(--c-data); }
+.cards-legend li.group-delivery::before { background: var(--c-delivery); }
+.cards-legend li.group-management::before { background: var(--c-management); }
+.cards-legend li.group-quality::before { background: var(--c-quality); }
+.cards-legend li.group-orchestration::before { background: var(--c-orchestration); }

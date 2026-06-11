@@ -1,0 +1,111 @@
+/* metrics — reduction / efficiency stat band
+ * Designed to render on the dark gruvbox background for section rhythm.
+ * Authoring: a `metrics` block where each row is one stat:
+ *   col 1 = the figure (e.g. "~30%"), col 2 = the label, col 3 (optional) = a note.
+ * The block heading/intro can live in the section above it.
+ */
+
+.metrics {
+  --metrics-bg: var(--dark-background, #1d2021);
+  --metrics-fg: #f0f0e8;
+  --metrics-accent: var(--accent-color, #fabd2f);
+}
+
+.metrics-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.section.metrics-container {
+  margin: 0;
+  padding: 64px 0 68px;
+  background:
+    radial-gradient(circle at 18% 28%, rgb(250 189 47 / 10%), transparent 42%),
+    radial-gradient(circle at 88% 80%, rgb(142 192 124 / 8%), transparent 46%),
+    var(--dark-background, #1d2021);
+  color: #f0f0e8;
+}
+
+.section.metrics-container > div {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+/* terminal eyebrow above the figures, authored as a heading */
+.metrics-eyebrow {
+  margin: 0 0 6px;
+  color: var(--c-data, #8ec07c);
+  font-family: var(--mono-font-family, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metrics ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px 40px;
+}
+
+@media (width >= 720px) {
+  .metrics ul { grid-template-columns: repeat(3, 1fr); }
+}
+
+.metrics li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 18px;
+  border-left: 2px solid rgb(250 189 47 / 35%);
+}
+
+.metrics .metric-figure {
+  font-family: var(--mono-font-family, monospace);
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent-color, #fabd2f);
+  text-shadow: 0 0 28px rgb(250 189 47 / 28%);
+}
+
+.metrics .metric-label {
+  font-family: var(--body-font-family, sans-serif);
+  font-size: var(--body-font-size-xs, 14px);
+  font-weight: 600;
+  color: #f0f0e8;
+  letter-spacing: 0.01em;
+}
+
+.metrics .metric-note {
+  font-family: var(--body-font-family, sans-serif);
+  font-size: 0.82em;
+  line-height: 1.45;
+  color: rgb(240 240 232 / 60%);
+}
+
+.metrics .metric-note code {
+  background: rgb(250 189 47 / 12%);
+  color: #f1d58f;
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+
+/* a closing caveat line, authored as the block's last single-cell row */
+.metrics li.metric-caveat {
+  grid-column: 1 / -1;
+  padding-left: 0;
+  border-left: 0;
+  margin-top: 8px;
+}
+
+.metrics li.metric-caveat .metric-note {
+  font-style: italic;
+  color: rgb(240 240 232 / 52%);
+}
