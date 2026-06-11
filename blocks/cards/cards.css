@@ -60,7 +60,6 @@
   transform: translateY(-2px);
 }
 
-/* command group accent colors + tint tokens — single block per group */
 .cards > ul > li.group-foundation {
   border-top-color: var(--c-foundation);
   --group-color: #b57614;
@@ -114,7 +113,6 @@
   flex-direction: column;
 }
 
-/* category tag on each card — turns the color stripe into a labeled signal */
 .cards > ul > li[data-group-label] .cards-card-body::before {
   content: attr(data-group-label);
   align-self: flex-start;
@@ -162,13 +160,10 @@
 }
 
 .cards .cards-card-body p:last-child a::after {
-  content: '→';
+  content: '\2192';
 }
 
 .cards .cards-card-body p:last-child a:hover {
   color: var(--link-hover-color);
   text-decoration: none;
 }
-ar(--c-management); }
-.cards-legend li.group-quality::before { background: var(--c-quality); }
-.cards-legend li.group-orchestration::before { background: var(--c-orchestration); }
