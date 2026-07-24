@@ -1,0 +1,24 @@
+name: da-cli-eds-final-cut-certification
+# DA is the sole source of truth for authored content. This pipeline activates
+# and verifies only the reviewed canonical manifest; it never uploads content
+# from Git and it excludes /drafts.
+#
+# Plan:
+#   da --org somarc --repo da-cli-eds --branch main pipeline run dogfood/certify.yaml --dry-run --format json
+# Execute after review:
+#   da --org somarc --repo da-cli-eds --branch main --commit pipeline run dogfood/certify.yaml --format json
+steps:
+  - id: agent-briefing
+    command: site doctor --agent --deep --format json
+  - id: contract-codebus
+    command: audit contracts --prefix / --verify-code --format json
+    depends_on: [agent-briefing]
+  - id: preview-canonical
+    command: preview pages dogfood/canonical-pages.txt --bulk --yes --format json
+    depends_on: [contract-codebus]
+  - id: explain-index
+    command: preview explain /index --format json
+    depends_on: [preview-canonical]
+  - id: final-doctor
+    command: site doctor --agent --deep --format json
+    depends_on: [explain-index]

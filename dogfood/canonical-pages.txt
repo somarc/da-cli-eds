@@ -1,0 +1,12 @@
+/agentic-workflow.html
+/api.html
+/commands.html
+/footer.html
+/index.html
+/nav.html
+/pipeline.html
+/primitives.html
+/quickref.html
+/readme.html
+/skills.html
+/x402.html

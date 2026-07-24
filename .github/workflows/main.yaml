@@ -12,3 +12,7 @@ jobs:
         node-version: 24
     - run: npm ci
     - run: npm run lint
+    - name: Install published da-cli
+      run: npm install --global @somarc/da-cli@latest
+    - name: Validate static da-cli flows
+      run: npm run validate:flows
