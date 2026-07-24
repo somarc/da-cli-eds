@@ -18,9 +18,15 @@ steps:
     command: publish pages dogfood/canonical-pages.txt --bulk --format json
     depends_on: [contract-codebus]
     requires_approval: true
+  - id: rebuild-live-sitemap
+    command: sitemap rebuild /sitemap.xml --format json
+    depends_on: [publish-canonical]
+  - id: verify-live-sitemap
+    command: sitemap verify /sitemap.xml --target live --allow-content-paths --require-path /agentic-workflow --format json
+    depends_on: [rebuild-live-sitemap]
   - id: live-freshness
     command: site freshness / --include-shared --fail-on preview-stale,live-stale,preview-missing,source-missing,probe-failed,unknown --format json
-    depends_on: [publish-canonical]
+    depends_on: [verify-live-sitemap]
   - id: final-doctor
     command: site doctor --agent --deep --format json
     depends_on: [live-freshness]
