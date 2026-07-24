@@ -219,7 +219,15 @@ function validatePipelinePlan(release, name, expectedCommand) {
   const mutation = plan.data.steps.find((step) => step.command.startsWith(`${expectedCommand} `));
   if (!mutation) fail(`${name} pipeline is missing ${expectedCommand}.`);
   if (!mutation.command.includes(release.canonicalManifest)) fail(`${name} pipeline does not use the canonical manifest.`);
-  if (name === 'promote' && mutation.requires_approval !== true) fail('Promotion publish step must require explicit pipeline approval.');
+  const contractAudit = plan.data.steps.find((step) => step.command.startsWith('audit contracts '));
+  if (!contractAudit) fail(`${name} pipeline is missing the code-bus contract audit.`);
+  if (name === 'certify' && !contractAudit.depends_on.includes(mutation.id)) {
+    fail('Certification must preview the new manifest before auditing its rendered block contracts.');
+  }
+  if (name === 'promote') {
+    if (!mutation.depends_on.includes(contractAudit.id)) fail('Promotion must audit block contracts before publishing.');
+    if (mutation.requires_approval !== true) fail('Promotion publish step must require explicit pipeline approval.');
+  }
 }
 
 function extractSyntaxes(content) {
