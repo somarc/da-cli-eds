@@ -134,19 +134,24 @@ export default async function decorate(block) {
 
       navSection.classList.add('nav-drop');
       navSection.dataset.expanded = 'false';
-      submenu.id = submenu.id || `nav-submenu-${index + 1}`;
-      submenu.setAttribute('aria-label', `${navSection.firstChild?.textContent.trim() || 'Navigation'} submenu`);
-
       const directLink = navSection.querySelector(':scope > a');
+      const authoredLabel = navSection.querySelector(':scope > p');
       const textNode = [...navSection.childNodes]
         .find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
-      const label = directLink?.textContent.trim() || textNode?.textContent.trim() || `Section ${index + 1}`;
-      if (textNode) {
+      const label = directLink?.textContent.trim()
+        || authoredLabel?.textContent.trim()
+        || textNode?.textContent.trim()
+        || `Section ${index + 1}`;
+      if (authoredLabel) authoredLabel.className = 'nav-drop-label';
+      else if (textNode) {
         const visibleLabel = document.createElement('span');
         visibleLabel.className = 'nav-drop-label';
         visibleLabel.textContent = label;
         textNode.replaceWith(visibleLabel);
       }
+
+      submenu.id = submenu.id || `nav-submenu-${index + 1}`;
+      submenu.setAttribute('aria-label', `${label} submenu`);
 
       const toggle = document.createElement('button');
       toggle.type = 'button';
