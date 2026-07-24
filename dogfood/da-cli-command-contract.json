@@ -6,8 +6,8 @@
   "generatedOn": "2026-07-24",
   "source": {
     "repository": "somarc/da-cli",
-    "commit": "5ea8cda57b5b7a4bd9b674e9ea28e6cc79acf51e",
-    "tree": "559cf139b1b316a821b9801ec64a538d103a3a12",
+    "commit": "a97601df63b187ec43a90991d5499a96e4a86755",
+    "tree": "6c1a2b3b31b3327931079e123f1f0a58b293bdaf",
     "packageVersion": "0.5.1",
     "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2",
     "inventorySource": "shared-commander-command-factory",
