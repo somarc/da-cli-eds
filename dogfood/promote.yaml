@@ -1,0 +1,24 @@
+name: da-cli-eds-final-cut-promotion
+# Promotion is a separate human-approved operation over the reviewed canonical
+# manifest. Run dogfood/certify.yaml and inspect its evidence first. The root
+# --commit flag is the only mutation approval boundary.
+#
+# Plan:
+#   da --org somarc --repo da-cli-eds --branch main pipeline run dogfood/promote.yaml --dry-run --format json
+# Execute only after explicit human approval:
+#   da --org somarc --repo da-cli-eds --branch main --commit pipeline run dogfood/promote.yaml --format json
+steps:
+  - id: preview-readiness
+    command: site freshness / --include-shared --fail-on preview-stale,preview-missing,source-missing,probe-failed,unknown --format json
+  - id: contract-codebus
+    command: audit contracts --prefix / --verify-code --format json
+    depends_on: [preview-readiness]
+  - id: publish-canonical
+    command: publish pages dogfood/canonical-pages.txt --bulk --yes --format json
+    depends_on: [contract-codebus]
+  - id: live-freshness
+    command: site freshness / --include-shared --fail-on preview-stale,live-stale,preview-missing,source-missing,probe-failed,unknown --format json
+    depends_on: [publish-canonical]
+  - id: final-doctor
+    command: site doctor --agent --deep --format json
+    depends_on: [live-freshness]
