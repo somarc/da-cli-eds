@@ -6,11 +6,12 @@
 export default function decorate(block) {
   const eyebrow = block.querySelector('h2, h3, h4');
   if (eyebrow) {
+    const eyebrowRow = [...block.children].find((row) => row.contains(eyebrow));
     const p = document.createElement('p');
     p.className = 'metrics-eyebrow';
     p.textContent = eyebrow.textContent;
     block.parentElement.insertBefore(p, block);
-    eyebrow.closest('div')?.remove();
+    eyebrowRow?.remove();
   }
 
   const ul = document.createElement('ul');

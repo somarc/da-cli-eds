@@ -9,13 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#e6edf3;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#151714;color:#f6f0df;display:flex;flex-direction:column;height:100vh;overflow:hidden}
 
 /* ── site nav bar ── */
 #site-nav{
   height:42px;min-height:42px;
-  background:#161b22;
-  border-bottom:1px solid #30363d;
+  background:#1d211e;
+  border-bottom:1px solid #44493f;
   display:flex;align-items:center;
   padding:0 20px;
   gap:0;
@@ -24,19 +24,19 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 }
 #site-nav a{
   font-size:12px;font-weight:500;
-  color:#8b949e;text-decoration:none;
+  color:#c8c0ad;text-decoration:none;
   display:flex;align-items:center;gap:6px;
   padding:4px 8px;border-radius:5px;
   transition:color .15s,background .15s;
 }
-#site-nav a:hover{color:#c9d1d9;background:#21262d}
+#site-nav a:hover{color:#f6f0df;background:#292d28}
 #site-nav a svg{flex-shrink:0}
-#site-nav .sep{width:1px;height:16px;background:#30363d;margin:0 10px}
-#site-nav .page-title{font-size:13px;font-weight:600;color:#e6edf3}
+#site-nav .sep{width:1px;height:16px;background:#44493f;margin:0 10px}
+#site-nav .page-title{font-size:13px;font-weight:600;color:#f6f0df}
 #site-nav .badge{
   margin-left:auto;
   font-family:'IBM Plex Mono',monospace;
-  font-size:10px;color:#484f58;
+  font-size:10px;color:#8f8a7e;
   min-width:0;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -44,11 +44,11 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 }
 #site-nav .share{
   flex-shrink:0;
-  border:1px solid #30363d;
+  border:1px solid #44493f;
   border-radius:5px;
   padding:5px 10px;
-  background:#0d1117;
-  color:#8b949e;
+  background:#151714;
+  color:#c8c0ad;
   font-family:'IBM Plex Mono',monospace;
   font-size:11px;
   cursor:pointer;
@@ -56,24 +56,25 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 }
 #site-nav .share:hover,
 #site-nav .share:focus-visible{
-  border-color:#58a6ff;
-  color:#e6edf3;
-  outline:none;
+  border-color:#f8b936;
+  color:#f6f0df;
+  outline:2px solid #f8b936;
+  outline-offset:2px;
 }
 
 /* ── workspace (sidebar + main) ── */
 #workspace{flex:1;display:flex;overflow:hidden;min-height:0}
 
 /* ── sidebar ── */
-#sidebar{width:264px;min-width:264px;background:#161b22;border-right:1px solid #30363d;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar{width:264px;min-width:264px;background:#1d211e;border-right:1px solid #44493f;overflow-y:auto;display:flex;flex-direction:column}
 #sidebar::-webkit-scrollbar{width:6px}
 #sidebar::-webkit-scrollbar-track{background:transparent}
-#sidebar::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
-#sidebar::-webkit-scrollbar-thumb:hover{background:#484f58}
-#sidebar{scrollbar-width:thin;scrollbar-color:#30363d transparent}
-#sidebar-hd{padding:14px 16px;border-bottom:1px solid #30363d}
-#sidebar-hd h2{font-size:13px;font-weight:700;color:#58a6ff;letter-spacing:.01em}
-#sidebar-hd p{font-size:11px;color:#8b949e;margin-top:3px}
+#sidebar::-webkit-scrollbar-thumb{background:#44493f;border-radius:3px}
+#sidebar::-webkit-scrollbar-thumb:hover{background:#8f8a7e}
+#sidebar{scrollbar-width:thin;scrollbar-color:#44493f transparent}
+#sidebar-hd{padding:14px 16px;border-bottom:1px solid #44493f}
+#sidebar-hd h1{font-size:13px;font-weight:700;color:#78a8ff;letter-spacing:.01em}
+#sidebar-hd p{font-size:11px;color:#c8c0ad;margin-top:3px}
 #scope-panel{
   display:grid;
   grid-template-columns:1fr;
@@ -84,15 +85,15 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
   display:flex;
   justify-content:space-between;
   gap:8px;
-  border:1px solid #30363d;
+  border:1px solid #44493f;
   border-radius:6px;
   padding:6px 7px;
-  background:#0d1117;
+  background:#151714;
   font-family:'IBM Plex Mono',monospace;
   font-size:10px;
 }
-.scope-row span:first-child{color:#8b949e}
-.scope-row span:last-child{color:#c9d1d9;text-align:right}
+.scope-row span:first-child{color:#c8c0ad}
+.scope-row span:last-child{color:#f6f0df;text-align:right}
 #journeys{
   display:grid;
   grid-template-columns:1fr;
@@ -101,11 +102,11 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 }
 .journey{
   width:100%;
-  border:1px solid #30363d;
+  border:1px solid #44493f;
   border-radius:6px;
   padding:6px 7px;
-  background:#161b22;
-  color:#c9d1d9;
+  background:#1d211e;
+  color:#f6f0df;
   font-family:'IBM Plex Mono',monospace;
   font-size:10px;
   text-align:left;
@@ -113,47 +114,57 @@ body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#0d1117;color:#
 }
 .journey:hover,
 .journey:focus-visible{
-  border-color:#58a6ff;
+  border-color:#f8b936;
   color:#fff;
-  outline:none;
+  outline:2px solid #f8b936;
+  outline-offset:2px;
 }
-.grp{border-bottom:1px solid #21262d}
-.grp-hd{padding:7px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
-.grp-hd:hover{background:#1c2128;color:#c9d1d9}
+.grp{border-bottom:1px solid #292d28}
+.grp-hd{width:100%;border:0;padding:7px 16px;background:transparent;font:inherit;font-size:10px;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.08em;color:#c8c0ad;cursor:pointer;display:flex;justify-content:space-between;user-select:none}
+.grp-hd:hover{background:#242923;color:#f6f0df}
+.grp-hd:focus-visible{outline:2px solid #f8b936;outline-offset:-2px;color:#fff}
 .grp-arrow{transition:transform .15s}
 .grp.closed .grp-arrow{transform:rotate(-90deg)}
 .grp.closed .grp-body{display:none}
 .grp-body{padding:3px 0}
-.cmd{padding:5px 14px 5px 26px;font-size:12px;font-family:'IBM Plex Mono',monospace;cursor:pointer;color:#c9d1d9;border-left:3px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cmd:hover{background:#1c2128;color:#fff}
-.cmd.on{background:#1c2840;color:#58a6ff;border-left-color:#58a6ff}
+.cmd{display:block;width:100%;border:0;border-left:3px solid transparent;padding:5px 14px 5px 26px;background:transparent;font-size:12px;font-family:'IBM Plex Mono',monospace;text-align:left;cursor:pointer;color:#f6f0df;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmd:hover{background:#242923;color:#fff}
+.cmd.on{background:#283429;color:#78a8ff;border-left-color:#78a8ff}
+.cmd:focus-visible{outline:2px solid #f8b936;outline-offset:-2px;color:#fff}
 
 /* ── main ── */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-#toolbar{padding:8px 16px;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;gap:16px;min-height:42px;flex-shrink:0}
-#active-label{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7ee787;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#active-label .dim{color:#8b949e}
+#toolbar{padding:8px 16px;background:#1d211e;border-bottom:1px solid #44493f;display:flex;align-items:center;gap:16px;min-height:42px;flex-shrink:0}
+#active-label{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9bd59a;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#active-label .dim{color:#c8c0ad}
 .risk-chip{
   display:inline-flex;
   align-items:center;
   min-height:18px;
   margin-left:8px;
-  border:1px solid #30363d;
+  border:1px solid #44493f;
   border-radius:999px;
   padding:2px 7px;
-  color:#c9d1d9;
+  color:#f6f0df;
   font-family:'IBM Plex Mono',monospace;
   font-size:10px;
   vertical-align:middle;
 }
-.risk-read{border-color:#238636;color:#7ee787}
-.risk-local{border-color:#b45309;color:#fbbf24}
+.risk-read{border-color:#238636;color:#9bd59a}
+.risk-local{border-color:#b45309;color:#f8b936}
 .risk-preview{border-color:#1f6feb;color:#79c0ff}
 .risk-live{border-color:#a371f7;color:#d2a8ff}
 .risk-destructive{border-color:#da3633;color:#ff7b72}
-#legend{display:flex;gap:14px;font-size:11px;color:#8b949e;flex-shrink:0}
+.risk-plan{border-color:#8b5cf6;color:#c4b5fd}
+.risk-secret{border-color:#da3633;color:#ff9b93;background:#301b19}
+#legend{display:flex;gap:14px;font-size:11px;color:#c8c0ad;flex-shrink:0}
 .leg{display:flex;align-items:center;gap:5px}
 .leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.leg-dot.core{background:#748ffc}
+.leg-dot.lib{background:#a78bfa}
+.leg-dot.client{background:#22d3ee}
+.leg-dot.external{background:#34d399}
+.leg-dot.files{background:#f8b936}
 
 /* ── diagram ── */
 #diagram-wrap{flex:1;overflow:hidden;position:relative}
@@ -177,7 +188,7 @@ svg#dg{display:block;width:100%;height:100%}
 .nd-ext .lbl{fill:#34d399}
 .nd-ext .sub{fill:#4a5568}
 .nd-file rect{fill:#1e1a0f;stroke:#b45309;stroke-width:1}
-.nd-file .lbl{fill:#fbbf24}
+.nd-file .lbl{fill:#f8b936}
 .nd-file .sub{fill:#4a5568}
 
 .nd.hi rect{stroke-width:2.5;filter:drop-shadow(0 0 7px var(--glow))}
@@ -189,41 +200,42 @@ svg#dg{display:block;width:100%;height:100%}
 .nd-client.hi .lbl{fill:#a5f3fc}
 .nd-ext.hi rect{--glow:#34d399;fill:#0e2820;stroke:#34d399}
 .nd-ext.hi .lbl{fill:#a7f3d0}
-.nd-file.hi rect{--glow:#fbbf24;fill:#2a1e00;stroke:#fbbf24}
+.nd-file.hi rect{--glow:#f8b936;fill:#2a1e00;stroke:#f8b936}
 .nd-file.hi .lbl{fill:#fde68a}
 
 .nd.dim rect{opacity:.3}
 .nd.dim text{opacity:.25}
 
-.edge{fill:none;stroke:#21262d;stroke-width:1.5;transition:stroke .25s,stroke-width .25s,opacity .25s}
+.edge{fill:none;stroke:#292d28;stroke-width:1.5;transition:stroke .25s,stroke-width .25s,opacity .25s}
 .edge.hi{stroke-width:2.5}
 .edge.hi-core{stroke:#748ffc}
 .edge.hi-lib{stroke:#a78bfa}
 .edge.hi-client{stroke:#22d3ee}
 .edge.hi-ext{stroke:#34d399}
-.edge.hi-file{stroke:#fbbf24}
+.edge.hi-file{stroke:#f8b936}
 .edge.dim{opacity:.15}
-.edgelbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:#484f58;pointer-events:none;transition:fill .25s,opacity .25s}
+.edgelbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:#8f8a7e;pointer-events:none;transition:fill .25s,opacity .25s}
 .edgelbl.hi{fill:#94a3b8;opacity:1}
 .edgelbl.dim{opacity:.1}
 
 /* ── annotations ── */
-#ann{flex-shrink:0;height:220px;min-height:220px;background:#161b22;border-top:1px solid #30363d;overflow-y:auto;padding:10px 14px}
+#ann{flex-shrink:0;height:220px;min-height:220px;background:#1d211e;border-top:1px solid #44493f;overflow-y:auto;padding:10px 14px}
 #ann::-webkit-scrollbar{width:6px}
 #ann::-webkit-scrollbar-track{background:transparent}
-#ann::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
-#ann::-webkit-scrollbar-thumb:hover{background:#484f58}
-#ann{scrollbar-width:thin;scrollbar-color:#30363d transparent}
-#ann-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:8px;display:flex;justify-content:space-between}
-.step{display:flex;gap:9px;padding:5px 7px;border-radius:5px;cursor:pointer;transition:background .1s}
-.step:hover{background:#1c2128}
-.step.on{background:#1c2840}
-.step-n{min-width:20px;height:20px;border-radius:50%;background:#21262d;font-size:10px;font-weight:700;color:#8b949e;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .1s,color .1s}
-.step.on .step-n{background:#1f4e79;color:#58a6ff}
-.step-body{flex:1;min-width:0}
-.step-pkgs{font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#58a6ff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.step-txt{font-size:11.5px;color:#c9d1d9;line-height:1.45}
-#empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:#484f58}
+#ann::-webkit-scrollbar-thumb{background:#44493f;border-radius:3px}
+#ann::-webkit-scrollbar-thumb:hover{background:#8f8a7e}
+#ann{scrollbar-width:thin;scrollbar-color:#44493f transparent}
+#ann-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#c8c0ad;margin-bottom:8px;display:flex;justify-content:space-between}
+.step{display:flex;width:100%;gap:9px;padding:5px 7px;border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .1s}
+.step:hover{background:#242923}
+.step.on{background:#283429}
+.step:focus-visible{outline:2px solid #f8b936;outline-offset:1px}
+.step-n{min-width:20px;height:20px;border-radius:50%;background:#292d28;font-size:10px;font-weight:700;color:#c8c0ad;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .1s,color .1s}
+.step.on .step-n{background:#1f4e79;color:#78a8ff}
+.step-body{display:block;flex:1;min-width:0}
+.step-pkgs{display:block;font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#78a8ff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-txt{display:block;font-size:11.5px;color:#f6f0df;line-height:1.45}
+#empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:#8f8a7e}
 #empty .tip{font-size:11px}
 
 @media (width <= 820px) {
@@ -251,11 +263,11 @@ svg#dg{display:block;width:100%;height:100%}
   #sidebar{
     width:auto;min-width:0;
     border-right:0;
-    border-bottom:1px solid #30363d;
+    border-bottom:1px solid #44493f;
     overflow:visible;
   }
   #sidebar-hd{padding:12px}
-  #sidebar-hd h2{font-size:14px}
+  #sidebar-hd h1{font-size:14px}
   #sidebar-hd p{font-size:12px;line-height:1.35}
   #scope-panel{
     grid-template-columns:repeat(3,minmax(0,1fr));
@@ -264,21 +276,21 @@ svg#dg{display:block;width:100%;height:100%}
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
   #cmd-tree{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x proximity;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-height:248px;
+    overflow-y:auto;
     -webkit-overflow-scrolling:touch;
   }
   .grp{
-    flex:0 0 min(78vw,270px);
-    border-right:1px solid #21262d;
-    border-bottom:0;
-    scroll-snap-align:start;
+    min-width:0;
+    border-right:1px solid #292d28;
+    border-bottom:1px solid #292d28;
   }
   .grp-hd{
     position:sticky;top:0;z-index:1;
     padding:9px 12px;
-    background:#161b22;
+    background:#1d211e;
   }
   .grp-body{
     max-height:198px;
@@ -303,8 +315,22 @@ svg#dg{display:block;width:100%;height:100%}
   #diagram-wrap{
     height:clamp(260px,62vw,360px);
     overflow:auto hidden;
-    border-bottom:1px solid #30363d;
+    border-bottom:1px solid #44493f;
     -webkit-overflow-scrolling:touch;
+    scrollbar-color:#8f8a7e #1d211e;
+  }
+  #diagram-wrap::before{
+    content:'scroll diagram →';
+    position:sticky;left:10px;z-index:3;
+    display:inline-block;
+    margin:8px 0 -26px;
+    padding:3px 7px;
+    border:1px solid #44493f;
+    border-radius:999px;
+    background:#151714dd;
+    color:#c8c0ad;
+    font:10px 'IBM Plex Mono',monospace;
+    pointer-events:none;
   }
   svg#dg{
     width:760px;
@@ -338,7 +364,7 @@ svg#dg{display:block;width:100%;height:100%}
   #sidebar-hd p{display:none}
   #scope-panel{grid-template-columns:1fr}
   #journeys{grid-template-columns:1fr}
-  .grp{flex-basis:84vw}
+  #cmd-tree{grid-template-columns:1fr;max-height:220px}
   #diagram-wrap{height:285px}
   svg#dg{width:720px;min-width:720px}
 }
@@ -347,16 +373,16 @@ svg#dg{display:block;width:100%;height:100%}
 <body>
 
 <!-- site nav bar -->
-<nav id="site-nav">
+<nav id="site-nav" aria-label="Page navigation">
   <a href="/">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
     DA CLI Docs
   </a>
   <div class="sep"></div>
   <a href="/tools/da-cli-vs-helix-cli.html">CLI Comparison</a>
-  <a href="/agentic-workflow.html">Agentic Workflow</a>
+  <a href="/agentic-workflow">Agentic Workflow</a>
   <span class="page-title">Workflow Explorer</span>
-  <span class="badge" id="breadcrumb">@somarc/da-cli 0.4.3 · validated 2026-06-06 · selected flow map</span>
+  <span class="badge" id="breadcrumb">@somarc/da-cli · 0.6.0 final candidate · validated 2026-07-24 · selected flow map</span>
   <button class="share" id="share-link" type="button">copy link</button>
 </nav>
 
@@ -364,38 +390,38 @@ svg#dg{display:block;width:100%;height:100%}
 
 <div id="sidebar">
   <div id="sidebar-hd">
-    <h2>Selected DA-CLI Flows</h2>
-    <p>Curated high-use flows mapped against @somarc/da-cli 0.4.3. This is not the full command reference.</p>
-    <div id="scope-panel" aria-label="Map scope">
-      <div class="scope-row"><span>version</span><span>0.4.3</span></div>
+    <h1>Selected DA-CLI Flows</h1>
+    <p>Curated high-use flows mapped against the immutable @somarc/da-cli 0.6.0 final-candidate contract. This is not the full command reference or a claim that the npm package is already published.</p>
+    <div id="scope-panel" role="group" aria-label="Map scope">
+      <div class="scope-row"><span>version</span><span>0.6.0</span></div>
       <div class="scope-row"><span>map</span><span>selected flows</span></div>
-      <div class="scope-row"><span>verified</span><span>2026-06-06</span></div>
+      <div class="scope-row"><span>verified</span><span>2026-07-24</span></div>
     </div>
-    <div id="journeys" aria-label="Journey shortcuts"></div>
+    <nav id="journeys" aria-label="Journey shortcuts"></nav>
   </div>
-  <div id="cmd-tree"></div>
+  <nav id="cmd-tree" aria-label="Command families"></nav>
 </div>
 
 <div id="main">
   <div id="toolbar">
     <div id="active-label"><span class="dim">← select a command</span></div>
     <div id="legend">
-      <div class="leg"><div class="leg-dot" style="background:#748ffc"></div>core</div>
-      <div class="leg"><div class="leg-dot" style="background:#a78bfa"></div>lib</div>
-      <div class="leg"><div class="leg-dot" style="background:#22d3ee"></div>client</div>
-      <div class="leg"><div class="leg-dot" style="background:#34d399"></div>external</div>
-      <div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>files</div>
+      <div class="leg"><div class="leg-dot core" aria-hidden="true"></div>core</div>
+      <div class="leg"><div class="leg-dot lib" aria-hidden="true"></div>lib</div>
+      <div class="leg"><div class="leg-dot client" aria-hidden="true"></div>client</div>
+      <div class="leg"><div class="leg-dot external" aria-hidden="true"></div>external</div>
+      <div class="leg"><div class="leg-dot files" aria-hidden="true"></div>files</div>
     </div>
   </div>
-  <div id="diagram-wrap">
+  <div id="diagram-wrap" role="region" aria-label="Selected command execution diagram; scroll horizontally to inspect the full graph" tabindex="0">
     <svg id="dg" viewBox="0 0 860 510" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <marker id="arr"      markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker>
+        <marker id="arr"      markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#44493f"/></marker>
         <marker id="arr-core" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#748ffc"/></marker>
         <marker id="arr-lib"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#a78bfa"/></marker>
         <marker id="arr-client" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#22d3ee"/></marker>
         <marker id="arr-ext"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#34d399"/></marker>
-        <marker id="arr-file" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#fbbf24"/></marker>
+        <marker id="arr-file" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#f8b936"/></marker>
       </defs>
       <g id="edges-layer"></g>
       <g id="nodes-layer"></g>
@@ -403,7 +429,7 @@ svg#dg{display:block;width:100%;height:100%}
   </div>
   <div id="ann">
     <div id="empty">
-      <svg width="32" height="32" fill="none" stroke="#484f58" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <svg width="32" height="32" fill="none" stroke="#8f8a7e" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
       <div class="tip">Select a command from the sidebar to see the execution flow</div>
     </div>
     <div id="steps" style="display:none"></div>
@@ -463,10 +489,10 @@ const DATA = {
             txt:"src/index.js loads the nearest .env, then the preAction hook pushes root flags (--org, --repo, --env, --format, --log-level, --log-file, --request-id, --commit, --dry-run) into the context singleton so every lib function can read them without walking the Commander parent chain." },
           { nodes:["authlib","ftok"], edges:["e-ath-ftok"],
             pkgs:"auth.js → ~/.aem/da-token.json",
-            txt:"getToken() reads ~/.aem/da-token.json and checks the JWT exp claim. If the cached token has >30 s remaining and --refresh was not passed, it is returned immediately — no network call needed." },
+            txt:"getToken() reads ~/.aem/da-token.json and validates the cached expiry metadata with the 30-second freshness margin. If enough validity remains and --refresh was not passed, the cached credential is returned without launching login." },
           { nodes:["authlib","xauth","ftok"], edges:["e-ath-xauth","e-ath-ftok"],
             pkgs:"auth.js → da-auth-helper → ~/.aem/da-token.json",
-            txt:"Cache miss or --refresh: spawnSync runs 'npx github:adobe-rnd/da-auth-helper token'. JWT returned on stdout, decoded for exp claim, and written to ~/.aem/da-token.json with 0600 permissions." },
+            txt:"Cache miss or --refresh launches the existing da-auth-helper path. The helper owns the cache; the auth.login envelope reports whether observed expiry advanced without printing token bytes or claiming unattended renewal." },
         ]
       },
       { id:"auth-status", label:"auth status",
@@ -484,7 +510,7 @@ const DATA = {
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Global flags set in singleton." },
           { nodes:["authlib","ftok","xauth"], edges:["e-ath-ftok","e-ath-xauth"], pkgs:"auth.js → cache or da-auth-helper",
-            txt:"getToken() with optional --refresh. Returns raw JWT written to process.stdout (no trailing newline). Pipe to curl -H 'Authorization: Bearer $(da auth token)' or set TOKEN=$(da auth token)." },
+            txt:"getToken() with optional --refresh writes only the raw credential bytes to stdout. This is an intentional secret stream, not an agent envelope: never log it, capture it as evidence, or place it in a prompt or file." },
         ]
       },
     ]},
@@ -524,14 +550,14 @@ const DATA = {
       },
       { id:"content-clone", label:"content clone",
         syntax:"da content clone --path /blog  [--force]",
-        desc:"Clone DA source documents into local content/",
+        desc:"Clone DA source documents into local .da/workspace/",
         steps:[
           { nodes:["index","context","cfglib"], edges:["e-idx-ctx","e-ctx-cfg"], pkgs:"index → context → config",
             txt:"Root config can come from CLI flags, .env, DA_*/AEM_* variables, .da.json, or ~/.da/config.json. clone requires a path or --all so accidental full-site clones are explicit." },
           { nodes:["client","paths","xda"], edges:["e-cli-cfg","e-cli-ath","e-pth-cli","e-cli-xda"], pkgs:"content-workspace.js → listContentPaths()",
-            txt:"Recursively lists DA source paths below the requested root, then fetches each document through sourceGet(). Existing content/ is protected unless --force is passed." },
-          { nodes:["fruns","out"], edges:["e-out-runs"], pkgs:"content/ + .da/content-state.json",
-            txt:"Writes source files under content/ and records remote hashes, staged paths, local commits, and clone root in .da/content-state.json. This gives da-cli a Git-like local content workspace without requiring Git history for DA documents." },
+            txt:"Recursively lists DA source paths below the requested root, then fetches each document through sourceGet(). Existing .da/workspace/ is protected unless --force is passed." },
+          { nodes:["fruns","out"], edges:["e-out-runs"], pkgs:".da/workspace/ + .da/content-state.json",
+            txt:"Writes source files under .da/workspace/ and records remote hashes, staged paths, local commits, and clone root in .da/content-state.json. This gives da-cli a Git-like local content workspace without requiring Git history for DA documents." },
         ]
       },
       { id:"content-status", label:"content status",
@@ -539,7 +565,7 @@ const DATA = {
         desc:"Show local content workspace changes",
         steps:[
           { nodes:["fruns"], edges:["e-out-runs"], pkgs:"content-workspace.js",
-            txt:"Reads .da/content-state.json and scans content/. Each file is classified as added, modified, deleted, or unchanged by comparing its current SHA-256 hash with the cloned base hash." },
+            txt:"Reads .da/content-state.json and scans .da/workspace/. Each file is classified as added, modified, deleted, or unchanged by comparing its current SHA-256 hash with the cloned base hash." },
           { nodes:["out"], edges:[], pkgs:"output.js",
             txt:"Prints only changed files, including staged=yes when a path has been added to the local staging set. A clean workspace prints 'nothing to commit, working tree clean'." },
         ]
@@ -549,7 +575,7 @@ const DATA = {
         desc:"Diff local content against current remote DA source",
         steps:[
           { nodes:["client","xda","fruns"], edges:["e-cli-cfg","e-cli-ath","e-cli-xda","e-out-runs"], pkgs:"content-workspace.js → da-client",
-            txt:"For a single path or all changed paths, fetches the current remote DA source and compares it with local content/ using the same simpleDiff helper used by direct content put dry-runs." },
+            txt:"For a single path or all changed paths, fetches the current remote DA source and compares it with local .da/workspace/ using the same simpleDiff helper used by direct content put dry-runs." },
           { nodes:["out"], edges:[], pkgs:"output.js",
             txt:"Diff output goes through the logging layer, so --log-level and --log-file can capture review artifacts without mixing them into structured stdout." },
         ]
@@ -559,7 +585,7 @@ const DATA = {
         desc:"Stage and record local content workspace changes",
         steps:[
           { nodes:["fruns"], edges:["e-out-runs"], pkgs:"content-workspace.js",
-            txt:"add stages all changed files by default, or normalizes specific content/... paths to DA paths. commit requires a message, records an id, timestamp, message, and path list, then clears the staging set." },
+            txt:"add stages all changed files by default, or normalizes specific .da/workspace/... paths to DA paths. commit requires a message, records an id, timestamp, message, and path list, then clears the staging set." },
           { nodes:["out"], edges:[], pkgs:"output.js",
             txt:"The local commit is a DA workspace checkpoint, not a Git commit. It gives push a clear intent boundary while leaving repository history for code/docs changes." },
         ]
@@ -579,7 +605,7 @@ const DATA = {
         desc:"Refresh local content from remote DA source",
         steps:[
           { nodes:["client","xda","fruns"], edges:["e-cli-cfg","e-cli-ath","e-cli-xda","e-out-runs"], pkgs:"content-workspace.js → da-client",
-            txt:"Fetches the requested DA path or all tracked paths, writes the remote source into content/, and updates the recorded base hash. Use this to absorb remote DA edits before another local edit/push cycle." },
+            txt:"Fetches the requested DA path or all tracked paths, writes the remote source into .da/workspace/, and updates the recorded base hash. Use this to absorb remote DA edits before another local edit/push cycle." },
         ]
       },
       { id:"content-get", label:"content get",
@@ -623,14 +649,14 @@ const DATA = {
         syntax:"da --commit preview page <path>",
         desc:"Flush DA cache, then trigger Helix content pipeline",
         steps:[
-          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root --commit stored. Preview mutates *.aem.page pipeline state, so the released CLI requires the root commit gate." },
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root --commit stored. Preview mutates *.aem.page pipeline state, so the 0.6 contract requires the root commit gate." },
           { nodes:["client","cfglib","authlib","ftok","fglob","fproj"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cfg-fglob","e-cfg-fproj"], pkgs:"createClient()", txt:"DaClient constructed." },
           { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (DA flush)",
             txt:"POST /preview/{org}/{repo}{path} flushes the DA editor cache (best-effort). Failure here does not block the EDS pipeline. This is DA-internal only, not the same as an EDS preview URL." },
           { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (EDS preview)",
             txt:"POST /preview/{org}/{repo}/{branch}/{path} on admin.hlx.page triggers the Helix content pipeline. Returns {preview:{url}} pointing to *.aem.page. This URL is what you open in a browser." },
           { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"Verification — .plain.html check",
-            txt:"verifyContentPipeline() fetches {branch}--{repo}--{org}.aem.page/{path}.plain.html. If the body is empty or '<div></div>', warns about missing AEM Sync app, missing fstab.yaml, or document lacking a <main> wrapper." },
+            txt:"verifyContentPipeline() checks rendered .plain.html for documents and exact public routes for binaries. Empty document output is diagnosed against the effective content source, Code Sync readiness, and the DA <main> contract rather than blindly prescribing fstab." },
         ]
       },
       { id:"preview-pages", label:"preview pages",
@@ -677,14 +703,14 @@ const DATA = {
         syntax:"da --commit deploy page <path>",
         desc:"Preview then publish in one command",
         steps:[
-          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"--commit controls publish gate." },
-          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Single DaClient for both preview and publish steps." },
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root target and --commit intent are captured once for the combined operation." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"Resolves one explicit target and creates a single client for both delivery phases." },
+          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"prepareWrite() safety gate",
+            txt:"Without --commit, returns one dry-run envelope containing planned preview and live URLs and performs neither phase. Ambiguous committed targets refuse before any remote mutation." },
           { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (flush)", txt:"DA cache flush (best-effort, non-fatal)." },
-          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (preview)", txt:"POST /preview — EDS content pipeline triggered. Preview URL logged." },
-          { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js gate",
-            txt:"Without --commit: prints dry-run summary and exits. With --commit: continues to live." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (preview + verification)", txt:"Activates preview, then verifies rendered output. A failed or empty preview stops the command before live publication." },
           { nodes:["client","xhlx","out"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (live)",
-            txt:"POST /live — page promoted to *.aem.live. Live URL printed to stdout." },
+            txt:"Only after committed preview verification succeeds does POST /live promote the page. One final envelope owns preview and publish evidence." },
         ]
       },
     ]},
@@ -731,8 +757,8 @@ const DATA = {
           { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"createClient()", txt:"DaClient constructed." },
           { nodes:["client","xda"], edges:["e-cli-xda"], pkgs:"da-client → admin.da.live (probe source)",
             txt:"Probes GET /source/{org}/{repo}{path} — 200 means a DA document exists (contentbus). 404 means no DA source." },
-          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (probe preview)",
-            txt:"Probes preview status. If preview exists but no DA source = codebus. Both = hybrid. Neither = orphan. Exits with code 0/2/3/4/5 for shell scripting." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (ownership probes)",
+            txt:"Combines DA source, Helix source provenance, code status, and literal static-HTML probes. Results stay distinct: contentbus, codebus, hybrid, orphan, or probe-failed; failed/forbidden evidence never becomes a safe orphan." },
         ]
       },
     ]},
@@ -748,7 +774,7 @@ const DATA = {
           { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → admin.hlx.page (.plain.html)",
             txt:"Fetches {branch}--{repo}--{org}.aem.page{path}.plain.html (content) and the page HEAD for metadata. Both use browser User-Agent to bypass Cloudflare." },
           { nodes:["aengine","out"], edges:[], pkgs:"audit-engines.js → output",
-            txt:"auditHeadings() checks H1 + hierarchy skips. auditMetadata() validates title/description/og:image. auditLinks() flags broken URLs. auditBlocks() validates EDS block table structure. Findings: error / warning / info. Exits 1 if any errors." },
+            txt:"Runs heading, metadata, link, block, section-shape, and bounded rendered-image delivery checks. Redirect-aware findings retain requested/final URL provenance and distinguish HTTP, content-type, timeout, and transport failures." },
         ]
       },
       { id:"audit-blocks", label:"audit blocks",
@@ -798,9 +824,9 @@ const DATA = {
         syntax:"da pipeline run <yaml-file>",
         desc:"Execute an extensible YAML DAG of da command primitives",
         steps:[
-          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root flags (--org, --repo, --commit) are inherited by all pipeline steps. This lets a single approval boundary control the whole workflow." },
+          { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Root --org/--repo or pipeline.context supplies target context. Root --commit gates normal commit-required leaf commands, and normal steps may not carry their own --commit. Hidden Riverboat execution is an explicit unsafe exception." },
           { nodes:["out"], edges:[], pkgs:"YAML parse → validatePipeline() → topoSort()",
-            txt:"js-yaml parses the pipeline. The descriptive language composes existing da primitives by id, command, depends_on, timeout, fail_fast, continue_on_error, and requires_approval. validatePipeline() checks step ids and dependency refs. topoSort() produces batches that can run in parallel." },
+            txt:"js-yaml parses the pipeline. Steps compose da primitives with id, command, depends_on, timeout, continue_on_error, requires_approval, if, for_each, retry, reconcile, and safe env. Validation checks ids, dependencies, target context, mutation risk, and secret-like env keys before execution." },
           { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:"Run state — ~/.da/pipeline-runs/{id}.json",
             txt:"State file tracks pending, running, completed, failed, and aborted steps. Written after every transition for status, audit trail, and abort coordination. Re-running the same YAML starts a new run; pipeline does not auto-resume a prior run." },
           { nodes:["index","context","client","cfglib","authlib"], edges:["e-idx-ctx"], pkgs:"spawn child da process per step",
@@ -855,8 +881,8 @@ const DATA = {
         ]
       },
       { id:"job-promote", label:"job promote",
-        syntax:"da job promote <preview-job-id>",
-        desc:"Publish successfully previewed paths from a durable preview job",
+        syntax:"da --commit job promote <preview-job-id> --run --yes",
+        desc:"Create and run a publish checkpoint from successful preview tasks",
         steps:[
           { nodes:["out","fruns"], edges:["e-out-runs"], pkgs:".da/jobs", txt:"Loads preview job task results and selects successful paths." },
           { nodes:["mut","context"], edges:["e-mut-ctx"], pkgs:"mutation.js gate", txt:"Publish still requires the root commit path and target safety checks before live mutation." },
@@ -867,7 +893,7 @@ const DATA = {
 
     { group:"code", items:[
       { id:"code-sync", label:"code sync",
-        syntax:"da code sync [path]  |  da code sync block <name>",
+        syntax:"da --commit code sync [path]  |  da --commit code sync block <name>",
         desc:"Trigger code-bus sync — invalidates CDN for JS/CSS assets",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
@@ -880,14 +906,14 @@ const DATA = {
 
     { group:"index", items:[
       { id:"index-validate", label:"index validate",
-        syntax:"da index validate  [--file]  [--target preview|live]",
-        desc:"Check helix-query.yaml fields against live responses",
+        syntax:"da index validate [--target preview|live]",
+        desc:"Check Configuration Service index fields against public responses",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
-          { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js + helix-query.yaml",
-            txt:"resolveConfig() for org/repo. loadQueryYaml() walks upward from cwd finding helix-query.yaml. js-yaml parses index definitions." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"Configuration Service → content/query.yaml",
+            txt:"Loads the registered site's authoritative index model from Configuration Service. No project query YAML file is treated as source of truth." },
           { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → *.aem.page|live query-index",
-            txt:"For each index, fetches {branch}--{repo}--{org}.{domain}{target}.json?limit=1. Checks defined property fields appear in live response columns. Reports fields-missing with actual live column list." },
+            txt:"For each configured target, fetches the selected public preview/live JSON endpoint and compares declared properties with delivered columns. Published-state caveats remain explicit." },
         ]
       },
       { id:"index-query", label:"index query",
@@ -895,7 +921,7 @@ const DATA = {
         desc:"Run a live query against an index",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
-          { nodes:["cfglib","fglob","fproj"], edges:["e-cfg-fglob","e-cfg-fproj"], pkgs:"config.js + helix-query.yaml", txt:"Resolves config and loads index definitions." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"Configuration Service → content/query.yaml", txt:"Resolves the target and loads the named index definition from Configuration Service." },
           { nodes:["xhlx","out"], edges:["e-cli-xhlx"], pkgs:"fetch → query-index → output",
             txt:"Fetches {base}{target}.json?limit=N&offset=O. Applies client-side --filter key=value substring matching. No auth needed — query-index is a public EDS endpoint." },
         ]
@@ -924,16 +950,18 @@ const DATA = {
 
     { group:"site", items:[
       { id:"site-create", label:"site create",
-        syntax:"da site create <name>  [--org]  [--da-org]",
-        desc:"Scaffold a new EDS site from the snowflake template",
+        syntax:"da --commit site create <name>  [--org]  [--aem-org]  [--da-org]",
+        desc:"Create and register a Configuration Service-backed EDS site",
         steps:[
           { nodes:["index","context"], edges:["e-idx-ctx"], pkgs:"index → context", txt:"Flags stored." },
-          { nodes:["out"], edges:[], pkgs:"gh CLI → fork snowflake template",
-            txt:"Runs 'gh repo create {ghUser}/{name} --template ai-ecoverse/snowflake --public --clone'. Requires GitHub CLI to be authenticated. Snowflake is the canonical EDS starter." },
-          { nodes:["out"], edges:[], pkgs:"Write fstab.yaml → git commit + push",
-            txt:"Creates fstab.yaml: mountpoints: /: https://content.da.live/{daOrg}/{name}/. Commits and pushes to main. Without fstab.yaml the EDS site returns 404 on all routes." },
-          { nodes:["client","cfglib","authlib","ftok","xhlx"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok","e-cli-xhlx"], pkgs:"da-client → admin.hlx.page (warm index)",
-            txt:"Triggers preview of /index to warm the pipeline. Checks for empty content pipeline (AEM Sync app not installed). Prints preview URL and install instructions." },
+          { nodes:["client","cfglib","authlib","ftok"], edges:["e-cli-cfg","e-cli-ath","e-ath-ftok"], pkgs:"authorization preflight",
+            txt:"Before creating a GitHub repository, validates DA and Configuration Service authorization plus the explicit root --commit boundary." },
+          { nodes:["out"], edges:[], pkgs:"gh CLI → GitHub template repository",
+            txt:"Creates the repository from adobe/aem-boilerplate by default (or --template), with explicit public/private visibility, and clones it locally." },
+          { nodes:["client","xhlx"], edges:["e-cli-xhlx"], pkgs:"Configuration Service → create/adopt",
+            txt:"Creates or safely adopts the site configuration with matching code and DA markup source. A legacy fstab is written only when --legacy-fstab is explicitly selected." },
+          { nodes:["out"], edges:[], pkgs:"readiness handoff",
+            txt:"Prints AEM Code Sync, DA Author, and first-preview next steps without pretending that repository creation alone makes the site ready." },
         ]
       },
     ]},
@@ -956,9 +984,9 @@ const JOURNEYS = [
 
 const nodeMap = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
 const SVG_NS = 'http://www.w3.org/2000/svg';
-const CLI_VERSION = '@somarc/da-cli 0.4.3';
+const CLI_VERSION = '@somarc/da-cli · 0.6.0 final candidate';
 const COMMAND_COUNT = DATA.commands.reduce((total, group) => total + group.items.length, 0);
-const DEFAULT_BREADCRUMB = `${CLI_VERSION} · ${COMMAND_COUNT} selected mapped surfaces · validated 2026-06-06`;
+const DEFAULT_BREADCRUMB = `${CLI_VERSION} · ${COMMAND_COUNT} selected mapped surfaces · validated 2026-07-24`;
 const commandMap = Object.fromEntries(allCmds().map(cmd => [cmd.id, cmd]));
 const groupByCommand = Object.fromEntries(DATA.commands.flatMap(group => group.items.map(cmd => [cmd.id, group.group])));
 const breadcrumb = document.getElementById('breadcrumb');
@@ -968,16 +996,25 @@ let suppressHashUpdate = false;
 function commandRisk(cmd) {
   const syntax = cmd.syntax ?? '';
   const id = cmd.id ?? '';
+  if (/auth token/.test(syntax)) {
+    return { label: 'secret output', className: 'risk-secret' };
+  }
   if (/delete|unpublish|purge|clean|route-clean/.test(syntax) || /unpublish|purge|clean|delete/.test(id)) {
     return { label: 'destructive', className: 'risk-destructive' };
   }
   if (/publish|deploy/.test(syntax) || /job promote/.test(syntax)) {
     return { label: 'live mutation', className: 'risk-live' };
   }
-  if (/preview|code sync|migrate|site create/.test(syntax)) {
+  if (/site create/.test(syntax)) {
+    return { label: 'remote mutation', className: 'risk-live' };
+  }
+  if (/pipeline run/.test(syntax)) {
+    return { label: 'plan-dependent', className: 'risk-plan' };
+  }
+  if (/preview|code sync|migrate/.test(syntax)) {
     return { label: 'preview/write', className: 'risk-preview' };
   }
-  if (/content put|content push|pipeline run|pipeline abort|job start|job run|up/.test(syntax)) {
+  if (/auth (login|logout|set-token)|config set|content (clone|add|commit|merge|put|push)|pipeline (run|abort)|job (start|run|cancel)|skills |up/.test(syntax)) {
     return { label: 'local or source write', className: 'risk-local' };
   }
   return { label: 'read-only', className: 'risk-read' };
@@ -1030,15 +1067,22 @@ const tree = document.getElementById('cmd-tree');
 DATA.commands.forEach(g => {
   const div = document.createElement('div');
   div.className = 'grp';
-  div.innerHTML = `<div class="grp-hd">${g.group}<span class="grp-arrow">▾</span></div><div class="grp-body"></div>`;
+  const panelId = `command-group-${g.group}`;
+  const compact = window.matchMedia('(max-width: 820px)').matches;
+  if (compact) div.classList.add('closed');
+  div.innerHTML = `<button class="grp-hd" type="button" aria-expanded="${compact ? 'false' : 'true'}" aria-controls="${panelId}">${g.group}<span class="grp-arrow" aria-hidden="true">▾</span></button><div class="grp-body" id="${panelId}"></div>`;
   const body = div.querySelector('.grp-body');
   g.items.forEach(cmd => {
-    const el = document.createElement('div');
+    const el = document.createElement('button');
+    el.type = 'button';
     el.className = 'cmd'; el.textContent = cmd.label; el.dataset.id = cmd.id;
     el.addEventListener('click', () => selectCmd(cmd.id));
     body.appendChild(el);
   });
-  div.querySelector('.grp-hd').addEventListener('click', () => div.classList.toggle('closed'));
+  div.querySelector('.grp-hd').addEventListener('click', (event) => {
+    div.classList.toggle('closed');
+    event.currentTarget.setAttribute('aria-expanded', div.classList.contains('closed') ? 'false' : 'true');
+  });
   tree.appendChild(div);
 });
 
@@ -1120,6 +1164,11 @@ function selectCmd(id, options = {}) {
   activeStepIdx=Number.isInteger(options.step) ? options.step : -1;
   document.querySelectorAll('.cmd').forEach(el => el.classList.toggle('on', el.dataset.id===id));
   const activeButton = document.querySelector(`.cmd[data-id="${id}"]`);
+  const activeGroup = activeButton?.closest('.grp');
+  if (activeGroup?.classList.contains('closed')) {
+    activeGroup.classList.remove('closed');
+    activeGroup.querySelector('.grp-hd')?.setAttribute('aria-expanded', 'true');
+  }
   activeButton?.scrollIntoView({ block:'nearest', inline:'center' });
   const risk = commandRisk(cmd);
   const activeLabel = document.getElementById('active-label');
@@ -1191,7 +1240,7 @@ function renderSteps(cmd) {
   const titleText = document.createElement('span');
   titleText.append(document.createTextNode(`${cmd.label} — execution steps`), riskChip(risk));
   const desc = document.createElement('span');
-  desc.style.color = '#484f58';
+  desc.style.color = '#8f8a7e';
   desc.style.fontWeight = '400';
   desc.style.textTransform = 'none';
   desc.style.letterSpacing = '0';
@@ -1199,9 +1248,19 @@ function renderSteps(cmd) {
   title.append(titleText, desc);
   stepsEl.appendChild(title);
   cmd.steps.forEach((s,i)=>{
-    const row=document.createElement('div');
+    const row=document.createElement('button');
+    row.type='button';
     row.className='step'; row.dataset.idx=i;
-    row.innerHTML=`<div class="step-n">${i+1}</div><div class="step-body"><div class="step-pkgs">${s.pkgs}</div><div class="step-txt">${s.txt}</div></div>`;
+    const number=document.createElement('span');
+    const body=document.createElement('span');
+    const packages=document.createElement('span');
+    const text=document.createElement('span');
+    number.className='step-n'; number.textContent=i+1;
+    body.className='step-body';
+    packages.className='step-pkgs'; packages.textContent=s.pkgs;
+    text.className='step-txt'; text.textContent=s.txt;
+    body.append(packages,text);
+    row.append(number,body);
     row.addEventListener('mouseenter',()=>{ if(activeStepIdx<0) highlightStep(cmd,i); });
     row.addEventListener('mouseleave',()=>{ if(activeStepIdx<0) highlightAll(cmd); });
     row.addEventListener('click',()=>{

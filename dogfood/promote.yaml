@@ -1,12 +1,13 @@
 name: da-cli-eds-final-cut-promotion
 # Promotion is a separate human-approved operation over the reviewed canonical
-# manifest. Run dogfood/certify.yaml and inspect its evidence first. The root
-# --commit flag is the only mutation approval boundary.
+# manifest. Run dogfood/certify.yaml and inspect its evidence first. Root
+# --commit is the executable mutation boundary; requires_approval adds an
+# explicit pipeline gate but does not attest reviewer identity or provenance.
 #
 # Plan:
 #   da --org somarc --repo da-cli-eds --branch main pipeline run dogfood/promote.yaml --dry-run --format json
 # Execute only after explicit human approval:
-#   da --org somarc --repo da-cli-eds --branch main --commit pipeline run dogfood/promote.yaml --format json
+#   da --org somarc --repo da-cli-eds --branch main --commit pipeline run dogfood/promote.yaml --approve publish-canonical --format json
 steps:
   - id: preview-readiness
     command: site freshness / --include-shared --fail-on preview-stale,preview-missing,source-missing,probe-failed,unknown --format json
@@ -14,8 +15,9 @@ steps:
     command: audit contracts --prefix / --verify-code --format json
     depends_on: [preview-readiness]
   - id: publish-canonical
-    command: publish pages dogfood/canonical-pages.txt --bulk --yes --format json
+    command: publish pages dogfood/canonical-pages.txt --bulk --format json
     depends_on: [contract-codebus]
+    requires_approval: true
   - id: live-freshness
     command: site freshness / --include-shared --fail-on preview-stale,live-stale,preview-missing,source-missing,probe-failed,unknown --format json
     depends_on: [publish-canonical]

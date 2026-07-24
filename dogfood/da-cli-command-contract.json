@@ -1,0 +1,3869 @@
+{
+  "schemaVersion": "da-cli.command-contract.v1",
+  "package": "@somarc/da-cli",
+  "release": "0.6.0",
+  "phase": "final-candidate",
+  "generatedOn": "2026-07-24",
+  "source": {
+    "repository": "somarc/da-cli",
+    "commit": "e7c843c918f4cf0a0f587fd4f5c9a154a701c1f0",
+    "tree": "3828a81a282abd46b6b90d25765c75046e4ac52c",
+    "packageVersion": "0.5.1",
+    "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2",
+    "inventorySource": "shared-commander-command-factory",
+    "commandCount": 125
+  },
+  "rootOptions": [
+    {
+      "long": "--org",
+      "takesValue": true
+    },
+    {
+      "long": "--repo",
+      "takesValue": true
+    },
+    {
+      "long": "--branch",
+      "takesValue": true
+    },
+    {
+      "long": "--env",
+      "takesValue": true
+    },
+    {
+      "long": "--format",
+      "takesValue": true
+    },
+    {
+      "long": "--log-level",
+      "takesValue": true
+    },
+    {
+      "long": "--log-file",
+      "takesValue": true
+    },
+    {
+      "long": "--request-id",
+      "takesValue": true
+    },
+    {
+      "long": "--dry-run",
+      "takesValue": false
+    },
+    {
+      "long": "--commit",
+      "takesValue": false
+    },
+    {
+      "long": "--quiet",
+      "takesValue": false
+    },
+    {
+      "long": "--verbose",
+      "takesValue": false
+    }
+  ],
+  "commands": [
+    {
+      "path": "audit blocks",
+      "operation": "audit.blocks",
+      "signature": "audit blocks <path>",
+      "description": "Validate block structure and decoration from .plain.html",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "audit",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "audit content-gaps",
+      "operation": "audit.content-gaps",
+      "signature": "audit content-gaps",
+      "description": "Compare discovery content truth against authored DA/plain HTML state",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "audit",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--discovery <file>",
+          "short": null,
+          "long": "--discovery",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--route <route>",
+          "short": null,
+          "long": "--route",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--plain-html <file>",
+          "short": null,
+          "long": "--plain-html",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--format <type>",
+          "short": null,
+          "long": "--format",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "audit contracts",
+      "operation": "audit.contracts",
+      "signature": "audit contracts",
+      "description": "List all block class names used across a path prefix",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "audit",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--prefix <prefix>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--verify-code",
+          "short": null,
+          "long": "--verify-code",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "audit full",
+      "operation": "audit.full",
+      "signature": "audit full <path>",
+      "description": "Run all audits — unified report with severity classification",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "audit",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "audit semantics",
+      "operation": "audit.semantics",
+      "signature": "audit semantics <path>",
+      "description": "Check heading hierarchy, metadata quality, and link quality",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "audit",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "auth login",
+      "operation": "auth.login",
+      "signature": "auth login",
+      "description": "Obtain and cache a DA Bearer token via da-auth-helper",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "auth",
+      "targetDependent": false,
+      "mutation": "local-auth",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--refresh",
+          "short": null,
+          "long": "--refresh",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "auth logout",
+      "operation": "auth.logout",
+      "signature": "auth logout",
+      "description": "Remove cached token",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "auth",
+      "targetDependent": false,
+      "mutation": "local-auth",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "auth set-token",
+      "operation": "auth.set-token",
+      "signature": "auth set-token [token]",
+      "description": "Store a raw DA Bearer token for non-interactive agent or CI setup",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "auth",
+      "targetDependent": false,
+      "mutation": "local-auth",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--expires-in <seconds>",
+          "short": null,
+          "long": "--expires-in",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "auth status",
+      "operation": "auth.status",
+      "signature": "auth status",
+      "description": "Show cached-token validity and expiry",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "auth",
+      "targetDependent": false,
+      "mutation": "local-auth",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--min-validity <duration>",
+          "short": null,
+          "long": "--min-validity",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "auth token",
+      "operation": "auth.token",
+      "signature": "auth token",
+      "description": "Print raw Bearer token to stdout; intentional raw stream that ignores --format",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "auth",
+      "targetDependent": false,
+      "mutation": "local-auth",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--refresh",
+          "short": null,
+          "long": "--refresh",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "block inspect",
+      "operation": "block.inspect",
+      "signature": "block inspect <name>",
+      "description": "Show the expected DA source shape for a block",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "block",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "block list",
+      "operation": "block.list",
+      "signature": "block list",
+      "description": "List known block contracts",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "block",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "code job",
+      "operation": "code.job",
+      "signature": "code job <jobName>",
+      "description": "Poll status of an async Helix admin job (topic defaults to publish)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--topic <topic>",
+          "short": null,
+          "long": "--topic",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--wait",
+          "short": null,
+          "long": "--wait",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--timeout <seconds>",
+          "short": null,
+          "long": "--timeout",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "code purge",
+      "operation": "code.purge",
+      "signature": "code purge <path>",
+      "description": "Purge CDN cache for a path — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "code sidekick get",
+      "operation": "code.sidekick.get",
+      "signature": "code sidekick get",
+      "description": "Print current sidekick config as JSON",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "code status",
+      "operation": "code.status",
+      "signature": "code status [path]",
+      "description": "Check code-bus sync status for a path",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "code sync",
+      "operation": "code.sync",
+      "signature": "code sync [paths...]",
+      "description": "Trigger code-bus sync for one or more paths, or `sync block <name>` for block JS/CSS — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--wait",
+          "short": null,
+          "long": "--wait",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--timeout <seconds>",
+          "short": null,
+          "long": "--timeout",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--interval-ms <ms>",
+          "short": null,
+          "long": "--interval-ms",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "code verify",
+      "operation": "code.verify",
+      "signature": "code verify <path>",
+      "description": "Fetch a public preview/live code asset and optionally verify expected content",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "code",
+      "targetDependent": true,
+      "mutation": "codebus",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--target <target>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--contains <text>",
+          "short": null,
+          "long": "--contains",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "commerce fixture inspect",
+      "operation": "commerce.fixture.inspect",
+      "signature": "commerce fixture inspect <source>",
+      "description": "Inspect demo-style product index.json fixture files",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "commerce fixture scaffold",
+      "operation": "commerce.fixture.scaffold",
+      "signature": "commerce fixture scaffold <outputDir>",
+      "description": "Create local fixture-backed commerce content without remote writes",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--category-slug <slug>",
+          "short": null,
+          "long": "--category-slug",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--category-title <title>",
+          "short": null,
+          "long": "--category-title",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--static-json-dir <dir>",
+          "short": null,
+          "long": "--static-json-dir",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "commerce inspect",
+      "operation": "commerce.inspect",
+      "signature": "commerce inspect <source>",
+      "description": "Inspect demo-style product index.json fixture files",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "commerce product-bus ingest",
+      "operation": "commerce.product-bus.ingest",
+      "signature": "commerce product-bus ingest <source>",
+      "description": "Ingest products into Product Bus; dry-run unless root --commit is passed",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--site <site>",
+          "short": null,
+          "long": "--site",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--prefix <prefix>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--base-url <url>",
+          "short": null,
+          "long": "--base-url",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--api-base-url <url>",
+          "short": null,
+          "long": "--api-base-url",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--index-path <path>",
+          "short": null,
+          "long": "--index-path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--batch-size <n>",
+          "short": null,
+          "long": "--batch-size",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--api-token <token>",
+          "short": null,
+          "long": "--api-token",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--no-index",
+          "short": null,
+          "long": "--no-index",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "commerce product-bus inspect",
+      "operation": "commerce.product-bus.inspect",
+      "signature": "commerce product-bus inspect <url>",
+      "description": "Inspect a generated Product Bus index JSON URL",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "commerce product-bus plan",
+      "operation": "commerce.product-bus.plan",
+      "signature": "commerce product-bus plan <source>",
+      "description": "Build a Product Bus payload plan from array, { products }, or DA sheet-style { data } JSON",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--site <site>",
+          "short": null,
+          "long": "--site",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--prefix <prefix>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--base-url <url>",
+          "short": null,
+          "long": "--base-url",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--api-base-url <url>",
+          "short": null,
+          "long": "--api-base-url",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--index-path <path>",
+          "short": null,
+          "long": "--index-path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--batch-size <n>",
+          "short": null,
+          "long": "--batch-size",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--no-index",
+          "short": null,
+          "long": "--no-index",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--output <file>",
+          "short": null,
+          "long": "--output",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "commerce scaffold",
+      "operation": "commerce.scaffold",
+      "signature": "commerce scaffold <outputDir>",
+      "description": "Create local fixture-backed commerce content without remote writes",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "commerce",
+      "targetDependent": false,
+      "mutation": "commerce-api",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--category-slug <slug>",
+          "short": null,
+          "long": "--category-slug",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--category-title <title>",
+          "short": null,
+          "long": "--category-title",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--static-json-dir <dir>",
+          "short": null,
+          "long": "--static-json-dir",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "config get",
+      "operation": "config.get",
+      "signature": "config get <key>",
+      "description": "Print a single resolved config value",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "config",
+      "targetDependent": false,
+      "mutation": "local-config",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "config init",
+      "operation": "config.init",
+      "signature": "config init",
+      "description": "Interactive setup: org, repo, DA admin env — writes to .da.json in current directory",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "config",
+      "targetDependent": false,
+      "mutation": "local-config",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "config set",
+      "operation": "config.set",
+      "signature": "config set <key> <value>",
+      "description": "Set a config value in project .da.json (or global with --global)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "config",
+      "targetDependent": false,
+      "mutation": "local-config",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "config show",
+      "operation": "config.show",
+      "signature": "config show",
+      "description": "Print full resolved config with source annotation (flag / project / global / default)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "config",
+      "targetDependent": false,
+      "mutation": "local-config",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--json",
+          "short": null,
+          "long": "--json",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content add",
+      "operation": "content.add",
+      "signature": "content add [files...]",
+      "description": "Stage local content changes",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "content clone",
+      "operation": "content.clone",
+      "signature": "content clone",
+      "description": "Clone DA content locally into .da/workspace/",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--path <path>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--all",
+          "short": null,
+          "long": "--all",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content commit",
+      "operation": "content.commit",
+      "signature": "content commit",
+      "description": "Commit staged local content changes",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "-m, --message <message>",
+          "short": "-m",
+          "long": "--message",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content copy",
+      "operation": "content.copy",
+      "signature": "content copy <src> <dst>",
+      "description": "Copy a document to a new path — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": []
+    },
+    {
+      "path": "content delete",
+      "operation": "content.delete",
+      "signature": "content delete <path>",
+      "description": "Delete source document — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": []
+    },
+    {
+      "path": "content diff",
+      "operation": "content.diff",
+      "signature": "content diff [path]",
+      "description": "Show diff between local and remote content",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "content fix-sections",
+      "operation": "content.fix-sections",
+      "signature": "content fix-sections <files...>",
+      "description": "Wrap direct-<main> block divs in section wrappers (prevents preview flatten leaks)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--write",
+          "short": null,
+          "long": "--write",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--stdout",
+          "short": null,
+          "long": "--stdout",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content get",
+      "operation": "content.get",
+      "signature": "content get <path>",
+      "description": "Fetch source document to stdout or --output <file>",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "-o, --output <file>",
+          "short": "-o",
+          "long": "--output",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content list",
+      "operation": "content.list",
+      "signature": "content list [path]",
+      "description": "List documents and folders at path (default: repo root)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "content merge",
+      "operation": "content.merge",
+      "signature": "content merge [path]",
+      "description": "Merge remote DA content into local .da/workspace/ (path = document or subtree, same as clone)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "content move",
+      "operation": "content.move",
+      "signature": "content move <src> <dst>",
+      "description": "Move/rename a document — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": []
+    },
+    {
+      "path": "content push",
+      "operation": "content.push",
+      "signature": "content push",
+      "description": "Push committed local content changes to DA — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--path <path>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content put",
+      "operation": "content.put",
+      "signature": "content put <path> <file>",
+      "description": "Upload a document or binary asset — dry-run by default, shows diff for text; pass --commit to write",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-outside-worktree",
+          "short": null,
+          "long": "--allow-outside-worktree",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--wrap",
+          "short": null,
+          "long": "--wrap",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--rewrite-media-urls",
+          "short": null,
+          "long": "--rewrite-media-urls",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--strict-media-urls",
+          "short": null,
+          "long": "--strict-media-urls",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--strict-sections",
+          "short": null,
+          "long": "--strict-sections",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--no-strict-sections",
+          "short": null,
+          "long": "--no-strict-sections",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-top-level-blocks",
+          "short": null,
+          "long": "--allow-top-level-blocks",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-unverified-source",
+          "short": null,
+          "long": "--allow-unverified-source",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content put-tree",
+      "operation": "content.put-tree",
+      "signature": "content put-tree [dir]",
+      "description": "Upload a local content tree to DA — maps .da/workspace/index.html to /index.html; dry-run by default",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--prefix <path>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--wrap",
+          "short": null,
+          "long": "--wrap",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--rewrite-media-urls",
+          "short": null,
+          "long": "--rewrite-media-urls",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--strict-media-urls",
+          "short": null,
+          "long": "--strict-media-urls",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--strict-sections",
+          "short": null,
+          "long": "--strict-sections",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--no-strict-sections",
+          "short": null,
+          "long": "--no-strict-sections",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-top-level-blocks",
+          "short": null,
+          "long": "--allow-top-level-blocks",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-unverified-source",
+          "short": null,
+          "long": "--allow-unverified-source",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content sheets",
+      "operation": "content.sheets",
+      "signature": "content sheets [prefix]",
+      "description": "Discover DA sheet JSON (:type sheet + data[]); inventory only — expand multi-sheet/wiring as awareness grows",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content status",
+      "operation": "content.status",
+      "signature": "content status",
+      "description": "Show locally added, modified, and deleted content files",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "content tree",
+      "operation": "content.tree",
+      "signature": "content tree [prefix]",
+      "description": "Recursively list source documents under a prefix; useful for bulk preview/publish inputs",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--ext <ext>",
+          "short": null,
+          "long": "--ext",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "content versions",
+      "operation": "content.versions",
+      "signature": "content versions <path>",
+      "description": "List version history for a document",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "content",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "deploy page",
+      "operation": "deploy.page",
+      "signature": "deploy page <path>",
+      "description": "Preview a single page then promote it to live CDN — publish requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "deploy",
+      "targetDependent": true,
+      "mutation": "preview-and-live",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "deploy pages",
+      "operation": "deploy.pages",
+      "signature": "deploy pages <source>",
+      "description": "Batch preview then publish — reads paths from a file or a /prefix/ listing; publish requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "deploy",
+      "targetDependent": true,
+      "mutation": "preview-and-live",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "design audit",
+      "operation": "design.audit",
+      "signature": "design audit <source>",
+      "description": "Comprehensive impeccable scan across all categories (ai-slop + quality + eds) with fix hints",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "design",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--severity <sev>",
+          "short": null,
+          "long": "--severity",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "design detect",
+      "operation": "design.detect",
+      "signature": "design detect <source>",
+      "description": "Scan an EDS page for design anti-patterns. <source> is a local HTML file, a URL, or a DA path like /my-page",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "design",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--category <cat>",
+          "short": null,
+          "long": "--category",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--severity <sev>",
+          "short": null,
+          "long": "--severity",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--fix-hints",
+          "short": null,
+          "long": "--fix-hints",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "design rules",
+      "operation": "design.rules",
+      "signature": "design rules",
+      "description": "List all anti-pattern rules",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "design",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--category <cat>",
+          "short": null,
+          "long": "--category",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--json",
+          "short": null,
+          "long": "--json",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "design token-check",
+      "operation": "design.token-check",
+      "signature": "design token-check <source>",
+      "description": "Verify stardust :root CSS custom-property contract is present in an EDS page",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "design",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "index add",
+      "operation": "index.add",
+      "signature": "index add <name>",
+      "description": "Create a named index in Configuration Service with page-metadata defaults",
+      "aliases": [
+        "create"
+      ],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--target <path>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--include <glob>",
+          "short": null,
+          "long": "--include",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--exclude <glob>",
+          "short": null,
+          "long": "--exclude",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--metadata <names>",
+          "short": null,
+          "long": "--metadata",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index build",
+      "operation": "index.build",
+      "signature": "index build",
+      "description": "Trigger Helix query-index rebuild for published content — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--path <path>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--wait",
+          "short": null,
+          "long": "--wait",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--force-async",
+          "short": null,
+          "long": "--force-async",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--timeout <seconds>",
+          "short": null,
+          "long": "--timeout",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index list",
+      "operation": "index.list",
+      "signature": "index list",
+      "description": "Print Configuration Service index definitions with field list",
+      "aliases": [
+        "show"
+      ],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "index query",
+      "operation": "index.query",
+      "signature": "index query <idx>",
+      "description": "Run a live query against an index and return results",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--filter <kv>",
+          "short": null,
+          "long": "--filter",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--offset <n>",
+          "short": null,
+          "long": "--offset",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--target <target>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index remove",
+      "operation": "index.remove",
+      "signature": "index remove <name>",
+      "description": "Remove a named index from Configuration Service",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index remove-property",
+      "operation": "index.remove-property",
+      "signature": "index remove-property <index> <property>",
+      "description": "Remove one property from a configured index",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index set-property",
+      "operation": "index.set-property",
+      "signature": "index set-property <index> <property>",
+      "description": "Add or replace one index property in Configuration Service",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--from-meta <name>",
+          "short": null,
+          "long": "--from-meta",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--select <selector>",
+          "short": null,
+          "long": "--select",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--select-first <selector>",
+          "short": null,
+          "long": "--select-first",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--value <expression>",
+          "short": null,
+          "long": "--value",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--values <expression>",
+          "short": null,
+          "long": "--values",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index update",
+      "operation": "index.update",
+      "signature": "index update <name>",
+      "description": "Update a named index in Configuration Service without replacing unspecified fields",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--target <path>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--include <glob>",
+          "short": null,
+          "long": "--include",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--exclude <glob>",
+          "short": null,
+          "long": "--exclude",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--clear-include",
+          "short": null,
+          "long": "--clear-include",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--clear-exclude",
+          "short": null,
+          "long": "--clear-exclude",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--add-metadata <names>",
+          "short": null,
+          "long": "--add-metadata",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--remove-property <names>",
+          "short": null,
+          "long": "--remove-property",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "index validate",
+      "operation": "index.validate",
+      "signature": "index validate",
+      "description": "Check configured index fields against public query-index responses",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "index",
+      "targetDependent": true,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--target <target>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "job cancel",
+      "operation": "job.cancel",
+      "signature": "job cancel <job-id>",
+      "description": "Mark a pending/running local job as cancelled; workers stop between tasks",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "job init",
+      "operation": "job.init",
+      "signature": "job init",
+      "description": "Prepare the current git worktree for local durable jobs by ignoring .da/jobs/",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "job list",
+      "operation": "job.list",
+      "signature": "job list",
+      "description": "List local jobs from .da/jobs",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "job promote",
+      "operation": "job.promote",
+      "signature": "job promote <preview-job-id>",
+      "description": "Create a publish-tree job from successfully completed preview-tree tasks",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--verify-live",
+          "short": null,
+          "long": "--verify-live",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--run",
+          "short": null,
+          "long": "--run",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--max-attempts <n>",
+          "short": null,
+          "long": "--max-attempts",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--backoff-ms <ms>",
+          "short": null,
+          "long": "--backoff-ms",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "job run",
+      "operation": "job.run",
+      "signature": "job run <job-id>",
+      "description": "Run or resume a local job checkpoint",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": true,
+      "options": []
+    },
+    {
+      "path": "job show",
+      "operation": "job.show",
+      "signature": "job show <job-id>",
+      "description": "Show a local job checkpoint",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "job start",
+      "operation": "job.start",
+      "signature": "job start <job-id>",
+      "description": "Start a local job in a detached worker and return immediately",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": true,
+      "options": []
+    },
+    {
+      "path": "job tasks",
+      "operation": "job.tasks",
+      "signature": "job tasks <job-id>",
+      "description": "List task-level progress for a local job checkpoint",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--status <status>",
+          "short": null,
+          "long": "--status",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "job watch",
+      "operation": "job.watch",
+      "signature": "job watch <job-id>",
+      "description": "Print compact job progress; use --follow to poll until terminal state",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "job",
+      "targetDependent": false,
+      "mutation": "recorded-job",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--follow",
+          "short": null,
+          "long": "--follow",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--interval <ms>",
+          "short": null,
+          "long": "--interval",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "migrate batch",
+      "operation": "migrate.batch",
+      "signature": "migrate batch <url-file>",
+      "description": "Import multiple URLs from a newline-delimited file in parallel (lines: `<url>` or `<url> <daPath>`; explicit paths resolve collisions)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "migrate",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--path-prefix <prefix>",
+          "short": null,
+          "long": "--path-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--job-id <id>",
+          "short": null,
+          "long": "--job-id",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "migrate import",
+      "operation": "migrate.import",
+      "signature": "migrate import <url>",
+      "description": "Scrape a URL, convert to EDS HTML, upload to DA, and preview",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "migrate",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--path <daPath>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--no-preview",
+          "short": null,
+          "long": "--no-preview",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "migrate status",
+      "operation": "migrate.status",
+      "signature": "migrate status [job-id]",
+      "description": "Show batch import job progress",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "migrate",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "migrate validate",
+      "operation": "migrate.validate",
+      "signature": "migrate validate <path>",
+      "description": "Validate an imported page via its EDS preview URL (.plain.html audit)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "migrate",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "pipeline abort",
+      "operation": "pipeline.abort",
+      "signature": "pipeline abort <run-id>",
+      "description": "Signal a running pipeline to stop before its next batch",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "pipeline",
+      "targetDependent": false,
+      "mutation": "pipeline-orchestration",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "pipeline quality-gate",
+      "operation": "pipeline.quality-gate",
+      "signature": "pipeline quality-gate <source>",
+      "description": "Score a page/prototype using DA source/audit contracts, Impeccable design rules, and optional Stardust token checks",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "pipeline",
+      "targetDependent": false,
+      "mutation": "pipeline-orchestration",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--min-score <n>",
+          "short": null,
+          "long": "--min-score",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--stardust-tokens",
+          "short": null,
+          "long": "--stardust-tokens",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-errors",
+          "short": null,
+          "long": "--allow-errors",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "pipeline run",
+      "operation": "pipeline.run",
+      "signature": "pipeline run <yaml-file>",
+      "description": "Execute a pipeline YAML file (steps run in dependency order)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "pipeline",
+      "targetDependent": false,
+      "mutation": "pipeline-orchestration",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--dry-run",
+          "short": null,
+          "long": "--dry-run",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--approve <step-ids...>",
+          "short": null,
+          "long": "--approve",
+          "takesValue": true,
+          "variadic": true
+        },
+        {
+          "flags": "--approve-all",
+          "short": null,
+          "long": "--approve-all",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "pipeline scaffold",
+      "operation": "pipeline.scaffold",
+      "signature": "pipeline scaffold [kind]",
+      "description": "Print an opinionated EDS pipeline YAML starter",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "pipeline",
+      "targetDependent": false,
+      "mutation": "pipeline-orchestration",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--path <path>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--content-root <dir>",
+          "short": null,
+          "long": "--content-root",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "pipeline status",
+      "operation": "pipeline.status",
+      "signature": "pipeline status [run-id]",
+      "description": "Show pipeline run progress",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "pipeline",
+      "targetDependent": false,
+      "mutation": "pipeline-orchestration",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "preview",
+      "operation": "preview",
+      "signature": "preview [path]",
+      "description": "Trigger EDS preview pipeline — updates *.aem.page only; run `da publish` to promote to *.aem.live",
+      "aliases": [],
+      "hasSubcommands": true,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "preview explain",
+      "operation": "preview.explain",
+      "signature": "preview explain <path>",
+      "description": "Compare DA source with preview .plain.html; surface removed block classes and metadata-channel conflicts",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-removed-classes",
+          "short": null,
+          "long": "--allow-removed-classes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "preview page",
+      "operation": "preview.page",
+      "signature": "preview page <path>",
+      "description": "Preview a single page — flushes DA cache then triggers Helix pipeline (*.aem.page only; use publish to go live)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "preview pages",
+      "operation": "preview.pages",
+      "signature": "preview pages <source...>",
+      "description": "Batch preview — accepts direct paths, a path file, or a /prefix/ for all pages (*.aem.page only; use publish to go live)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--bulk",
+          "short": null,
+          "long": "--bulk",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "preview status",
+      "operation": "preview.status",
+      "signature": "preview status <path>",
+      "description": "Check Helix preview pipeline status for a path",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--raw",
+          "short": null,
+          "long": "--raw",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "preview tree",
+      "operation": "preview.tree",
+      "signature": "preview tree [prefix]",
+      "description": "Preview every HTML source document under a DA prefix, including nav/footer if present",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "preview",
+      "targetDependent": true,
+      "mutation": "preview-pipeline",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--draft",
+          "short": null,
+          "long": "--draft",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--draft-prefix <path>",
+          "short": null,
+          "long": "--draft-prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--verify",
+          "short": null,
+          "long": "--verify",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--job",
+          "short": null,
+          "long": "--job",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--run",
+          "short": null,
+          "long": "--run",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--max-attempts <n>",
+          "short": null,
+          "long": "--max-attempts",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--backoff-ms <ms>",
+          "short": null,
+          "long": "--backoff-ms",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "publish page",
+      "operation": "publish.page",
+      "signature": "publish page <path>",
+      "description": "Promote a single page to live CDN — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "publish",
+      "targetDependent": true,
+      "mutation": "live-cdn",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "publish pages",
+      "operation": "publish.pages",
+      "signature": "publish pages <source...>",
+      "description": "Batch publish — accepts direct paths, a path file, or a /prefix/ listing (recursive) — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "publish",
+      "targetDependent": true,
+      "mutation": "live-cdn",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--bulk",
+          "short": null,
+          "long": "--bulk",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "publish tree",
+      "operation": "publish.tree",
+      "signature": "publish tree [prefix]",
+      "description": "Publish every HTML source document under a DA prefix to live CDN — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "publish",
+      "targetDependent": true,
+      "mutation": "live-cdn",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--verify-live",
+          "short": null,
+          "long": "--verify-live",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--job",
+          "short": null,
+          "long": "--job",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--run",
+          "short": null,
+          "long": "--run",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--max-attempts <n>",
+          "short": null,
+          "long": "--max-attempts",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--backoff-ms <ms>",
+          "short": null,
+          "long": "--backoff-ms",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "publish unpublish",
+      "operation": "publish.unpublish",
+      "signature": "publish unpublish <path>",
+      "description": "Remove a page from live CDN — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "publish",
+      "targetDependent": true,
+      "mutation": "live-cdn",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "resolve",
+      "operation": "resolve",
+      "signature": "resolve <target>",
+      "description": "Resolve a DA/AEM URL or path into owner, site, branch, path, and canonical URLs",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "resolve",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "route audit",
+      "operation": "route.audit",
+      "signature": "route audit",
+      "description": "Classify every route under a path prefix",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "route",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--prefix <prefix>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "route canonical",
+      "operation": "route.canonical",
+      "signature": "route canonical <path>",
+      "description": "Show DA source path, canonical browser URL, preview/live URLs, and .plain.html URL for a route",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "route",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "route classify",
+      "operation": "route.classify",
+      "signature": "route classify <path>",
+      "description": "Probe route ownership: contentbus | codebus | hybrid | orphan | probe-failed",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "route",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "route clean",
+      "operation": "route.clean",
+      "signature": "route clean <path>",
+      "description": "Delete DA source (if any), unpreview, and unpublish a route — dry-run default",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "route",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site blueprint",
+      "operation": "site.blueprint",
+      "signature": "site blueprint [sourceUrl]",
+      "description": "Analyze an EDS site/repo and produce a generation blueprint",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--repo-dir <dir>",
+          "short": null,
+          "long": "--repo-dir",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--pages <paths>",
+          "short": null,
+          "long": "--pages",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site create",
+      "operation": "site.create",
+      "signature": "site create <name>",
+      "description": "Create a Configuration Service-backed EDS site from a GitHub template (default: adobe/aem-boilerplate)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--org <org>",
+          "short": null,
+          "long": "--org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--aem-org <aemOrg>",
+          "short": null,
+          "long": "--aem-org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--da-org <daOrg>",
+          "short": null,
+          "long": "--da-org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--template <ownerRepo>",
+          "short": null,
+          "long": "--template",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--legacy-fstab",
+          "short": null,
+          "long": "--legacy-fstab",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--private",
+          "short": null,
+          "long": "--private",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--no-da",
+          "short": null,
+          "long": "--no-da",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site doctor",
+      "operation": "site.doctor",
+      "signature": "site doctor [repo]",
+      "description": "Diagnose DA-backed EDS registration, content, code-bus, preview, and live state",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--org <org>",
+          "short": null,
+          "long": "--org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--deep",
+          "short": null,
+          "long": "--deep",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--agent",
+          "short": null,
+          "long": "--agent",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--prefix <prefix>",
+          "short": null,
+          "long": "--prefix",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site freshness",
+      "operation": "site.freshness",
+      "signature": "site freshness [prefix]",
+      "description": "Report DA source, preview, and live freshness for source documents under a prefix",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--include-shared",
+          "short": null,
+          "long": "--include-shared",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--verdict <verdicts>",
+          "short": null,
+          "long": "--verdict",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--fail-on <verdicts>",
+          "short": null,
+          "long": "--fail-on",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site info",
+      "operation": "site.info",
+      "signature": "site info [repo]",
+      "description": "Show EDS site info and pipeline health — DA mount, content pipeline, preview status",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--org <org>",
+          "short": null,
+          "long": "--org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site list",
+      "operation": "site.list",
+      "signature": "site list",
+      "description": "List GitHub-backed EDS sites using effective Helix config with legacy fstab fallback",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--org <org>",
+          "short": null,
+          "long": "--org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--limit <n>",
+          "short": null,
+          "long": "--limit",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--concurrency <n>",
+          "short": null,
+          "long": "--concurrency",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site model",
+      "operation": "site.model",
+      "signature": "site model",
+      "description": "Print the resolved EDS/DA site model: target, delivery hosts, DA source, codebus, and route ownership",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--route <path...>",
+          "short": null,
+          "long": "--route",
+          "takesValue": true,
+          "variadic": true
+        },
+        {
+          "flags": "--no-routes",
+          "short": null,
+          "long": "--no-routes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site pin-target",
+      "operation": "site.pin-target",
+      "signature": "site pin-target",
+      "description": "Pin the project DA target in .da.json so writes and durable jobs do not inherit mixed global/project config",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--org <org>",
+          "short": null,
+          "long": "--org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--repo <repo>",
+          "short": null,
+          "long": "--repo",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site reconcile",
+      "operation": "site.reconcile",
+      "signature": "site reconcile [path]",
+      "description": "Turn audit findings for a page into an actionable reconciliation plan",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--from-audit <path>",
+          "short": null,
+          "long": "--from-audit",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--out <file>",
+          "short": null,
+          "long": "--out",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--apply",
+          "short": null,
+          "long": "--apply",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "site register",
+      "operation": "site.register",
+      "signature": "site register [site]",
+      "description": "Create or adopt a Configuration Service site record for an existing GitHub repo",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "site",
+      "targetDependent": true,
+      "mutation": "mixed",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--aem-org <aemOrg>",
+          "short": null,
+          "long": "--aem-org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--code-owner <owner>",
+          "short": null,
+          "long": "--code-owner",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--code-repo <repo>",
+          "short": null,
+          "long": "--code-repo",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--da-org <daOrg>",
+          "short": null,
+          "long": "--da-org",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--da-repo <daRepo>",
+          "short": null,
+          "long": "--da-repo",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "sitemap rebuild",
+      "operation": "sitemap.rebuild",
+      "signature": "sitemap rebuild [path]",
+      "description": "Regenerate a configured sitemap artifact — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "sitemap",
+      "targetDependent": true,
+      "mutation": "generated-artifact",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "sitemap verify",
+      "operation": "sitemap.verify",
+      "signature": "sitemap verify [path]",
+      "description": "Fetch a preview/live sitemap and flag undefined hosts or non-content URL leaks",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "sitemap",
+      "targetDependent": true,
+      "mutation": "generated-artifact",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--target <target>",
+          "short": null,
+          "long": "--target",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--require-path <path>",
+          "short": null,
+          "long": "--require-path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--allow-content-paths",
+          "short": null,
+          "long": "--allow-content-paths",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "skills add",
+      "operation": "skills.add",
+      "signature": "skills add <shorthand>",
+      "description": "Add a well-known EDS skill by shorthand: da-cli-agent | impeccable | stardust | snowflake",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "skills bootstrap",
+      "operation": "skills.bootstrap",
+      "signature": "skills bootstrap",
+      "description": "Install gh-upskill CLI to PATH if not already present",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "skills info",
+      "operation": "skills.info",
+      "signature": "skills info <name>",
+      "description": "Show metadata for an installed skill (reads SKILL.md frontmatter)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "skills install",
+      "operation": "skills.install",
+      "signature": "skills install [source]",
+      "description": "Install a skill from GitHub (owner/repo[@branch]), ClawHub (clawhub:<slug>), or a shorthand name",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--skill <name>",
+          "short": null,
+          "long": "--skill",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--path <subpath>",
+          "short": null,
+          "long": "--path",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--dest <dir>",
+          "short": null,
+          "long": "--dest",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--force",
+          "short": null,
+          "long": "--force",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--list",
+          "short": null,
+          "long": "--list",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "skills list",
+      "operation": "skills.list",
+      "signature": "skills list",
+      "description": "List all installed skills in the current project",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "skills read",
+      "operation": "skills.read",
+      "signature": "skills read <name>",
+      "description": "Print the full SKILL.md content for an installed skill",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "skills search",
+      "operation": "skills.search",
+      "signature": "skills search <query>",
+      "description": "Search for skills across GitHub and ClawHub registries",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "skills update",
+      "operation": "skills.update",
+      "signature": "skills update [name]",
+      "description": "Update a known skill (da-cli-agent | impeccable | stardust | snowflake) to latest version",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "skills",
+      "targetDependent": false,
+      "mutation": "local-skill",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--global",
+          "short": null,
+          "long": "--global",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "stardust",
+      "operation": "stardust",
+      "signature": "stardust",
+      "description": "4-phase EDS site redesign pipeline — extract → direct → prototype → migrate",
+      "aliases": [],
+      "hasSubcommands": true,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "stardust direct",
+      "operation": "stardust.direct",
+      "signature": "stardust direct [phrase]",
+      "description": "Phase 2 — resolve design intent into PRODUCT.md + DESIGN.md + DESIGN.json + direction.md",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--palette <name>",
+          "short": null,
+          "long": "--palette",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--register <r>",
+          "short": null,
+          "long": "--register",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--tone <t>",
+          "short": null,
+          "long": "--tone",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--density <d>",
+          "short": null,
+          "long": "--density",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "stardust extract",
+      "operation": "stardust.extract",
+      "signature": "stardust extract [url]",
+      "description": "Phase 1 — crawl existing site and extract brand/content into .stardust/current/",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--pages <n>",
+          "short": null,
+          "long": "--pages",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "stardust migrate",
+      "operation": "stardust.migrate",
+      "signature": "stardust migrate [page]",
+      "description": "Phase 4 — apply approved design to EDS pages via DA API — requires --commit",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": true,
+      "options": [
+        {
+          "flags": "--all",
+          "short": null,
+          "long": "--all",
+          "takesValue": false,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--yes",
+          "short": null,
+          "long": "--yes",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "stardust prototype",
+      "operation": "stardust.prototype",
+      "signature": "stardust prototype [page]",
+      "description": "Phase 3 — generate before/after HTML prototype viewer for a page",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "--all",
+          "short": null,
+          "long": "--all",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "path": "stardust reset",
+      "operation": "stardust.reset",
+      "signature": "stardust reset",
+      "description": "Reset stardust state back to fresh (does not delete .stardust/ files)",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "stardust update",
+      "operation": "stardust.update",
+      "signature": "stardust update",
+      "description": "Sync Stardust skill from https://github.com/adobe/skills/tree/main/plugins/stardust",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "stardust version",
+      "operation": "stardust.version",
+      "signature": "stardust version",
+      "description": "Show local vs upstream Stardust skill version",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "stardust",
+      "targetDependent": true,
+      "mutation": "da-source",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "status",
+      "operation": "status",
+      "signature": "status [target]",
+      "description": "Show agent-oriented DA CLI, config, auth, git, and optional target status",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "status",
+      "targetDependent": false,
+      "mutation": "none",
+      "requiresCommit": false,
+      "options": []
+    },
+    {
+      "path": "up",
+      "operation": "up",
+      "signature": "up",
+      "description": "Run a deterministic local source/proxy inspection server for this repo",
+      "aliases": [],
+      "hasSubcommands": false,
+      "family": "up",
+      "targetDependent": false,
+      "mutation": "local-server",
+      "requiresCommit": false,
+      "options": [
+        {
+          "flags": "-p, --port <port>",
+          "short": "-p",
+          "long": "--port",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--host <host>",
+          "short": null,
+          "long": "--host",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--root <dir>",
+          "short": null,
+          "long": "--root",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--content <dir>",
+          "short": null,
+          "long": "--content",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--fallback <mode>",
+          "short": null,
+          "long": "--fallback",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--branch <branch>",
+          "short": null,
+          "long": "--branch",
+          "takesValue": true,
+          "variadic": false
+        },
+        {
+          "flags": "--no-content",
+          "short": null,
+          "long": "--no-content",
+          "takesValue": false,
+          "variadic": false
+        }
+      ]
+    }
+  ]
+}

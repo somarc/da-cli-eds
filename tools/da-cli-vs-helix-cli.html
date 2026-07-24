@@ -4,28 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DA CLI vs AEM CLI Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * {
   box-sizing: border-box;
 }
 
 :root {
-  --ink: #191817;
-  --muted: #635f58;
-  --paper: #fbfaf6;
+  --ink: #191915;
+  --muted: #514d44;
+  --paper: #f4efe3;
   --panel: #fffdf8;
-  --line: #ded6c8;
-  --amber: #f0b429;
-  --green: #2f855a;
-  --blue: #2b6cb0;
-  --red: #c53030;
-  --coal: #24211d;
-  --soft: #f4efe3;
-  --da: #1f6f50;
+  --line: #cfc4ab;
+  --amber: #f8b936;
+  --green: #36704b;
+  --blue: #244fc7;
+  --red: #9d1c18;
+  --coal: #151714;
+  --soft: #eae2d1;
+  --da: #36704b;
   --fork: #6b46a3;
-  --aem: #225b8d;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  --sans: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --aem: #146477;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans: "IBM Plex Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 html {
@@ -34,10 +37,17 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background:
+    radial-gradient(circle at 8% 8%, rgb(248 185 54 / 8%), transparent 28rem),
+    var(--paper);
   color: var(--ink);
   font-family: var(--sans);
   line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
 }
 
 a {
@@ -51,12 +61,12 @@ a {
   display: flex;
   align-items: center;
   gap: 0;
-  min-height: 42px;
+  min-height: 56px;
   padding: 0 20px;
-  border-bottom: 1px solid #30363d;
-  background: #161b22;
-  color: #e6edf3;
-  font-family: "IBM Plex Sans", var(--sans);
+  border-bottom: 1px solid rgb(248 185 54 / 22%);
+  background: var(--coal);
+  color: #f6f0df;
+  font-family: var(--sans);
 }
 
 #site-nav a {
@@ -64,8 +74,9 @@ a {
   align-items: center;
   gap: 6px;
   border-radius: 5px;
-  padding: 4px 8px;
-  color: #8b949e;
+  min-height: 44px;
+  padding: 8px;
+  color: #c8c0ad;
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;
@@ -74,8 +85,8 @@ a {
 
 #site-nav a:hover,
 #site-nav a.active {
-  background: #21262d;
-  color: #c9d1d9;
+  background: #292d28;
+  color: #f8b936;
 }
 
 #site-nav a svg {
@@ -86,11 +97,11 @@ a {
   width: 1px;
   height: 16px;
   margin: 0 10px;
-  background: #30363d;
+  background: #44493f;
 }
 
 #site-nav .page-title {
-  color: #e6edf3;
+  color: #f6f0df;
   font-size: 13px;
   font-weight: 600;
 }
@@ -99,7 +110,7 @@ a {
   min-width: 0;
   margin-left: auto;
   overflow: hidden;
-  color: #484f58;
+  color: #f8b936;
   font-family: var(--mono);
   font-size: 10px;
   text-overflow: ellipsis;
@@ -110,8 +121,9 @@ a {
   padding: 70px 28px 34px;
   color: #f9f6ed;
   background:
-    linear-gradient(120deg, rgb(25 24 23 / 92%), rgb(36 33 29 / 78%)),
-    url("../media/da-cli-splash.mp4");
+    radial-gradient(circle at 82% 20%, rgb(155 213 154 / 12%), transparent 24rem),
+    radial-gradient(circle at 10% 84%, rgb(248 185 54 / 18%), transparent 26rem),
+    linear-gradient(90deg, rgb(248 185 54 / 4%) 1px, transparent 1px) 0 0 / 3rem 3rem;
   background-color: var(--coal);
 }
 
@@ -255,9 +267,22 @@ h1 {
   background: var(--panel);
 }
 
+.matrix-wrap:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+caption {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
 }
 
 th,
@@ -332,20 +357,37 @@ code {
   font-size: 0.9em;
 }
 
-.cmd-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr 0.9fr 0.9fr;
-  gap: 1px;
+.cmd-grid-wrap {
+  overflow-x: auto;
   border: 1px solid var(--line);
-  background: var(--line);
-}
-
-.cmd-grid > div {
-  padding: 14px 16px;
   background: var(--panel);
 }
 
-.cmd-grid .head {
+.cmd-grid {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.cmd-grid caption {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
+}
+
+.cmd-grid th,
+.cmd-grid td {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  background: var(--panel);
+  text-align: left;
+}
+
+.cmd-grid thead th {
   background: #efe7d6;
   color: var(--coal);
   font-size: 13px;
@@ -354,7 +396,7 @@ code {
   text-transform: uppercase;
 }
 
-.cmd-grid .area {
+.cmd-grid tbody th {
   color: var(--coal);
   font-weight: 800;
 }
@@ -487,12 +529,97 @@ code {
     padding-top: 0;
   }
 
-  .cmd-grid {
-    grid-template-columns: 1fr;
+  .matrix-wrap {
+    overflow: visible;
+    border: 0;
+    background: transparent;
   }
 
-  .cmd-grid .head {
-    display: none;
+  .matrix-wrap table,
+  .matrix-wrap tbody,
+  .matrix-wrap tr,
+  .matrix-wrap th,
+  .matrix-wrap td {
+    display: block;
+    width: 100%;
+  }
+
+  .matrix-wrap thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .matrix-wrap caption {
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+  }
+
+  .matrix-wrap tbody tr {
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .matrix-wrap tbody th,
+  .matrix-wrap tbody td {
+    min-width: 0;
+    border-left: 0;
+  }
+
+  .matrix-wrap tbody th {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .matrix-wrap tbody td::before {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .matrix-wrap tbody td:nth-of-type(1)::before { content: 'DA CLI'; }
+  .matrix-wrap tbody td:nth-of-type(2)::before { content: 'Adobe AEM CLI'; }
+  .matrix-wrap tbody td:nth-of-type(3)::before { content: 'Practical readout'; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --ink: #000;
+    --muted: #222;
+    --paper: #fff;
+    --panel: #fff;
+    --line: #222;
+  }
+}
+
+@media (forced-colors: active) {
+  .metric,
+  .card,
+  .profile,
+  .callout,
+  #site-nav {
+    border: 1px solid CanvasText;
   }
 }
 </style>
@@ -505,9 +632,9 @@ code {
   </a>
   <div class="sep"></div>
   <a href="/tools/da-cli-flows.html">Workflow Explorer</a>
-  <a href="/agentic-workflow.html">Agentic Workflow</a>
+  <a href="/agentic-workflow">Agentic Workflow</a>
   <span class="page-title">CLI Comparison</span>
-  <span class="badge">@somarc/da-cli 0.4.3 · validated 2026-06-06</span>
+  <span class="badge">@somarc/da-cli · 0.6.0 final candidate · validated 2026-07-24</span>
 </nav>
 
 <header class="hero">
@@ -522,9 +649,9 @@ code {
       human development loop: <code>aem up</code>, local proxying, importer UI work, live reload,
       TLS, and browser ergonomics.
     </p>
-    <div class="hero-grid" aria-label="High level comparison">
-      <div class="metric"><strong>0.4.3</strong><span>Comparison validated against the released <code>@somarc/da-cli</code> surface.</span></div>
-      <div class="metric"><strong>Dry-run first</strong><span>Remote mutations require root <code>--commit</code>.</span></div>
+    <div class="hero-grid" role="group" aria-label="High level comparison">
+      <div class="metric"><strong>0.6.0</strong><span>Comparison validated against the immutable final-candidate contract; npm publication follows signoff.</span></div>
+      <div class="metric"><strong>Dry-run first</strong><span>Normal remote mutations require root <code>--commit</code>; local state and unsafe Riverboat have explicit exceptions.</span></div>
       <div class="metric"><strong>Local dev</strong><span><code>da up</code> is agent-friendly; <code>aem up</code> is the full human dev loop.</span></div>
     </div>
   </div>
@@ -545,9 +672,9 @@ code {
           <dt>Binary</dt>
           <dd><code>da</code></dd>
           <dt>Primary use</dt>
-          <dd>Operate DA-backed EDS sites across auth, config, content, preview, publish, deploy, route, index, audit, migrate, pipeline, job, code, block, commerce, site diagnostics, and <code>up</code>.</dd>
+          <dd>Operate DA-backed EDS sites across auth, config, content, preview, publish, route, index, sitemap, audit, pipeline, durable jobs, code, block, commerce, site diagnostics, and <code>up</code>.</dd>
           <dt>Safety model</dt>
-          <dd>Write operations are dry-run by default and require root <code>--commit</code>. Output formats include table, JSON, and Markdown.</dd>
+          <dd>Normal remote writes are dry-run by default and require root <code>--commit</code>. Local-state lifecycle commands and hidden unsafe Riverboat execution are not universally gated. Output formats include table, JSON, and Markdown.</dd>
           <dt>Best fit</dt>
           <dd>Remote operations, release checks, content administration, automation, CI, agent workflows, and deterministic local/proxied route checks.</dd>
         </dl>
@@ -584,85 +711,86 @@ code {
     <p>
       This is intentionally compact. For command-level details, use the workflow explorer.
     </p>
-    <div class="matrix-wrap">
+    <div class="matrix-wrap" role="region" aria-label="CLI capability comparison" tabindex="0">
       <table>
+        <caption>Operational capability comparison. On narrow screens, each capability is presented as a labeled card.</caption>
         <thead>
           <tr>
-            <th>Capability</th>
-            <th>da-cli</th>
-            <th>Adobe AEM CLI</th>
-            <th>Practical readout</th>
+            <th scope="col">Capability</th>
+            <th scope="col">da-cli</th>
+            <th scope="col">Adobe AEM CLI</th>
+            <th scope="col">Practical readout</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>Local development server</th>
+            <th scope="row">Local development server</th>
             <td><span class="partial">Purpose-built</span> <code>da up</code> runs an agent-friendly local EDS server with local content lookup and preview/live fallback.</td>
             <td><span class="yes">Strong</span> <code>aem up</code> serves local projects, proxies remote content, supports live reload, TLS, browser opening, forwarded browser logs, and local HTML folder mounting.</td>
             <td>Use <code>da up</code> for deterministic checks and automation. Use <code>aem up</code> for human browser-local development and runtime simulation.</td>
           </tr>
           <tr>
-            <th>DA Admin API coverage</th>
+            <th scope="row">DA Admin API coverage</th>
             <td><span class="yes">Strong</span> Direct DA API operations across list, tree, get, put, delete, move, copy, versions, auth token handling, site diagnostics, and route cleanup.</td>
             <td><span class="partial">Partial</span> AEM CLI has DA content workspace workflows, but broad remote CRUD and operational diagnostics are not its main role.</td>
             <td>Use da-cli for remote CRUD, bulk operations, and account/repo diagnostics.</td>
           </tr>
           <tr>
-            <th>Preview pipeline</th>
+            <th scope="row">Preview pipeline</th>
             <td><span class="yes">Strong</span> <code>preview page</code>, <code>preview pages</code>, <code>preview tree</code>, and <code>preview status</code> call DA and Helix admin paths.</td>
             <td><span class="partial">Different focus</span> AEM CLI is primarily the local dev-server and importer workflow surface.</td>
             <td>Use da-cli for preview flushes, status checks, and batch preview work.</td>
           </tr>
           <tr>
-            <th>Publish and deploy</th>
+            <th scope="row">Publish and deploy</th>
             <td><span class="yes">Strong</span> Publish, unpublish, batch publish, tree publish, and combined preview-then-publish deploy flows are explicit and commit-gated.</td>
             <td><span class="partial">Different focus</span> AEM CLI is not the release automation surface this page recommends for DA-backed EDS publishes.</td>
             <td>Use da-cli for releases and live-state mutation.</td>
           </tr>
           <tr>
-            <th>Content workspace</th>
-            <td><span class="yes">Yes</span> Supports remote CRUD plus a local <code>content/</code> workspace with clone, status, diff, add, commit, push, and merge.</td>
+            <th scope="row">Content workspace</th>
+            <td><span class="yes">Yes</span> Supports remote CRUD plus an ignored <code>.da/workspace/</code> with clone, status, diff, add, commit, push, and merge.</td>
             <td><span class="yes">Yes</span> Supports local DA content clone, status, diff, add, commit, push, and merge; <code>aem up</code> also serves local content first.</td>
             <td>Use AEM CLI when local rendering is central. Use da-cli when workspace work is part of broader remote operations.</td>
           </tr>
           <tr>
-            <th>Route ownership and destructive safety</th>
+            <th scope="row">Route ownership and destructive safety</th>
             <td><span class="yes">Strong</span> <code>route classify</code>, <code>route canonical</code>, <code>route audit</code>, and <code>route clean</code> distinguish contentbus, codebus, hybrid, orphan, and probe-failed routes.</td>
             <td><span class="partial">Different focus</span> Route ownership diagnostics are a DA CLI operational concern.</td>
             <td>Use da-cli when the question is which system owns a route or whether cleanup is safe.</td>
           </tr>
           <tr>
-            <th>Site diagnostics</th>
+            <th scope="row">Site diagnostics</th>
             <td><span class="yes">Strong</span> <code>site doctor</code> checks registration, content source type, code-bus visibility, shared DA docs, preview/live state, and optional deep sampling.</td>
             <td><span class="partial">Different focus</span> AEM CLI is not positioned here as a remote site readiness auditor.</td>
             <td>da-cli provides a single diagnostic entry point for account, repo, route, and delivery-state questions.</td>
           </tr>
           <tr>
-            <th>Search index operations</th>
-            <td><span class="yes">Strong</span> <code>index show</code>, <code>index validate</code>, and <code>index query</code> inspect <code>helix-query.yaml</code> and compare configured fields with live responses.</td>
+            <th scope="row">Search index operations</th>
+            <td><span class="yes">Strong</span> Configuration Service index create/update/property/remove, rebuild, validate, and query operations are explicit and commit-gated where they mutate.</td>
             <td><span class="partial">Different focus</span> Use DA CLI when index validation is part of release prep.</td>
             <td>Use da-cli for index validation and query checks during release prep.</td>
           </tr>
           <tr>
-            <th>Quality audits</th>
+            <th scope="row">Quality audits</th>
             <td><span class="yes">Strong</span> Audits cover semantics, blocks, full-page checks, content gaps, and contracts.</td>
             <td><span class="partial">Different focus</span> Use browser and local development tools for runtime debugging; use DA CLI for repeatable content audits.</td>
             <td>da-cli is better for preflight checks before preview, publish, or migration completion.</td>
           </tr>
           <tr>
-            <th>Migration tooling</th>
-            <td><span class="yes">Strong</span> Migration commands include import, batch import, job status, and validation.</td>
+            <th scope="row">Migration tooling</th>
+            <td><span class="partial">Legacy surface</span> Import, batch, status, and validation remain available, but new modernization work should use SLICC and the AEM Experience Modernization Agent.</td>
             <td><span class="partial">Different strength</span> <code>aem import</code> runs the importer server; it is UI/server oriented rather than remote job automation.</td>
-            <td>Use Adobe's CLI for the importer UI server; use da-cli for scripted migration flows and validation.</td>
+            <td>Use Adobe's CLI for the importer UI server. Treat DA CLI migration as a retained legacy lane, not the 0.6 center of gravity.</td>
           </tr>
           <tr>
-            <th>Code-bus visibility</th>
-            <td><span class="yes">Strong</span> Code commands cover sync, status, job lookup, sidekick config, and purge.</td>
+            <th scope="row">Code-bus visibility</th>
+            <td><span class="yes">Strong</span> Code commands cover sync, status, job lookup, read-only Sidekick inspection, asset verification, and purge.</td>
             <td><span class="partial">Different focus</span> Use DA CLI when code-bus state is part of the release checklist.</td>
             <td>Use da-cli when code-bus state is part of the release checklist.</td>
           </tr>
           <tr>
-            <th>Agent and automation output</th>
+            <th scope="row">Agent and automation output</th>
             <td><span class="yes">Strong</span> Global <code>--format table|json|md</code>, <code>status</code>, <code>resolve</code>, and agent-oriented JSON make it script friendly.</td>
             <td><span class="partial">Different focus</span> AEM CLI logs are useful for local development, while DA CLI emphasizes machine-readable operational output.</td>
             <td>da-cli is easier to compose in CI, agent workflows, reports, and shell scripts.</td>
@@ -678,61 +806,80 @@ code {
       The split is usually simple: use DA CLI for deterministic checks and remote truth; use
       AEM CLI when the task needs the full local browser development loop.
     </p>
-    <div class="cmd-grid" role="table" aria-label="Command coverage matrix">
-      <div class="head">Area</div>
-      <div class="head">da-cli</div>
-      <div class="head">Adobe AEM CLI</div>
-      <div class="head">Default choice</div>
-
-      <div class="area">Local server</div>
-      <div><span class="partial">Yes</span> <code>da up</code> for agent-friendly local/proxied serving</div>
-      <div><span class="yes">Yes</span> <code>aem up</code></div>
-      <div>DA CLI for automation, AEM CLI for human dev</div>
-
-      <div class="area">Importer UI/server</div>
-      <div><span class="partial">Scripted migration</span> import, batch, status, validate</div>
-      <div><span class="yes">Yes</span> <code>aem import</code></div>
-      <div>AEM CLI for UI, DA CLI for automation</div>
-
-      <div class="area">Content workspace</div>
-      <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
-      <div><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</div>
-      <div>Either, depending on local rendering needs</div>
-
-      <div class="area">Remote content CRUD</div>
-      <div><span class="yes">Yes</span> list, tree, get, put, delete, move, copy, versions</div>
-      <div><span class="partial">Limited</span> content push workflow</div>
-      <div>DA CLI</div>
-
-      <div class="area">Preview and publish</div>
-      <div><span class="yes">Yes</span> page, pages, tree, status, unpublish, deploy</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
-
-      <div class="area">Routes</div>
-      <div><span class="yes">Yes</span> classify, canonical, audit, clean</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
-
-      <div class="area">Index</div>
-      <div><span class="yes">Yes</span> show, validate, query</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
-
-      <div class="area">Audits</div>
-      <div><span class="yes">Yes</span> semantics, blocks, full, contracts</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
-
-      <div class="area">Site operations</div>
-      <div><span class="yes">Yes</span> create, list, info, doctor</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
-
-      <div class="area">Code-bus</div>
-      <div><span class="yes">Yes</span> sync, status, job, sidekick config, purge</div>
-      <div><span class="partial">Different focus</span></div>
-      <div>DA CLI</div>
+    <div class="cmd-grid-wrap" role="region" aria-label="Command coverage matrix" tabindex="0">
+      <table class="cmd-grid">
+        <caption>Recommended CLI by common workflow. Scroll horizontally on narrow screens.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Area</th>
+            <th scope="col">da-cli</th>
+            <th scope="col">Adobe AEM CLI</th>
+            <th scope="col">Default choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Local server</th>
+            <td><span class="partial">Yes</span> <code>da up</code> for agent-friendly local/proxied serving</td>
+            <td><span class="yes">Yes</span> <code>aem up</code></td>
+            <td>DA CLI for automation, AEM CLI for human dev</td>
+          </tr>
+          <tr>
+            <th scope="row">Importer UI/server</th>
+            <td><span class="partial">Legacy migration</span> import, batch, status, validate</td>
+            <td><span class="yes">Yes</span> <code>aem import</code></td>
+            <td>AEM CLI for importer UI; SLICC/modernization agent for new migration work</td>
+          </tr>
+          <tr>
+            <th scope="row">Content workspace</th>
+            <td><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</td>
+            <td><span class="yes">Yes</span> clone, status, diff, add, commit, push, merge</td>
+            <td>Either, depending on local rendering needs</td>
+          </tr>
+          <tr>
+            <th scope="row">Remote content CRUD</th>
+            <td><span class="yes">Yes</span> list, tree, get, put, delete, move, copy, versions</td>
+            <td><span class="partial">Limited</span> content push workflow</td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Preview and publish</th>
+            <td><span class="yes">Yes</span> page, pages, tree, status, unpublish, deploy</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Routes</th>
+            <td><span class="yes">Yes</span> classify, canonical, audit, clean</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Index</th>
+            <td><span class="yes">Yes</span> config CRUD, properties, build, validate, query</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Audits</th>
+            <td><span class="yes">Yes</span> semantics, blocks, full, contracts</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Site operations</th>
+            <td><span class="yes">Yes</span> model, pin, create, register, list, doctor, freshness, blueprint, reconcile</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+          <tr>
+            <th scope="row">Code-bus</th>
+            <td><span class="yes">Yes</span> sync, verify, status, job, Sidekick read, purge</td>
+            <td><span class="partial">Different focus</span></td>
+            <td>DA CLI</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -741,7 +888,7 @@ code {
     <div class="cards">
       <article class="card">
         <h3>Use da-cli for operations</h3>
-        <p>Choose it for preview, publish, deploy, DA content administration, route ownership, code-bus checks, index validation, site diagnostics, audits, jobs, pipelines, and migration automation.</p>
+        <p>Choose it for preview, publish, DA content administration, route ownership, code-bus checks, Configuration Service indexes, site diagnostics, audits, durable jobs, and reviewable pipelines.</p>
       </article>
       <article class="card">
         <h3>Use Adobe AEM CLI for local dev</h3>
@@ -755,15 +902,15 @@ code {
     <div class="callout">
       <strong>Bottom line:</strong> Adobe's CLI is the official local development tool. DA CLI is
       the broader EDS operations CLI and the source of truth for release checks, route ownership,
-      full DA CRUD, migration jobs, agent-oriented JSON, and destructive actions that need guardrails.
+      full DA CRUD, durable jobs, agent-oriented JSON, and destructive actions that need guardrails.
     </div>
   </section>
 
   <section class="section" id="sources">
     <h2>Version Marker</h2>
     <p>
-      This page is a hand-maintained public decision guide, validated against
-      <code>@somarc/da-cli 0.4.3</code> on 2026-06-06. It describes recommended tool choice,
+      This page is a hand-maintained public decision guide, validated against the
+      <code>@somarc/da-cli</code> 0.6.0 final-candidate contract on 2026-07-24. It describes recommended tool choice,
       not a complete audit of every AEM CLI capability. Use the workflow explorer for the
       DA CLI command-by-command map.
     </p>

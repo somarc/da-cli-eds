@@ -1,21 +1,25 @@
-.video-hero-container .video-hero-wrapper {
-  max-width: unset;
+/* Short cinematic register for a dense documentation product. */
+.video-hero-container {
+  position: relative;
+  margin: 0;
   padding: 0;
 }
 
-.video-hero-container {
-  position: relative;
+.video-hero-container .video-hero-wrapper {
+  inline-size: 100%;
+  margin: 0;
+  max-inline-size: none;
+  padding: 0;
 }
 
 .video-hero-container::after {
   content: '';
   position: absolute;
-  z-index: 4;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 120px;
-  background: linear-gradient(180deg, transparent, var(--background-color));
+  z-index: 6;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: clamp(4rem, 10vw, 8rem);
+  background: linear-gradient(transparent, var(--background-color));
   pointer-events: none;
 }
 
@@ -24,24 +28,45 @@
   position: relative;
   display: grid;
   align-content: end;
-  min-height: calc(100svh - var(--nav-height));
-  padding: 56px 24px;
+  min-block-size: clamp(34rem, calc(78svh - var(--nav-height)), 54rem);
+  padding: var(--space-xl) 1rem calc(var(--space-2xl) + 2rem);
   overflow: hidden;
   background:
-    linear-gradient(115deg, rgb(250 189 47 / 18%), transparent 42%),
-    linear-gradient(35deg, rgb(142 192 124 / 12%), transparent 44%),
-    #0d0d0d;
-  color: #f0f0e8;
-  font-family: var(--mono-font-family);
+    radial-gradient(circle at 18% 74%, rgb(248 185 54 / 20%), transparent 30rem),
+    radial-gradient(circle at 80% 20%, rgb(155 213 154 / 12%), transparent 26rem),
+    #0b0d0b;
+  color: var(--dark-text);
 }
 
-.video-hero video {
+.video-hero > video,
+.video-hero > .video-hero-poster {
   position: absolute;
-  z-index: -3;
+  z-index: -4;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.video-hero > .video-hero-poster img,
+.video-hero > video {
+  inline-size: 100%;
+  block-size: 100%;
   object-fit: cover;
+}
+
+.video-hero > .video-hero-poster img {
+  filter: saturate(0.82) contrast(1.08) brightness(0.78);
+}
+
+.video-hero > video {
+  z-index: -3;
+  opacity: 0;
+  filter: saturate(0.82) contrast(1.06) brightness(0.76);
+  transition: opacity 700ms ease;
+}
+
+.video-hero.is-playing > video {
+  opacity: 1;
 }
 
 .video-hero::before,
@@ -51,104 +76,133 @@
   pointer-events: none;
 }
 
-/* terminal grid overlay */
+/* directional scrim protects the left-hand copy safe zone */
 .video-hero::before {
   z-index: -2;
   inset: 0;
   background:
-    linear-gradient(90deg, rgb(250 189 47 / 4%) 1px, transparent 1px) 0 0 / 48px 48px,
-    linear-gradient(180deg, rgb(250 189 47 / 3%) 1px, transparent 1px) 0 0 / 48px 48px,
-    linear-gradient(90deg, rgb(13 13 13 / 90%) 0%, rgb(13 13 13 / 60%) 40%, rgb(13 13 13 / 20%) 100%),
-    linear-gradient(0deg, rgb(13 13 13 / 85%) 0%, transparent 50%, rgb(13 13 13 / 45%) 100%);
+    linear-gradient(90deg, rgb(8 10 8 / 92%) 0%, rgb(8 10 8 / 72%) 46%, rgb(8 10 8 / 28%) 78%, rgb(8 10 8 / 46%) 100%),
+    linear-gradient(0deg, rgb(8 10 8 / 76%) 0%, transparent 52%, rgb(8 10 8 / 38%) 100%);
 }
 
-/* amber bloom */
+/* diagnostic texture; deliberately quiet */
 .video-hero::after {
   z-index: -1;
   inset: 0;
-  background: radial-gradient(circle at 20% 75%, rgb(250 189 47 / 14%), transparent 38%);
-  mix-blend-mode: screen;
+  background:
+    linear-gradient(90deg, rgb(248 185 54 / 4%) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    linear-gradient(180deg, rgb(248 185 54 / 3%) 1px, transparent 1px) 0 0 / 3rem 3rem;
+  opacity: 0.7;
 }
 
 .video-hero-content {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  inline-size: min(100%, var(--content-max));
+  margin-inline: auto;
 }
 
-.video-hero h2 {
-  margin: 0 0 16px;
-  color: var(--c-data);
-  font-size: var(--body-font-size-s);
+.video-hero .release-kicker {
+  inline-size: fit-content;
+  margin: 0 0 var(--space-m);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgb(155 213 154 / 52%);
+  border-radius: 100vmax;
+  color: var(--mint-color);
   font-family: var(--mono-font-family);
-  letter-spacing: 0.06em;
+  font-size: var(--body-font-size-xs);
+  letter-spacing: 0.09em;
+  line-height: 1.2;
   text-transform: uppercase;
-  text-shadow: 0 0 20px rgb(142 192 124 / 60%);
+  text-shadow: 0 0 1.5rem rgb(155 213 154 / 44%);
+}
+
+.video-hero .release-kicker strong {
+  font-weight: inherit;
 }
 
 .video-hero h1 {
-  max-width: 900px;
+  max-inline-size: 9ch;
   margin: 0;
-  color: #f0f0e8;
-  font-size: 56px;
-  line-height: 0.95;
-  text-shadow: 0 16px 48px rgb(0 0 0 / 60%);
+  color: var(--dark-text);
+  font-family: var(--mono-font-family);
+  font-size: clamp(4.25rem, 3rem + 6vw, 9.5rem);
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  line-height: 0.84;
+  text-shadow: 0 1rem 3rem rgb(0 0 0 / 70%);
 }
 
 .video-hero p {
-  max-width: 660px;
-  margin-top: 24px;
-  color: rgb(240 240 232 / 72%);
-  font-size: 19px;
-  font-family: var(--body-font-family);
-  line-height: 1.4;
-  text-shadow: 0 8px 24px rgb(0 0 0 / 50%);
+  max-inline-size: 46rem;
+  margin-block-start: var(--space-m);
+  color: var(--dark-muted);
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.3rem);
+  line-height: 1.5;
+  text-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 70%);
 }
 
-.video-hero .button-container a,
-.video-hero p a:not(:only-child) {
-  display: inline-block;
-  margin: 4px 8px 4px 0;
-  padding: 10px 20px;
-  border: 1px solid rgb(250 189 47 / 40%);
-  border-radius: 3px;
-  background: rgb(250 189 47 / 8%);
-  color: #fabd2f;
-  font-family: var(--mono-font-family);
-  font-size: 14px;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
+.video-hero p code {
+  border-color: rgb(248 185 54 / 32%);
+  background: rgb(248 185 54 / 12%);
+  color: var(--accent-color);
 }
 
-.video-hero .button-container a:hover,
-.video-hero p a:not(:only-child):hover {
-  background: rgb(250 189 47 / 16%);
-  border-color: rgb(250 189 47 / 70%);
+.video-hero p.button-wrapper {
+  gap: var(--space-xs);
+  margin-block-start: var(--space-l);
 }
 
-@media (width >= 900px) {
+.video-hero a.button.primary,
+.video-hero a.button.accent {
+  border-color: var(--accent-color);
+  background: var(--accent-color);
+  color: var(--dark-background);
+}
+
+.video-hero a.button.primary:hover,
+.video-hero a.button.accent:hover {
+  border-color: #ffd36b;
+  background: #ffd36b;
+  color: var(--dark-background);
+}
+
+.video-hero a.button.secondary {
+  border-color: rgb(246 240 223 / 54%);
+  background: rgb(21 23 20 / 54%);
+  color: var(--dark-text);
+}
+
+.video-hero a.button.secondary:hover {
+  border-color: var(--dark-text);
+  background: var(--dark-surface);
+  color: var(--dark-text);
+}
+
+@media (width >= 56.25rem) {
   .video-hero {
-    padding: 72px 32px;
-  }
-
-  .video-hero h1 {
-    font-size: 100px;
-  }
-
-  .video-hero p {
-    font-size: 22px;
-  }
-}
-
-@media (width >= 1200px) {
-  .video-hero h1 {
-    font-size: 124px;
+    padding-inline: 2rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .video-hero video {
+  .video-hero > video {
     display: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .video-hero::before {
+    background: rgb(0 0 0 / 84%);
+  }
+
+  .video-hero .release-kicker,
+  .video-hero a.button.secondary {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .video-hero .release-kicker,
+  .video-hero a.button:any-link {
+    border: 1px solid CanvasText;
   }
 }

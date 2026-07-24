@@ -1,14 +1,47 @@
 .highlight {
-  border-left: 4px solid var(--accent-color);
-  padding: 24px;
-  background-color: rgb(250 189 47 / 10%);
+  position: relative;
+  padding: var(--space-l);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-inline-start: 0.35rem solid var(--accent-ink);
+  border-radius: var(--radius-m);
+  background:
+    radial-gradient(circle at 100% 0%, rgb(248 185 54 / 14%), transparent 18rem),
+    var(--surface-color);
+  box-shadow: var(--shadow-s);
+}
+
+.highlight::after {
+  content: '!';
+  position: absolute;
+  inset-inline-end: var(--space-m);
+  inset-block-start: -0.4rem;
+  color: rgb(107 67 0 / 8%);
+  font-family: var(--mono-font-family);
+  font-size: 7rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
 }
 
 .highlight h2,
 .highlight h3 {
-  margin-top: 0;
+  margin-block-start: 0;
 }
 
 .highlight p:last-child {
-  margin-bottom: 0;
+  margin-block-end: 0;
+}
+
+@media (prefers-contrast: more) {
+  .highlight {
+    border-width: 2px;
+    border-inline-start-width: 0.45rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .highlight {
+    border: 2px solid CanvasText;
+  }
 }

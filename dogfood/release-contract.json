@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "da-cli-eds.release-contract.v1",
+  "package": "@somarc/da-cli",
+  "version": "0.6.0",
+  "phase": "final-candidate",
+  "validatedOn": "2026-07-24",
+  "source": {
+    "repository": "somarc/da-cli",
+    "commit": "e7c843c918f4cf0a0f587fd4f5c9a154a701c1f0",
+    "tree": "3828a81a282abd46b6b90d25765c75046e4ac52c",
+    "packageVersion": "0.5.1",
+    "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2"
+  },
+  "commandContract": {
+    "path": "dogfood/da-cli-command-contract.json",
+    "schemaVersion": "da-cli.command-contract.v1",
+    "sha256": "7d23885f4f5ca34fc96392319aeea2f4466b57eccf54c5fe6cc86d7c450777cd",
+    "commandCount": 125
+  },
+  "canonicalManifest": "dogfood/canonical-pages.txt",
+  "pipelines": {
+    "certify": "dogfood/certify.yaml",
+    "promote": "dogfood/promote.yaml"
+  },
+  "packageAvailability": {
+    "publishedVersionAtValidation": "0.5.1",
+    "targetVersionPublished": false,
+    "releaseFollowsHumanGatedDocsSignoff": true
+  },
+  "candidateValidation": {
+    "publicCI": "immutable-contract-snapshot",
+    "exactSourceGate": "maintainer-local-private-source",
+    "reason": "The candidate repository is private while this documentation repository is public; no maintainer credential is copied into public CI."
+  },
+  "notes": "0.6.0 names the reviewed final-candidate command contract, not current npm availability. The immutable candidate SHA, tree, rubric digest, and generated command contract are validated locally; npm/GitHub 0.6.0 verification follows human-approved docs promotion."
+}

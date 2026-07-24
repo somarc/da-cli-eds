@@ -8,6 +8,8 @@
     "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
     "validate:flows": "node tools/validate-da-cli-flows.mjs",
+    "validate:flows:candidate": "node tools/validate-da-cli-flows.mjs --candidate",
+    "generate:flows-contract": "node tools/generate-da-cli-contract.mjs",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
   },
   "repository": {
