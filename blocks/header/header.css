@@ -131,6 +131,7 @@ header .nav-brand a {
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
+  color: var(--dark-text);
 }
 
 header .nav-brand a::before {
