@@ -1,4 +1,7 @@
 function nearestSectionHeading(block) {
+  const sectionHeading = block.closest('.section')?.querySelector('h2, h3');
+  if (sectionHeading) return sectionHeading.textContent.trim();
+
   let current = block.previousElementSibling;
   while (current) {
     const heading = current.matches('h2, h3') ? current : current.querySelector('h2, h3');
