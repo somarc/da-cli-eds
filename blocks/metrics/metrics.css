@@ -1,15 +1,18 @@
-.metrics {
-  --metrics-bg: var(--dark-background);
-  --metrics-fg: var(--dark-text);
-  --metrics-accent: var(--accent-color);
-}
-
 .metrics-wrapper {
   max-inline-size: none;
   padding: 0;
 }
 
+/*
+ * Tokens are declared on the section (not .metrics) because custom properties
+ * inherit downward only: the section consumes them for its own
+ * background/color, and every .metrics descendant still resolves them.
+ */
 .section.metrics-container {
+  --metrics-bg: var(--dark-background);
+  --metrics-fg: var(--dark-text);
+  --metrics-accent: var(--accent-color);
+
   margin: 0;
   padding-block: var(--space-2xl);
   background:

@@ -115,7 +115,8 @@ body.appear {
   color: var(--dark-background);
 }
 
-.skip-link {
+/* a.…:any-link keeps this above the global link color (a:any-link) in the cascade */
+a.skip-link:any-link {
   position: fixed;
   z-index: 1000;
   inset-block-start: var(--space-s);
@@ -487,6 +488,13 @@ main .section.page-intro > div {
 }
 
 .page-intro a:any-link {
+  color: var(--accent-color);
+}
+
+/* inline code keeps its light-theme ink otherwise: #6b4300 on the dark masthead is ~2:1 */
+.page-intro code {
+  border-color: rgb(248 185 54 / 32%);
+  background: rgb(248 185 54 / 12%);
   color: var(--accent-color);
 }
 
