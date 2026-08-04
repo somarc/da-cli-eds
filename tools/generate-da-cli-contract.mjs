@@ -22,6 +22,7 @@ const [{ makeCommands }, { buildCommandInventory }, packageText, manifestText] =
 
 const packageJson = JSON.parse(packageText);
 const rubric = JSON.parse(manifestText);
+const phase = packageJson.version === rubric.release ? 'released' : 'final-candidate';
 const inventory = buildCommandInventory();
 const root = new Command('da');
 makeCommands().forEach((command) => root.addCommand(command));
@@ -41,7 +42,7 @@ const contract = {
   schemaVersion: 'da-cli.command-contract.v1',
   package: packageJson.name,
   release: rubric.release,
-  phase: 'final-candidate',
+  phase,
   generatedOn: git('show', '-s', '--format=%cs', 'HEAD'),
   source: {
     repository: 'somarc/da-cli',
@@ -73,6 +74,7 @@ const contractText = `${JSON.stringify(contract, null, 2)}\n`;
 await writeFile(outputFile, contractText);
 const releaseContract = JSON.parse(await readFile(releaseContractFile, 'utf8'));
 releaseContract.validatedOn = contract.generatedOn;
+releaseContract.phase = contract.phase;
 releaseContract.source = {
   repository: contract.source.repository,
   commit: contract.source.commit,
@@ -86,6 +88,14 @@ releaseContract.commandContract = {
   sha256: sha256(contractText),
   commandCount: contract.source.commandCount,
 };
+releaseContract.packageAvailability = {
+  ...releaseContract.packageAvailability,
+  publishedVersionAtValidation: packageJson.version,
+  targetVersionPublished: contract.phase === 'released',
+};
+releaseContract.notes = contract.phase === 'released'
+  ? '0.6.0 is published on npm and GitHub. The immutable release SHA/tree, rubric digest, generated command contract, docs promotion, and strict dogfood proof are verified.'
+  : releaseContract.notes;
 await writeFile(releaseContractFile, `${JSON.stringify(releaseContract, null, 2)}\n`);
 console.log(`Wrote ${outputFile}`);
 console.log(`Updated ${releaseContractFile}`);
