@@ -547,12 +547,14 @@ main tbody tr:last-child td {
     scroll-behavior: auto;
   }
 
+  /* !important is required: component transitions (a.button, .cards li, nav)
+     carry higher specificity than this universal reduced-motion override */
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    transition-duration: 0.01ms;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 
   a.button:hover,

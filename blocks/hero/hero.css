@@ -1,37 +1,70 @@
+/*
+ * Auto-built hero (picture + h1) from the EDS boilerplate auto-block.
+ * Pages here normally use video-hero or the page-intro masthead; this keeps
+ * the fallback on the site token system with a guaranteed-readable scrim.
+ */
 .hero-container .hero-wrapper {
-  max-width: unset;
+  max-inline-size: none;
   padding: 0;
 }
 
 .hero {
+  isolation: isolate;
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  display: grid;
+  align-content: end;
+  min-block-size: clamp(18rem, 40svh, 30rem);
+  padding: var(--space-xl) 1rem;
+  overflow: hidden;
+  background: var(--dark-background);
+  color: var(--dark-text);
 }
 
 .hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+  inline-size: 100%;
+  max-inline-size: var(--content-max);
+  margin-block: 0;
+  margin-inline: auto;
+  color: var(--dark-text);
+  text-shadow: 0 0.5rem 2rem rgb(0 0 0 / 60%);
 }
 
 .hero picture {
   position: absolute;
-  z-index: -1;
+  z-index: -2;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
 }
 
 .hero img {
+  inline-size: 100%;
+  block-size: 100%;
   object-fit: cover;
-  width: 100%;
-  height: 100%;
 }
 
-@media (width >= 900px) {
+/* directional scrim keeps the heading readable on any image */
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(8 10 8 / 78%), rgb(8 10 8 / 30%) 60%);
+  pointer-events: none;
+}
+
+@media (width >= 56.25rem) {
   .hero {
-    padding: 40px 32px;
+    padding-inline: 2rem;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .hero::before {
+    background: rgb(0 0 0 / 84%);
+  }
+}
+
+@media (forced-colors: active) {
+  .hero {
+    border-block-end: 1px solid CanvasText;
   }
 }
