@@ -2,13 +2,13 @@
   "schemaVersion": "da-cli.command-contract.v1",
   "package": "@somarc/da-cli",
   "release": "0.6.0",
-  "phase": "final-candidate",
-  "generatedOn": "2026-08-03",
+  "phase": "released",
+  "generatedOn": "2026-08-04",
   "source": {
     "repository": "somarc/da-cli",
-    "commit": "768d7714bc0d4f98597cb50f89a14b1ff6f6487a",
-    "tree": "1a7bcb0a3987d87a576f73d1d32e0b0897d5eb59",
-    "packageVersion": "0.5.1",
+    "commit": "8e8d0ff2547af33ec1bb254ad4db9999fa46ad2d",
+    "tree": "7bbd40d9ac074ed2402b51053cf954a11d5eaca6",
+    "packageVersion": "0.6.0",
     "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2",
     "inventorySource": "shared-commander-command-factory",
     "commandCount": 125

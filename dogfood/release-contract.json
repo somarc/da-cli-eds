@@ -2,19 +2,19 @@
   "schemaVersion": "da-cli-eds.release-contract.v1",
   "package": "@somarc/da-cli",
   "version": "0.6.0",
-  "phase": "final-candidate",
-  "validatedOn": "2026-08-03",
+  "phase": "released",
+  "validatedOn": "2026-08-04",
   "source": {
     "repository": "somarc/da-cli",
-    "commit": "768d7714bc0d4f98597cb50f89a14b1ff6f6487a",
-    "tree": "1a7bcb0a3987d87a576f73d1d32e0b0897d5eb59",
-    "packageVersion": "0.5.1",
+    "commit": "8e8d0ff2547af33ec1bb254ad4db9999fa46ad2d",
+    "tree": "7bbd40d9ac074ed2402b51053cf954a11d5eaca6",
+    "packageVersion": "0.6.0",
     "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2"
   },
   "commandContract": {
     "path": "dogfood/da-cli-command-contract.json",
     "schemaVersion": "da-cli.command-contract.v1",
-    "sha256": "cb64529d470ad3b25e8045345ea4c925ad5f52b1109d6bad2cab83e89817f5e5",
+    "sha256": "b6947a5d7470d47905887883130633830b98dba02e1861859f84699c13462607",
     "commandCount": 125
   },
   "canonicalManifest": "dogfood/canonical-pages.txt",
@@ -23,8 +23,8 @@
     "promote": "dogfood/promote.yaml"
   },
   "packageAvailability": {
-    "publishedVersionAtValidation": "0.5.1",
-    "targetVersionPublished": false,
+    "publishedVersionAtValidation": "0.6.0",
+    "targetVersionPublished": true,
     "releaseFollowsHumanGatedDocsSignoff": true
   },
   "candidateValidation": {
@@ -32,5 +32,5 @@
     "exactSourceGate": "maintainer-local-private-source",
     "reason": "The candidate repository is private while this documentation repository is public; no maintainer credential is copied into public CI."
   },
-  "notes": "0.6.0 names the reviewed final-candidate command contract, not current npm availability. The immutable candidate SHA, tree, rubric digest, and generated command contract are validated locally; npm/GitHub 0.6.0 verification follows human-approved docs promotion."
+  "notes": "0.6.0 is published on npm and GitHub. The immutable release SHA/tree, rubric digest, generated command contract, docs promotion, and strict dogfood proof are verified."
 }

@@ -111,7 +111,7 @@ function validateContracts(release, commands, commandText) {
   if (release.schemaVersion !== 'da-cli-eds.release-contract.v1') fail('Unsupported release-contract schemaVersion.');
   if (release.package !== '@somarc/da-cli') fail('release-contract package must be @somarc/da-cli.');
   if (release.version !== '0.6.0') fail('release-contract version must be 0.6.0 for this cut.');
-  if (release.phase !== 'final-candidate') fail('release-contract phase must be final-candidate before human-gated promotion.');
+  if (!['final-candidate', 'released'].includes(release.phase)) fail('release-contract phase must be final-candidate or released.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(release.validatedOn)) fail('release-contract validatedOn must be YYYY-MM-DD.');
   if (!/^[a-f0-9]{40}$/.test(release.source?.commit || '')) fail('release-contract source.commit must be an immutable 40-character SHA.');
   if (!/^[a-f0-9]{40}$/.test(release.source?.tree || '')) fail('release-contract source.tree must be an immutable Git tree SHA.');
@@ -123,7 +123,13 @@ function validateContracts(release, commands, commandText) {
   if (release.pipelines?.certify !== 'dogfood/certify.yaml' || release.pipelines?.promote !== 'dogfood/promote.yaml') {
     fail('release-contract pipelines must identify the checked certification and promotion plans.');
   }
-  if (release.packageAvailability?.targetVersionPublished !== false) fail('Final-candidate contract must not claim npm 0.6.0 is already published.');
+  const released = release.phase === 'released';
+  if (release.packageAvailability?.targetVersionPublished !== released) {
+    fail(`release-contract package availability must match phase ${release.phase}.`);
+  }
+  if (released && release.packageAvailability?.publishedVersionAtValidation !== release.version) {
+    fail('Released contract must bind the published target version.');
+  }
   if (release.candidateValidation?.publicCI !== 'immutable-contract-snapshot'
     || release.candidateValidation?.exactSourceGate !== 'maintainer-local-private-source') {
     fail('release-contract candidateValidation must state the public/private validation boundary.');
@@ -153,7 +159,7 @@ function validateContracts(release, commands, commandText) {
 }
 
 function validateReleaseMarkers(files, contract) {
-  const expected = `${contract.version} final candidate`;
+  const expected = contract.phase === 'released' ? `${contract.version} release` : `${contract.version} final candidate`;
   files.forEach((content, index) => {
     const name = index === 0 ? 'da-cli-flows.html' : 'da-cli-vs-helix-cli.html';
     if (!content.includes(contract.package) || !content.includes(expected)) {
