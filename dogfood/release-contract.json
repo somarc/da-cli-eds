@@ -3,18 +3,18 @@
   "package": "@somarc/da-cli",
   "version": "0.6.0",
   "phase": "final-candidate",
-  "validatedOn": "2026-07-24",
+  "validatedOn": "2026-08-03",
   "source": {
     "repository": "somarc/da-cli",
-    "commit": "a97601df63b187ec43a90991d5499a96e4a86755",
-    "tree": "6c1a2b3b31b3327931079e123f1f0a58b293bdaf",
+    "commit": "768d7714bc0d4f98597cb50f89a14b1ff6f6487a",
+    "tree": "1a7bcb0a3987d87a576f73d1d32e0b0897d5eb59",
     "packageVersion": "0.5.1",
     "rubricManifestSha256": "a5851a622e882b3c7f9a7f06465f0927fd28b6c570d805f284f342bbf31d43f2"
   },
   "commandContract": {
     "path": "dogfood/da-cli-command-contract.json",
     "schemaVersion": "da-cli.command-contract.v1",
-    "sha256": "c190979dff2e2c578de9f4695f2748b4059f7520370aa3c83ba06e8e3be62bf5",
+    "sha256": "cb64529d470ad3b25e8045345ea4c925ad5f52b1109d6bad2cab83e89817f5e5",
     "commandCount": 125
   },
   "canonicalManifest": "dogfood/canonical-pages.txt",
