@@ -6,13 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js 20
+    - name: Use Node.js 24
       uses: actions/setup-node@v6
       with:
         node-version: 24
     - run: npm ci
     - run: npm run lint
-    - name: Install published da-cli
-      run: npm install --global @somarc/da-cli@latest
-    - name: Validate static da-cli flows
+    - name: Validate immutable candidate snapshot and static flows
       run: npm run validate:flows

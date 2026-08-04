@@ -10,15 +10,15 @@ name: da-cli-eds-final-cut-certification
 steps:
   - id: agent-briefing
     command: site doctor --agent --deep --format json
+  - id: preview-canonical
+    command: preview pages dogfood/canonical-pages.txt --bulk --format json
+    depends_on: [agent-briefing]
   - id: contract-codebus
     command: audit contracts --prefix / --verify-code --format json
-    depends_on: [agent-briefing]
-  - id: preview-canonical
-    command: preview pages dogfood/canonical-pages.txt --bulk --yes --format json
-    depends_on: [contract-codebus]
+    depends_on: [preview-canonical]
   - id: explain-index
     command: preview explain /index --format json
-    depends_on: [preview-canonical]
+    depends_on: [contract-codebus]
   - id: final-doctor
     command: site doctor --agent --deep --format json
     depends_on: [explain-index]

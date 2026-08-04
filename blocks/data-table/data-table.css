@@ -1,0 +1,89 @@
+.data-table {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-m);
+  background: var(--surface-color);
+  box-shadow: var(--shadow-s);
+  scrollbar-color: var(--accent-ink) transparent;
+  scrollbar-width: thin;
+}
+
+.data-table table {
+  inline-size: 100%;
+  min-inline-size: 42rem;
+  margin: 0;
+  border-collapse: collapse;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.data-table th,
+.data-table td {
+  max-inline-size: 32rem;
+  padding: 0.8rem 0.9rem;
+  border: 0;
+  border-block-end: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+  line-height: 1.45;
+  text-align: start;
+  vertical-align: top;
+}
+
+.data-table thead th {
+  position: sticky;
+  z-index: 1;
+  inset-block-start: 0;
+  background: var(--surface-muted);
+  color: var(--text-color);
+  font-family: var(--mono-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.data-table tbody th {
+  color: var(--text-color);
+  font-weight: 650;
+}
+
+.data-table tbody tr:last-child > * {
+  border-block-end: 0;
+}
+
+.data-table tbody tr:hover > * {
+  background: rgb(248 185 54 / 6%);
+}
+
+.data-table td + td,
+.data-table th + th,
+.data-table th + td {
+  border-inline-start: 1px solid var(--border-color);
+}
+
+.data-table tbody th code {
+  white-space: nowrap;
+}
+
+.data-table:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 3px;
+}
+
+@media (prefers-contrast: more) {
+  .data-table,
+  .data-table th,
+  .data-table td {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .data-table,
+  .data-table th,
+  .data-table td {
+    border-color: CanvasText;
+  }
+}

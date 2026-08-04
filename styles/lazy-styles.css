@@ -1,1 +1,172 @@
-/* add global styles that can be loaded post LCP here */
+/* Below-the-fold and progressive-enhancement styles. */
+
+/* long-form document shell */
+.docs-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.docs-content {
+  min-inline-size: 0;
+}
+
+.docs-content > .section:not(.page-intro) > div {
+  max-inline-size: var(--reading-max);
+}
+
+body.page-commands .docs-content > .section:not(.page-intro) > div,
+body.page-quickref .docs-content > .section:not(.page-intro) > div,
+body.page-api .docs-content > .section:not(.page-intro) > div {
+  max-inline-size: 64rem;
+}
+
+.docs-toc {
+  display: none;
+}
+
+.docs-toc-label {
+  margin: 0 0 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--mono-font-family);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.docs-toc ol {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-toc li {
+  margin: 0;
+}
+
+.docs-toc a {
+  display: block;
+  padding: 0.38rem 0.55rem;
+  border-inline-start: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.docs-toc a:hover {
+  border-inline-start-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.docs-toc a[aria-current='true'] {
+  border-inline-start-color: var(--accent-ink);
+  background: rgb(248 185 54 / 12%);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.docs-progress {
+  inline-size: 100%;
+  block-size: 0.2rem;
+  margin-block-end: 1rem;
+  border-radius: 100vmax;
+  background: var(--surface-strong);
+  overflow: hidden;
+}
+
+.docs-progress > span {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  background: var(--accent-ink);
+  transform: scaleX(var(--reading-progress, 0));
+  transform-origin: left center;
+}
+
+/* copy affordance for command examples */
+.code-copy {
+  position: absolute;
+  inset-block-start: 0.65rem;
+  inset-inline-end: 0.65rem;
+  min-block-size: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgb(246 240 223 / 32%);
+  border-radius: 100vmax;
+  background: rgb(21 23 20 / 82%);
+  color: var(--dark-muted);
+  font-family: var(--mono-font-family);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.code-copy:hover,
+.code-copy:focus-visible {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+pre:has(.code-copy) {
+  padding-block-start: 3.6rem;
+}
+
+/* command reference sections become inspectable panels */
+body.page-commands .docs-content > .section:not(.page-intro),
+body.page-api .docs-content > .section:not(.page-intro) {
+  padding-block: var(--space-l);
+}
+
+body.page-commands .docs-content > .section:not(.page-intro) > div,
+body.page-api .docs-content > .section:not(.page-intro) > div {
+  padding: var(--space-l);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-l);
+  background: rgb(255 253 248 / 82%);
+  box-shadow: var(--shadow-s);
+}
+
+body.page-commands .docs-content > .section h2,
+body.page-api .docs-content > .section h2 {
+  margin-block-start: 0;
+}
+
+@media (width >= 68.75rem) {
+  .docs-shell {
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+    align-items: start;
+    max-inline-size: 92rem;
+    margin-inline: auto;
+  }
+
+  .docs-toc {
+    position: sticky;
+    inset-block-start: calc(var(--nav-height) + 1.25rem);
+    display: block;
+    max-block-size: calc(100dvh - var(--nav-height) - 2.5rem);
+    margin-block: var(--space-xl);
+    padding-inline: var(--space-m);
+    overflow-y: auto;
+  }
+
+  .docs-content {
+    border-inline-start: 1px solid rgb(81 77 68 / 18%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-progress > span {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .docs-toc a[aria-current='true'],
+  .code-copy,
+  body.page-commands .docs-content > .section:not(.page-intro) > div,
+  body.page-api .docs-content > .section:not(.page-intro) > div {
+    border: 1px solid CanvasText;
+  }
+}
