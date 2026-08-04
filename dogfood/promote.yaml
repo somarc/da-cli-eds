@@ -21,9 +21,14 @@ steps:
   - id: rebuild-live-sitemap
     command: sitemap rebuild /sitemap.xml --format json
     depends_on: [publish-canonical]
+  - id: publish-live-sitemap
+    # Rebuild refreshes the generated preview artifact; promote that exact
+    # generated sitemap before validating the live host.
+    command: publish page /sitemap.xml --format json
+    depends_on: [rebuild-live-sitemap]
   - id: verify-live-sitemap
     command: sitemap verify /sitemap.xml --target live --allow-content-paths --require-path /agentic-workflow --format json
-    depends_on: [rebuild-live-sitemap]
+    depends_on: [publish-live-sitemap]
   - id: live-freshness
     command: site freshness / --include-shared --fail-on preview-stale,live-stale,preview-missing,source-missing,probe-failed,unknown --format json
     depends_on: [verify-live-sitemap]
